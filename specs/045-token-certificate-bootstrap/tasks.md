@@ -1,0 +1,72 @@
+# Tasks: Token Certificate Bootstrap
+
+## Phase 1: Setup
+
+- [x] T001 Set `.specify/feature.json` to `specs/045-token-certificate-bootstrap`
+- [x] T002 Update `AGENTS.md` Spec Kit pointer to `specs/045-token-certificate-bootstrap/plan.md`
+
+## Phase 2: Foundational
+
+- [x] T003 Add CertificateBootstrap TLV helper declarations in `ndn-service-framework/CertificateBootstrap.hpp`
+- [x] T004 Implement CertificateBootstrap TLV encode/decode and client helper in `ndn-service-framework/CertificateBootstrap.cpp`
+- [x] T005 Add ServiceController token table and endpoint declarations in `ndn-service-framework/ServiceController.hpp`
+
+## Phase 3: User Story 1 - Token-Based Controller Signing
+
+- [x] T006 [US1] Implement ServiceController token file loading and certificate issuance in `ndn-service-framework/ServiceController.cpp`
+- [x] T007 [US1] Register `/NDNSF/CERTBOOTSTRAP` handler in `ndn-service-framework/ServiceController.cpp`
+- [x] T008 [US1] Add `--bootstrap-token-file` to `examples/App_ServiceController.cpp`
+- [x] T009 [US1] Add `--bootstrap-token` client flow to `examples/App_User.cpp`
+- [x] T010 [US1] Add `--bootstrap-token` client flow to `examples/App_Provider.cpp`
+- [x] T011 [US1] Add sample token file `examples/hello.bootstrap-tokens`
+
+## Phase 4: User Story 2 - Manual Flow Compatibility
+
+- [x] T012 [US2] Preserve no-token behavior in user/provider startup and existing regression scripts
+- [x] T013 [US2] Add wrong-token diagnostic path to the token bootstrap regression
+
+## Phase 5: User Story 3 - NDNCERT Token Challenge
+
+- [x] T014 [US3] Add token challenge header in `/home/tianxing/NDN/ndncert/src/challenge/challenge-token.hpp`
+- [x] T015 [US3] Add token challenge implementation in `/home/tianxing/NDN/ndncert/src/challenge/challenge-token.cpp`
+- [x] T016 [US3] Wire token challenge into the ndncert build if source globs do not pick it up automatically
+
+## Phase 6: Validation
+
+- [x] T017 Add `examples/run_token_certificate_bootstrap_regression.sh`
+- [x] T018 Build NDNSF examples and tests
+- [x] T019 Run `examples/run_hello_auth_regression.sh`
+- [x] T020 Run `examples/run_token_certificate_bootstrap_regression.sh`
+- [x] T021 Run MiniNDN HELLO/token bootstrap validation
+- [x] T022 Build or smoke-test ndncert token challenge
+
+## Phase 7: Reuse and NDNCERT Format Alignment
+
+- [x] T023 Add local controller-signed certificate detection before token bootstrap
+- [x] T024 Switch App_User and App_Provider from forced request to ensure/reuse behavior
+- [x] T025 Document the shared `<identity> <token> [role]` token-file format
+- [x] T026 Extend shell regression to verify repeat startup reuses the local certificate
+- [x] T027 Extend MiniNDN validation to verify repeat startup reuse and single controller issuance
+
+## Phase 8: Runtime API and Config Surface
+
+- [x] T028 Add controller/user/provider bootstrap parameters to the pybind native API
+- [x] T029 Expose `bootstrap_token_file` and `bootstrap_token` in the Python object API
+- [x] T030 Expose bootstrap token settings in process orchestration config dataclasses
+- [x] T031 Add Python API/config tests for generated bootstrap flags
+- [x] T032 Document the Python API/config bootstrap usage in quickstart
+- [x] T033 Build the pybind11 Python extension with the new native constructor signatures
+- [x] T034 Run Python API/config tests and C++ token-bootstrap regression after API/config changes
+
+## Phase 9: Direct Python End-to-End Smoke
+
+- [x] T035 Add a direct Python ServiceController/ServiceProvider/ServiceUser token-bootstrap smoke driver
+- [x] T036 Add a shell regression that isolates `HOME`, runs the direct Python smoke, and verifies certificate reuse
+- [x] T037 Run the direct Python token-bootstrap regression
+- [x] T038 Document the direct Python bootstrap smoke command in quickstart
+- [x] T039 Make the C++ token-bootstrap shell regression self-contained by starting and cleaning up NFD when needed
+
+Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed. Full ndncert
+`./waf configure --with-tests` is blocked on this Ubuntu 20.04 host because the local Boost is
+1.71.0 while this ndncert checkout requires Boost >= 1.74.0, so T022 was validated with a narrow
+`g++ -std=c++17` syntax compile of the new token challenge using a temporary generated config header.
