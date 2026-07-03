@@ -29,6 +29,9 @@ one doctor command, one structured event stream, and shared regression helpers.
 - **FR-008**: The NativeTracer MiniNDN harness SHOULD accept the same runtime
   profile or resolved doctor JSON as defaults, while keeping explicit command
   line flags as overrides.
+- **FR-009**: LLM NativeTracer campaign runners SHOULD accept the same runtime
+  profile or resolved doctor JSON so single runs, doctor preflights, and RPS
+  campaigns share configuration defaults.
 
 ## Success Criteria
 
@@ -40,5 +43,7 @@ one doctor command, one structured event stream, and shared regression helpers.
 - `python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile
   examples/di-native-tracer.runtime.json --out <tmp>` succeeds in
   local-execution-only mode from profile defaults.
+- `python3 tests/python/test_ndnsf_llm_campaign_runtime_profile.py` passes,
+  proving the LLM campaign runner consumes runtime profile defaults.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.

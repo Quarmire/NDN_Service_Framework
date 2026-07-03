@@ -25,3 +25,6 @@
   doctor JSON defaults directly.
 - [x] T015 Add regression coverage proving the profile drives local
   NativeTracer execution defaults.
+- [x] T016 Let the LLM full-network campaign runner read runtime profile or
+  resolved doctor JSON defaults and pass them through to harness runs.
+- [x] T017 Add regression coverage for campaign profile default parsing.
