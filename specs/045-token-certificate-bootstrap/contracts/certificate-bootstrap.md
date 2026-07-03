@@ -24,6 +24,9 @@ CertificateBootstrapRequest
 ```
 
 The certificate request is the requester's locally generated certificate. It supplies the key name and public key. The controller does not receive or generate a private key.
+For normal user/provider APIs, the requested identity comes from the existing
+user/provider identity configuration; callers do not need to provide a separate
+bootstrap name that duplicates it.
 
 ## Response Data
 

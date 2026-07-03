@@ -77,17 +77,20 @@ examples/
 - Token file format is line-oriented: `<identity> <token> [role]`. Lines beginning with `#` are ignored.
 - Endpoint prefix is `/<controller>/NDNSF/CERTBOOTSTRAP/<identity...>`.
 - ApplicationParameters carry a small TLV block with requested identity name,
-  token, and certificate request wire.
+  token, and certificate request wire. The requested identity is derived from
+  the existing user/provider identity configuration, so application APIs do not
+  require callers to repeat the same name as a separate bootstrap parameter.
 - Manual flow remains the default when no token option is provided.
 - Token consumption is in-memory in v1; this is enough for experiments and avoids adding a storage dependency.
 - User/provider startup reuses an existing local controller-signed certificate before
   sending bootstrap Interests, so repeated starts do not consume another token.
 - NDNSF and NDNCERT token files share `<identity> <token>` as the compatible prefix;
   NDNSF treats a third `role` column as optional diagnostics.
-- Python native bindings expose `bootstrap_token_file` for controllers and
-  `bootstrap_name` plus `bootstrap_token` for users/providers. The process
-  orchestration dataclasses emit the matching example-app flags while preserving
-  raw argument escape hatches.
+- Python native bindings and the public Python object API expose
+  `bootstrap_token_file` for controllers and only `bootstrap_token` for
+  users/providers. The requested name is derived from `user` or
+  `provider_prefix` plus `provider_id`. Process orchestration dataclasses emit
+  only the token flag while preserving raw argument escape hatches.
 
 ## Complexity Tracking
 

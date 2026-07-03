@@ -68,12 +68,15 @@ from ndnsf import ServiceController, ServiceProvider, ServiceUser
 controller = ServiceController(
     bootstrap_token_file="examples/hello.bootstrap-tokens")
 provider = ServiceProvider(
-    bootstrap_name="/example/hello/provider",
     bootstrap_token="provider-token-045")
 user = ServiceUser(
-    bootstrap_name="/example/hello/user",
     bootstrap_token="user-token-045")
 ```
+
+`ServiceProvider` derives the requested bootstrap name from
+`provider_prefix` plus `provider_id`, and `ServiceUser` derives it from
+`user`. The caller supplies only the identity/prefix parameters it already
+uses and the matching token.
 
 Process orchestration configs expose the same settings:
 
@@ -86,12 +89,10 @@ ControllerConfig(
 ProviderConfig(
     name="provider",
     binary="App_Provider",
-    bootstrap_name="/example/hello/provider",
     bootstrap_token="provider-token-045")
 UserConfig(
     name="user",
     binary="App_User",
-    bootstrap_name="/example/hello/user",
     bootstrap_token="user-token-045")
 ```
 

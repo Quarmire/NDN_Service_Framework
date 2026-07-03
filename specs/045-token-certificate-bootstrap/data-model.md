@@ -17,7 +17,8 @@ Validation:
 
 ## CertificateBootstrapRequest
 
-- `identity`: requested NDN identity name from the client API.
+- `identity`: requested NDN identity name derived from the requester identity
+  configuration.
 - `token`: provided one-time token.
 - `certificateRequestWire`: wire encoding of the requester's locally generated certificate.
 

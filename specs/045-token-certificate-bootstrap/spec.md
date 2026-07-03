@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: ServiceController should keep the current manual certificate flow and also support automatic certificate signing with a configured name/token pair. User and provider APIs should be able to supply the requested identity name plus token, obtain a controller-signed certificate, and then continue with the existing permission and service flow. NDNCERT should expose the same token-based idea.
+**Input**: ServiceController should keep the current manual certificate flow and also support automatic certificate signing with a configured name/token pair. User and provider APIs should use their existing identity/prefix configuration plus a token, obtain a controller-signed certificate, and then continue with the existing permission and service flow. NDNCERT should expose the same token-based idea.
 
 ## User Scenarios & Testing
 
@@ -70,7 +70,7 @@ NDNCERT should have a token-style challenge that binds a configured token to the
 - **FR-002**: ServiceController MUST load an optional identity-to-token map from configuration.
 - **FR-003**: ServiceController MUST issue a certificate only when the request name, request payload identity, token-table identity, and supplied certificate request identity all match.
 - **FR-004**: ServiceController MUST sign issued certificates using the controller identity and MUST NOT handle requester private keys.
-- **FR-005**: User and provider startup MUST support an optional name+token automatic certificate bootstrap before permission fetch.
+- **FR-005**: User and provider startup MUST support an optional token-based automatic certificate bootstrap before permission fetch, deriving the requested bootstrap name from the configured user/provider identity instead of requiring a duplicate API argument.
 - **FR-006**: Existing startup without token options MUST continue to work.
 - **FR-007**: The bootstrap flow MUST log success, refusal reason, and installed certificate names.
 - **FR-008**: NDNCERT MUST include a token challenge module that can validate a token bound to a requested identity.
@@ -78,8 +78,8 @@ NDNCERT should have a token-style challenge that binds a configured token to the
 - **FR-010**: MiniNDN validation MUST run the automatic bootstrap path before normal service invocation.
 - **FR-011**: User and provider token bootstrap MUST first check the local KeyChain for an existing controller-signed certificate and MUST reuse it instead of consuming another token.
 - **FR-012**: The NDNSF controller token file and NDNCERT token challenge file MUST share the same first two columns, `<identity> <token>`, with any third role column treated as optional metadata by NDNSF and ignored by NDNCERT.
-- **FR-013**: Python `ServiceController`, `ServiceProvider`, and `ServiceUser` APIs MUST expose certificate bootstrap configuration without requiring callers to hand-write example command-line flags.
-- **FR-014**: Python process orchestration configs MUST expose the same controller token file and user/provider name+token fields while preserving existing `args` and `extra_args` escape hatches.
+- **FR-013**: Python `ServiceController`, `ServiceProvider`, and `ServiceUser` APIs MUST expose certificate bootstrap configuration without requiring callers to hand-write example command-line flags or repeat the same identity name twice.
+- **FR-014**: Python process orchestration configs MUST expose the same controller token file and user/provider token fields while preserving existing `args` and `extra_args` escape hatches.
 - **FR-015**: A direct Python object-API smoke test MUST verify controller/provider/user token bootstrap and certificate reuse without invoking the C++ example applications.
 
 ### Key Entities
