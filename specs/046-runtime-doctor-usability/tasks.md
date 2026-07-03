@@ -31,3 +31,6 @@
 - [x] T018 Let planner-only rate sweep and proportional RPS search helpers read
   runtime profile or resolved doctor JSON defaults.
 - [x] T019 Add regression coverage for sweep/search profile default parsing.
+- [x] T020 Add unified `tools/ndnsf_runtime.py di` wrapper subcommands for
+  doctor, run, campaign, sweep, and search.
+- [x] T021 Add regression coverage for DI wrapper dry-run command generation.

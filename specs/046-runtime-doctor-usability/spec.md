@@ -35,6 +35,10 @@ one doctor command, one structured event stream, and shared regression helpers.
 - **FR-010**: Planner-only NativeTracer sweep helpers SHOULD accept the same
   runtime profile or resolved doctor JSON for output roots, Qwen model/provider
   artifacts, RPS defaults, and workload sizing defaults.
+- **FR-011**: `tools/ndnsf_runtime.py` SHOULD provide unified `di` subcommands
+  for doctor, single-run, campaign, rate-sweep, and proportional-RPS-search
+  workflows, defaulting to the canonical DI profile while allowing passthrough
+  overrides.
 
 ## Success Criteria
 
@@ -51,5 +55,7 @@ one doctor command, one structured event stream, and shared regression helpers.
 - `python3 tests/python/test_ndnsf_sweep_runtime_profiles.py` passes, proving
   planner-only sweep helpers consume runtime profile and resolved doctor
   defaults.
+- `python3 tools/ndnsf_runtime.py di run --dry-run -- --out <tmp>` prints the
+  underlying NativeTracer harness command with the canonical DI runtime profile.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.
