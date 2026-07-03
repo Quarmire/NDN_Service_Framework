@@ -32,6 +32,9 @@ one doctor command, one structured event stream, and shared regression helpers.
 - **FR-009**: LLM NativeTracer campaign runners SHOULD accept the same runtime
   profile or resolved doctor JSON so single runs, doctor preflights, and RPS
   campaigns share configuration defaults.
+- **FR-010**: Planner-only NativeTracer sweep helpers SHOULD accept the same
+  runtime profile or resolved doctor JSON for output roots, Qwen model/provider
+  artifacts, RPS defaults, and workload sizing defaults.
 
 ## Success Criteria
 
@@ -45,5 +48,8 @@ one doctor command, one structured event stream, and shared regression helpers.
   local-execution-only mode from profile defaults.
 - `python3 tests/python/test_ndnsf_llm_campaign_runtime_profile.py` passes,
   proving the LLM campaign runner consumes runtime profile defaults.
+- `python3 tests/python/test_ndnsf_sweep_runtime_profiles.py` passes, proving
+  planner-only sweep helpers consume runtime profile and resolved doctor
+  defaults.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.

@@ -28,3 +28,6 @@
 - [x] T016 Let the LLM full-network campaign runner read runtime profile or
   resolved doctor JSON defaults and pass them through to harness runs.
 - [x] T017 Add regression coverage for campaign profile default parsing.
+- [x] T018 Let planner-only rate sweep and proportional RPS search helpers read
+  runtime profile or resolved doctor JSON defaults.
+- [x] T019 Add regression coverage for sweep/search profile default parsing.
