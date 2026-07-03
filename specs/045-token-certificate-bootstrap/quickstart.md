@@ -1,5 +1,24 @@
 # Quickstart: Token Certificate Bootstrap
 
+## Protocol Summary
+
+The automatic flow keeps requester private keys local. User/provider startup
+creates or reuses its local identity key, builds a certificate request, signs a
+requester proof over `identity + token + certificate request + nonce`, encrypts
+the bootstrap request to the Controller certificate, and sends it to:
+
+```text
+/<controller>/NDNSF/CERTBOOTSTRAP/<identity...>
+```
+
+`ServiceController` decrypts the request and issues a certificate only when the
+Interest identity, request identity, token-file identity, and certificate
+request identity all match. It also verifies the requester proof against the
+public key in the certificate request. Wrong tokens, wrong names, and tampered
+proofs are rejected before token consumption. On later startup, the user or
+provider reuses an existing controller-signed certificate from the local
+KeyChain instead of requesting another one.
+
 ## Build
 
 ```bash
