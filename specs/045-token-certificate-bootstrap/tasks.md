@@ -78,6 +78,7 @@
 - [x] T050 Add tampered requester-proof regression that verifies ServiceController rejects `request-proof-invalid` without changing the configured identity-token map.
 - [x] T051 Add the token certificate bootstrap regression to the common security regression entrypoint and documentation.
 - [x] T052 Make the ServiceController identity-token map stable across successful issuance and add repeated valid-probe coverage.
+- [x] T053 Generate a missing ServiceController bootstrap token file from policy identities with persisted 8-character tokens and regression coverage.
 
 Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed.
 The local ndncert checkout was adjusted to the Ubuntu 20.04 Boost 1.71 baseline,

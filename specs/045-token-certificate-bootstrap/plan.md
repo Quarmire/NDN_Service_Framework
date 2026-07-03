@@ -18,7 +18,7 @@ valid only for the exact requested identity name.
 
 **Primary Dependencies**: ndn-cxx KeyChain/Face/Certificate, NDNSF ServiceController/User/Provider, ndncert token challenge semantics
 
-**Storage**: Plain text preconfigured identity-token map for v1; process-local issued-certificate cache for permission encryption
+**Storage**: Plain text preconfigured or first-start generated identity-token map for v1; process-local issued-certificate cache for permission encryption
 
 **Testing**: waf build, existing HELLO regressions, new token bootstrap regression, MiniNDN HELLO validation
 
@@ -92,7 +92,7 @@ challenge so the same operational material can be reused.
   the existing user/provider identity configuration, so application APIs do not
   require callers to repeat the same name as a separate bootstrap parameter.
 - Manual flow remains the default when no token option is provided.
-- The Controller treats the identity-token file as stable configuration. Successful issuance does not mutate or consume the configured map.
+- The Controller treats the identity-token file as stable configuration. If a configured file path is missing, the Controller generates one from policy identities with 8-character tokens, writes it to disk, and then loads it like any other token file. Successful issuance does not mutate or consume the configured map.
 - User/provider startup reuses an existing local controller-signed certificate before
   sending bootstrap Interests, so repeated starts normally avoid another signing request.
 - NDNSF and NDNCERT token files share `<identity> <token>` as the compatible prefix;

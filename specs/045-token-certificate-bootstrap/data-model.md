@@ -3,15 +3,19 @@
 ## BootstrapTokenEntry
 
 - `identity`: NDN identity name allowed to use this token.
-- `token`: opaque operator-provided token string.
+- `token`: opaque operator-provided or controller-generated token string.
 - `role`: optional diagnostic role, such as `user` or `provider`.
 
 Validation:
 
 - Identity must be a valid non-empty NDN name.
 - Token must be non-empty.
+- Auto-generated tokens must be exactly 8 characters.
 - The identity-token map is stable controller configuration loaded from the token
   file. Successful issuance must not mutate or consume the configured map.
+- If the configured token file is missing, ServiceController may generate it
+  once from policy identities and then load the generated file as stable
+  configuration.
 - The same controller process may issue another certificate for the same identity
   when the token still matches and the requester proof verifies.
 - Token files are NDNCERT-compatible in the first two columns: `<identity> <token>`.

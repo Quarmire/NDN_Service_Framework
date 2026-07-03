@@ -15,10 +15,13 @@ the bootstrap request to the Controller certificate, and sends it to:
 Interest identity, request identity, token-file identity, and certificate
 request identity all match. It also verifies the requester proof against the
 public key in the certificate request. The configured identity-token map is
-stable: successful issuance does not consume the map entry. Wrong tokens, wrong
-names, and tampered proofs are rejected without changing the map. On later
-startup, the user or provider normally reuses an existing controller-signed
-certificate from the local KeyChain instead of requesting another one.
+stable: successful issuance does not consume the map entry. If the configured
+token file path is missing, the Controller generates it from policy identities
+on first startup with 8-character tokens, and that generated file becomes the
+stable map for later runs. Wrong tokens, wrong names, and tampered proofs are
+rejected without changing the map. On later startup, the user or provider
+normally reuses an existing controller-signed certificate from the local
+KeyChain instead of requesting another one.
 
 ## Build
 
@@ -54,6 +57,9 @@ TOKEN_CERTIFICATE_BOOTSTRAP_REGRESSION=PASS
 The logs should show:
 
 ```text
+NDNSF_CERT_BOOTSTRAP_TOKEN_FILE_GENERATED
+generated_entry_count=5
+generated_bad_token_count=0
 TAMPERED_BOOTSTRAP_PROOF_REJECTED=OK
 NDNSF_CERT_BOOTSTRAP_REFUSED identity=/example/hello/user reason=request-proof-invalid
 PRECONFIGURED_TOKEN_BOOTSTRAP_ACCEPTED=OK
@@ -67,6 +73,8 @@ Received response: HELLO
 
 The valid probe appears twice in the script and should pass both times, proving
 the preconfigured identity-token map is stable in the same controller process.
+The generated-token-file checks prove that a missing token file is created with
+one 8-character token for each configured policy identity.
 The repeat user startup should reuse the existing controller-signed certificate.
 The script starts a temporary host NFD when one is not already running and only
 stops the NFD instance it started.
@@ -92,9 +100,9 @@ from ndnsf import ServiceController, ServiceProvider, ServiceUser
 controller = ServiceController(
     bootstrap_token_file="examples/hello.bootstrap-tokens")
 provider = ServiceProvider(
-    bootstrap_token="provider-token-045")
+    bootstrap_token="prov045A")
 user = ServiceUser(
-    bootstrap_token="user-token-045")
+    bootstrap_token="user045A")
 ```
 
 `ServiceProvider` derives the requested bootstrap name from
@@ -113,11 +121,11 @@ ControllerConfig(
 ProviderConfig(
     name="provider",
     binary="App_Provider",
-    bootstrap_token="provider-token-045")
+    bootstrap_token="prov045A")
 UserConfig(
     name="user",
     binary="App_User",
-    bootstrap_token="user-token-045")
+    bootstrap_token="user045A")
 ```
 
 The direct Python object API can be regression-tested without using the C++
@@ -140,8 +148,8 @@ standalone NDNCERT token challenge:
 
 ```text
 # identity token optional-role
-/example/hello/user user-token-045 user
-/example/hello/provider provider-token-045 provider
+/example/hello/user user045A user
+/example/hello/provider prov045A provider
 ```
 
 For the NDNSF Controller path, start the controller with:

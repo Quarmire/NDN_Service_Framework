@@ -68,6 +68,9 @@ CertificateBootstrapResponse
 - Controller verifies the requester proof signature with the supplied certificate request.
 - Token entries are stable controller configuration. Successful issuance does
   not mutate or consume the configured identity-token map.
+- If a configured token file path is missing, ServiceController creates it on
+  first startup from policy identities using 8-character tokens and then loads
+  that file as the stable map.
 - Manual certificate flow remains supported when no bootstrap token is configured.
 - User/provider startup first checks the local default certificate for the requested
   identity. If its signature KeyLocator is under the controller identity prefix,

@@ -70,7 +70,7 @@ compatibility.
 ### Functional Requirements
 
 - **FR-001**: ServiceController MUST expose a certificate bootstrap Interest prefix under its controller prefix.
-- **FR-002**: ServiceController MUST load an optional identity-to-token map from configuration.
+- **FR-002**: ServiceController MUST load an optional identity-to-token map from configuration; if a configured token file path is missing, it MUST generate a new file from the policy identities on first startup.
 - **FR-003**: ServiceController MUST issue a certificate only when the request name, request payload identity, token-table identity, and supplied certificate request identity all match.
 - **FR-004**: ServiceController MUST sign issued certificates using the controller identity and MUST NOT handle requester private keys.
 - **FR-005**: User and provider startup MUST support an optional token-based automatic certificate bootstrap before permission fetch, deriving the requested bootstrap name from the configured user/provider identity instead of requiring a duplicate API argument.
@@ -87,10 +87,11 @@ compatibility.
 - **FR-016**: Automatic certificate bootstrap requests MUST encrypt the name-bound token and certificate request to the Controller certificate before sending them in Interest ApplicationParameters.
 - **FR-017**: Automatic certificate bootstrap requests MUST include a requester proof signature over the requested identity, token, certificate request, and nonce; ServiceController MUST verify that proof against the included certificate request before issuing a certificate.
 - **FR-018**: ServiceController MUST treat the identity-token file as stable preconfigured state; successful issuance MUST NOT consume, remove, or mutate the configured identity-token mapping.
+- **FR-019**: Auto-generated bootstrap tokens MUST be exactly 8 characters and MUST be persisted to the configured token file so later controller starts reuse the same identity-token map.
 
 ### Key Entities
 
-- **Bootstrap Token Entry**: Requested identity name, token string, and optional role loaded from stable controller configuration.
+- **Bootstrap Token Entry**: Requested identity name, token string, and optional role loaded from stable controller configuration or generated once from policy identities.
 - **Certificate Bootstrap Request**: Requested identity, token, and requester certificate wire encoding.
 - **Encrypted Certificate Bootstrap Request**: RSA-wrapped AES-CBC envelope carrying a Certificate Bootstrap Request for the Controller.
 - **Issued Certificate**: Controller-signed certificate copied from the requester public key.
@@ -111,10 +112,11 @@ compatibility.
 - **SC-009**: Controller logs show encrypted bootstrap requests and valid requester proof for successful token issuance.
 - **SC-010**: A bootstrap request with an encrypted payload but tampered requester proof is rejected with `request-proof-invalid`, and the same token can still be used afterward for a valid issuance.
 - **SC-011**: In one running ServiceController process, two valid bootstrap probes for the same configured identity-token pair both succeed, proving the preconfigured map is stable.
+- **SC-012**: Starting ServiceController with a missing `bootstrap_token_file` path creates a token file with one entry per policy identity and every generated token is 8 characters.
 
 ## Assumptions
 
-- The first implementation uses an explicit token file rather than interactive token printing.
+- The first implementation uses a token file rather than interactive token printing; a missing configured token file may be generated from the policy identities.
 - A certificate is considered reusable for this bootstrap path when its signature KeyLocator name is under the controller identity prefix.
 - Tokens are stable configured bootstrap secrets in this implementation; rotating or revoking them is an operator configuration update.
 - The bootstrap Interest carries the requester certificate request in ApplicationParameters.

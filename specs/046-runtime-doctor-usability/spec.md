@@ -1,0 +1,32 @@
+# Feature Specification: Runtime Doctor and Usability Harness
+
+**Feature Branch**: `046-runtime-doctor-usability`
+
+**Status**: Implemented
+
+## Goal
+
+Reduce NDNSF setup and regression friction by giving developers one profile,
+one doctor command, one structured event stream, and shared regression helpers.
+
+## Requirements
+
+- **FR-001**: Provide a stdlib-only runtime doctor CLI that can run in fresh VMs
+  and MiniNDN nodes.
+- **FR-002**: The doctor MUST load a JSON runtime profile and write a resolved
+  absolute-path configuration.
+- **FR-003**: The doctor MUST generate a missing bootstrap token file from the
+  configured policy identities when `--fix` is used.
+- **FR-004**: Generated bootstrap tokens MUST be 8 characters.
+- **FR-005**: The doctor MUST emit JSONL structured events for start, token-file
+  load/generation, and final readiness.
+- **FR-006**: Regression scripts SHOULD use shared helpers for NFD startup,
+  log waiting, cleanup, and log tailing.
+
+## Success Criteria
+
+- `python3 tests/python/test_ndnsf_runtime_doctor.py` passes.
+- `python3 tools/ndnsf_runtime.py doctor --profile examples/hello.runtime.json --fix`
+  succeeds after a normal build.
+- The token certificate bootstrap regression still passes.
+- The aggregate security regression still passes.
