@@ -21,3 +21,18 @@ The event log is JSONL:
 {"event": "TOKEN_FILE_LOADED", "...": "..."}
 {"event": "DOCTOR_RESULT", "ready": true}
 ```
+
+Run the NativeTracer DI profile doctor:
+
+```bash
+python3 tools/ndnsf_runtime.py doctor \
+  --profile examples/di-native-tracer.runtime.json \
+  --event-log /tmp/ndnsf-di-runtime-events.jsonl \
+  --write-resolved /tmp/ndnsf-di-runtime-resolved.json
+```
+
+This preflight checks the MiniNDN harness, topology, Qwen tiny proportional
+model spec, provider profiles, required C++ smoke binaries, and expected
+topology nodes. The resolved JSON includes the recommended MiniNDN command under
+`profile.distributed_inference.native_tracer.command`, and the event log
+includes `DI_NATIVE_TRACER_PREFLIGHT`.

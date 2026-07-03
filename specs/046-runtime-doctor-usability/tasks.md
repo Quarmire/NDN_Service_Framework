@@ -14,3 +14,10 @@
 - [x] T008 Document the runtime doctor workflow in README.
 - [x] T009 Validate with unit tests, build, token bootstrap regression, and
   aggregate security regression.
+- [x] T010 Add a DI NativeTracer runtime profile for the Qwen tiny proportional
+  MiniNDN harness.
+- [x] T011 Extend the doctor with NativeTracer artifact, topology, binary, and
+  command preflight checks.
+- [x] T012 Add regression coverage for DI profile resolution and structured
+  preflight events.
+- [x] T013 Document the DI runtime doctor workflow in README and quickstart.

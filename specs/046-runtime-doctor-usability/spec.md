@@ -22,11 +22,17 @@ one doctor command, one structured event stream, and shared regression helpers.
   load/generation, and final readiness.
 - **FR-006**: Regression scripts SHOULD use shared helpers for NFD startup,
   log waiting, cleanup, and log tailing.
+- **FR-007**: The doctor SHOULD support a DI NativeTracer profile that checks
+  harness files, Qwen tiny proportional artifacts, provider profiles, required
+  smoke binaries, expected topology nodes, and records a reproducible MiniNDN
+  command.
 
 ## Success Criteria
 
 - `python3 tests/python/test_ndnsf_runtime_doctor.py` passes.
 - `python3 tools/ndnsf_runtime.py doctor --profile examples/hello.runtime.json --fix`
   succeeds after a normal build.
+- `python3 tools/ndnsf_runtime.py doctor --profile examples/di-native-tracer.runtime.json`
+  succeeds after a normal build and emits `DI_NATIVE_TRACER_PREFLIGHT`.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.
