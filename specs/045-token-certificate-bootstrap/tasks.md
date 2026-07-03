@@ -71,8 +71,13 @@
 - [x] T043 Update regressions and MiniNDN token bootstrap to use identity-derived name plus token pairs.
 - [x] T044 Align the Python object/config API with ndncert-style token usage: identity is configured once, token proves authorization for that identity.
 - [x] T045 Add NDNCERT token challenge documentation and shared token-file format coverage.
+- [x] T046 Add encrypted certificate bootstrap request envelope and RSA-wrapped AES-CBC helpers.
+- [x] T047 Make User/Provider bootstrap encrypt request payloads to the Controller certificate and include requester proof signatures.
+- [x] T048 Make ServiceController decrypt bootstrap requests and verify requester proof signatures before token consumption.
+- [x] T049 Update certificate bootstrap spec/contract/data model for encrypted token-bearing requests.
+- [x] T050 Add tampered requester-proof regression that verifies ServiceController rejects `request-proof-invalid` without consuming the token.
+- [x] T051 Add the token certificate bootstrap regression to the common security regression entrypoint and documentation.
 
-Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed. Full ndncert
-`./waf configure --with-tests` is blocked on this Ubuntu 20.04 host because the local Boost is
-1.71.0 while this ndncert checkout requires Boost >= 1.74.0, so T022 was validated with a narrow
-`g++ -std=c++17` syntax compile of the new token challenge using a temporary generated config header.
+Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed.
+The local ndncert checkout was adjusted to the Ubuntu 20.04 Boost 1.71 baseline,
+and the ndncert token challenge unit test plus full ndncert unit suite passed.

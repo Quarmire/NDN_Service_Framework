@@ -4,9 +4,9 @@
 
 **Created**: 2026-07-02
 
-**Status**: Draft
+**Status**: Implemented
 
-**Input**: ServiceController should keep the current manual certificate flow and also support automatic certificate signing with a configured name/token pair. User and provider APIs should use their existing identity/prefix configuration plus a token, obtain a controller-signed certificate, and then continue with the existing permission and service flow. NDNCERT should expose the same token-based idea.
+**Input**: ServiceController should keep the current manual certificate flow and also support automatic certificate signing with a configured name/token pair. User and provider APIs should use their existing identity/prefix configuration plus a token, obtain a controller-signed certificate, and then continue with the existing permission and service flow. NDNSF should absorb the NDNCERT token-challenge idea directly: a token authorizes exactly one requested identity name, while the ServiceController performs the certificate signing in the NDNSF control plane.
 
 ## User Scenarios & Testing
 
@@ -43,7 +43,10 @@ Existing deployments that already prepare certificates manually should continue 
 
 ### User Story 3 - NDNCERT Token Challenge Compatibility (Priority: P3)
 
-NDNCERT should have a token-style challenge that binds a configured token to the requested identity name, so the same operational model can be used by a full NDNCERT CA later.
+NDNCERT-style token validation should bind a configured token to the requested
+identity name. NDNSF uses that same model inside the ServiceController signer,
+and the standalone NDNCERT challenge module uses the same token file format for
+compatibility.
 
 **Why this priority**: It keeps NDNSF's simplified controller CA flow aligned with the NDN certificate management tool.
 
@@ -81,13 +84,16 @@ NDNCERT should have a token-style challenge that binds a configured token to the
 - **FR-013**: Python `ServiceController`, `ServiceProvider`, and `ServiceUser` APIs MUST expose certificate bootstrap configuration without requiring callers to hand-write example command-line flags or repeat the same identity name twice.
 - **FR-014**: Python process orchestration configs MUST expose the same controller token file and user/provider token fields while preserving existing `args` and `extra_args` escape hatches.
 - **FR-015**: A direct Python object-API smoke test MUST verify controller/provider/user token bootstrap and certificate reuse without invoking the C++ example applications.
+- **FR-016**: Automatic certificate bootstrap requests MUST encrypt the name-bound token and certificate request to the Controller certificate before sending them in Interest ApplicationParameters.
+- **FR-017**: Automatic certificate bootstrap requests MUST include a requester proof signature over the requested identity, token, certificate request, and nonce; ServiceController MUST verify that proof against the included certificate request before issuing a certificate.
 
 ### Key Entities
 
 - **Bootstrap Token Entry**: Requested identity name, token string, optional role, and consumed state.
 - **Certificate Bootstrap Request**: Requested identity, token, and requester certificate wire encoding.
+- **Encrypted Certificate Bootstrap Request**: RSA-wrapped AES-CBC envelope carrying a Certificate Bootstrap Request for the Controller.
 - **Issued Certificate**: Controller-signed certificate copied from the requester public key.
-- **NDNCERT Token Challenge**: A challenge module that validates provided token against requested certificate identity.
+- **NDNCERT-Style Token Challenge**: A name-bound token validation model that accepts a token only for the certificate identity it is configured for.
 
 ## Success Criteria
 
@@ -101,6 +107,8 @@ NDNCERT should have a token-style challenge that binds a configured token to the
 - **SC-006**: A repeat user/provider startup with the same token logs certificate reuse and does not produce a second controller issuance for the same identity.
 - **SC-007**: Python API/config tests verify that bootstrap token settings are passed to the native binding or generated process command.
 - **SC-008**: A direct Python controller/provider/user smoke test completes HELLO once after token issuance and once after local certificate reuse.
+- **SC-009**: Controller logs show encrypted bootstrap requests and valid requester proof for successful token issuance.
+- **SC-010**: A bootstrap request with an encrypted payload but tampered requester proof is rejected with `request-proof-invalid`, and the same token can still be used afterward for a valid issuance.
 
 ## Assumptions
 

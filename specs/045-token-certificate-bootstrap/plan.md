@@ -4,13 +4,19 @@
 
 ## Summary
 
-Add a minimal automatic certificate bootstrap flow to NDNSF. The ServiceController becomes both service controller and certificate signer. User/provider keep their current manual flow, but when configured with a token they first request a controller-signed certificate, install it locally, and then continue with permission bootstrap and service invocation. NDNCERT gains a matching token challenge module so the operational model can later move to a full NDNCERT CA.
+Add a complete automatic certificate bootstrap flow to NDNSF using a built-in
+ServiceController certificate signer. User/provider keep their current manual
+flow, but when configured with a token they first request a controller-signed
+certificate, install it locally, and then continue with permission bootstrap
+and service invocation. The wire exchange remains a small NDNSF TLV endpoint,
+while the authorization semantics match the NDNCERT token challenge: a token is
+valid only for the exact requested identity name.
 
 ## Technical Context
 
 **Language/Version**: C++17, Bash regression scripts, existing Python wrappers left compatible
 
-**Primary Dependencies**: ndn-cxx KeyChain/Face/Certificate, NDNSF ServiceController/User/Provider, ndncert challenge module API
+**Primary Dependencies**: ndn-cxx KeyChain/Face/Certificate, NDNSF ServiceController/User/Provider, ndncert token challenge semantics
 
 **Storage**: Plain text token file for v1; in-memory consumed-token state
 
@@ -24,7 +30,7 @@ Add a minimal automatic certificate bootstrap flow to NDNSF. The ServiceControll
 
 **Constraints**: Do not expose private keys; do not break manual certificate flow; do not modify proposal slides; use MiniNDN for final validation
 
-**Scale/Scope**: Initial v1 covers configured identities and tokens for App_ServiceController/App_User/App_Provider and NDNCERT token challenge support
+**Scale/Scope**: Configured identities and tokens for App_ServiceController/App_User/App_Provider, Python API/config surfaces, direct Python smoke, MiniNDN full-flow validation, and NDNCERT-compatible token challenge coverage
 
 ## Constitution Check
 
@@ -69,11 +75,16 @@ examples/
 └── challenge-token.cpp
 ```
 
-**Structure Decision**: Keep NDNSF automatic bootstrap as a small framework helper plus controller endpoint. Keep NDNCERT changes isolated to a challenge module.
+**Structure Decision**: Keep NDNSF automatic bootstrap as a framework helper plus
+Controller endpoint because it is part of the service-control plane. Keep the
+token file and identity-bound token semantics compatible with NDNCERT's token
+challenge so the same operational material can be reused.
 
 ## Design Decisions
 
 - Requesters generate or reuse a local key first, then send their self-created certificate wire to the controller. The controller copies the public key and signs a new certificate. Private keys never leave the requester.
+- Requesters encrypt the CertificateBootstrapRequest to the Controller's local certificate using RSA-wrapped AES-CBC before placing it in Interest ApplicationParameters. This protects the one-time token and certificate request from passive observers.
+- Requesters include a proof-of-possession signature inside the encrypted request. The signature covers requested identity, token, certificate request, and nonce. The Controller verifies this proof with the certificate request public key before consuming the token and issuing a Controller-signed certificate.
 - Token file format is line-oriented: `<identity> <token> [role]`. Lines beginning with `#` are ignored.
 - Endpoint prefix is `/<controller>/NDNSF/CERTBOOTSTRAP/<identity...>`.
 - ApplicationParameters carry a small TLV block with requested identity name,
@@ -86,6 +97,10 @@ examples/
   sending bootstrap Interests, so repeated starts do not consume another token.
 - NDNSF and NDNCERT token files share `<identity> <token>` as the compatible prefix;
   NDNSF treats a third `role` column as optional diagnostics.
+- This is considered the complete NDNSF integration path for this project:
+  Controller signs real NDN certificates, private keys stay local to the
+  requester, token validation is bound to the requested name, and token-bearing
+  bootstrap requests are encrypted to the Controller certificate.
 - Python native bindings and the public Python object API expose
   `bootstrap_token_file` for controllers and only `bootstrap_token` for
   users/providers. The requested name is derived from `user` or

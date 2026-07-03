@@ -14,19 +14,36 @@ Example:
 
 ## Interest ApplicationParameters
 
-ApplicationParameters contain a TLV block:
+ApplicationParameters normally contain an encrypted TLV envelope:
+
+```text
+EncryptedCertificateBootstrapRequest
+  RecipientCertName: Controller certificate name
+  Algorithm: RSA-WRAPPED-AES-CBC
+  EncryptedAesKey: AES content key encrypted to Controller certificate public key
+  Iv: AES-CBC IV
+  CipherText: encrypted CertificateBootstrapRequest
+```
+
+The decrypted plaintext is:
 
 ```text
 CertificateBootstrapRequest
   Identity: requested identity Name
   Token: UTF-8 string
   CertificateRequest: wire-encoded ndn::security::Certificate
+  ProofNonce: random nonce
+  ProofSignature: requester signature over Identity, Token, CertificateRequest, and ProofNonce
 ```
 
 The certificate request is the requester's locally generated certificate. It supplies the key name and public key. The controller does not receive or generate a private key.
 For normal user/provider APIs, the requested identity comes from the existing
 user/provider identity configuration; callers do not need to provide a separate
 bootstrap name that duplicates it.
+
+The encrypted request also carries a proof-of-possession signature made by the
+requester's local key. The Controller verifies this proof with the certificate
+request public key before issuing a Controller-signed certificate.
 
 ## Response Data
 
@@ -42,10 +59,13 @@ CertificateBootstrapResponse
 ## Security Rules
 
 - Controller signs only if the token matches the requested identity in the Interest name.
+- Controller decrypts automatic bootstrap requests with its private key before
+  reading the name-bound token.
 - Controller also checks that the Identity field inside the request equals the
   identity in the Interest name.
 - Controller also checks that the supplied certificate request identity equals
   the requested identity.
+- Controller verifies the requester proof signature with the supplied certificate request.
 - Token is consumed after successful issuance in the same controller process.
 - Manual certificate flow remains supported when no bootstrap token is configured.
 - User/provider startup first checks the local default certificate for the requested

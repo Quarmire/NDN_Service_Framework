@@ -34,6 +34,8 @@ TOKEN_CERTIFICATE_BOOTSTRAP_REGRESSION=PASS
 The logs should show:
 
 ```text
+TAMPERED_BOOTSTRAP_PROOF_REJECTED=OK
+NDNSF_CERT_BOOTSTRAP_REFUSED identity=/example/hello/user reason=request-proof-invalid
 NDNSF_CERT_BOOTSTRAP_ISSUED identity=/example/hello/user
 NDNSF_CERT_BOOTSTRAP_INSTALLED identity=/example/hello/user
 NDNSF_CERT_BOOTSTRAP_REUSED identity=/example/hello/user
@@ -109,10 +111,10 @@ Expected:
 PYTHON_TOKEN_CERTIFICATE_BOOTSTRAP_REGRESSION=PASS
 ```
 
-## NDNCERT Token Challenge Compatibility
+## NDNCERT-Style Token Challenge Compatibility
 
-The same token file can be used by the simplified NDNSF Controller signer and
-by an independent NDNCERT CA token challenge:
+The same token file can be used by the NDNSF Controller signer and by the
+standalone NDNCERT token challenge:
 
 ```text
 # identity token optional-role
@@ -134,10 +136,10 @@ export NDNCERT_TOKEN_CHALLENGE_FILE=examples/hello.bootstrap-tokens
 ```
 
 The requester still supplies only the token. The requested name comes from the
-certificate request, and both paths accept the token only when it is bound to
-that exact identity. This lets experiments use the built-in NDNSF Controller
-signer now and move to a standalone NDNCERT CA later without changing the token
-inventory.
+configured user/provider identity and the certificate request. The Controller
+accepts the token only when the Interest name, request identity, token-file
+identity, and certificate request identity all match. The result is a real
+controller-signed NDN certificate installed into the requester's local KeyChain.
 
 ## MiniNDN Validation
 
