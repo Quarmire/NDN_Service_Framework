@@ -17,11 +17,13 @@ Validation:
 
 ## CertificateBootstrapRequest
 
+- `identity`: requested NDN identity name from the client API.
 - `token`: provided one-time token.
 - `certificateRequestWire`: wire encoding of the requester's locally generated certificate.
 
 Validation:
 
+- Requested identity must match the identity encoded in the Interest name.
 - Token must match the configured token for the requested identity.
 - Certificate request must decode as an NDN certificate.
 - Certificate request identity must equal the identity encoded in the Interest name.

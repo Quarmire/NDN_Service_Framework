@@ -18,6 +18,7 @@ ApplicationParameters contain a TLV block:
 
 ```text
 CertificateBootstrapRequest
+  Identity: requested identity Name
   Token: UTF-8 string
   CertificateRequest: wire-encoded ndn::security::Certificate
 ```
@@ -37,8 +38,11 @@ CertificateBootstrapResponse
 
 ## Security Rules
 
-- Controller signs only if the token matches the identity in the Interest name.
-- Controller also checks that the supplied certificate request identity equals the requested identity.
+- Controller signs only if the token matches the requested identity in the Interest name.
+- Controller also checks that the Identity field inside the request equals the
+  identity in the Interest name.
+- Controller also checks that the supplied certificate request identity equals
+  the requested identity.
 - Token is consumed after successful issuance in the same controller process.
 - Manual certificate flow remains supported when no bootstrap token is configured.
 - User/provider startup first checks the local default certificate for the requested

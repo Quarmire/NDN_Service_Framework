@@ -76,7 +76,8 @@ examples/
 - Requesters generate or reuse a local key first, then send their self-created certificate wire to the controller. The controller copies the public key and signs a new certificate. Private keys never leave the requester.
 - Token file format is line-oriented: `<identity> <token> [role]`. Lines beginning with `#` are ignored.
 - Endpoint prefix is `/<controller>/NDNSF/CERTBOOTSTRAP/<identity...>`.
-- ApplicationParameters carry a small TLV block with token and certificate request wire.
+- ApplicationParameters carry a small TLV block with requested identity name,
+  token, and certificate request wire.
 - Manual flow remains the default when no token option is provided.
 - Token consumption is in-memory in v1; this is enough for experiments and avoids adding a storage dependency.
 - User/provider startup reuses an existing local controller-signed certificate before
@@ -84,8 +85,9 @@ examples/
 - NDNSF and NDNCERT token files share `<identity> <token>` as the compatible prefix;
   NDNSF treats a third `role` column as optional diagnostics.
 - Python native bindings expose `bootstrap_token_file` for controllers and
-  `bootstrap_token` for users/providers. The process orchestration dataclasses
-  emit the matching example-app flags while preserving raw argument escape hatches.
+  `bootstrap_name` plus `bootstrap_token` for users/providers. The process
+  orchestration dataclasses emit the matching example-app flags while preserving
+  raw argument escape hatches.
 
 ## Complexity Tracking
 

@@ -65,6 +65,10 @@
 - [x] T037 Run the direct Python token-bootstrap regression
 - [x] T038 Document the direct Python bootstrap smoke command in quickstart
 - [x] T039 Make the C++ token-bootstrap shell regression self-contained by starting and cleaning up NFD when needed
+- [x] T040 Add requested identity to the certificate bootstrap request TLV.
+- [x] T041 Enforce request-name, request-payload identity, token-table identity, and certificate identity matching in ServiceController.
+- [x] T042 Expose explicit `bootstrap_name` / `--bootstrap-name` alongside `bootstrap_token` in C++ and Python APIs.
+- [x] T043 Update regressions and MiniNDN token bootstrap to use explicit name+token pairs.
 
 Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed. Full ndncert
 `./waf configure --with-tests` is blocked on this Ubuntu 20.04 host because the local Boost is
