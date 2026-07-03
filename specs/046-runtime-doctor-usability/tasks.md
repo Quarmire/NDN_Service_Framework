@@ -34,3 +34,5 @@
 - [x] T020 Add unified `tools/ndnsf_runtime.py di` wrapper subcommands for
   doctor, run, campaign, sweep, and search.
 - [x] T021 Add regression coverage for DI wrapper dry-run command generation.
+- [x] T022 Add runtime profile validation and resolved-printing subcommands.
+- [x] T023 Add regression coverage for DI profile validation and typo detection.

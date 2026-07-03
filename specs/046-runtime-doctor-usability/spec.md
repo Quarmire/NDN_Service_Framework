@@ -39,6 +39,9 @@ one doctor command, one structured event stream, and shared regression helpers.
   for doctor, single-run, campaign, rate-sweep, and proportional-RPS-search
   workflows, defaulting to the canonical DI profile while allowing passthrough
   overrides.
+- **FR-012**: Runtime profiles SHOULD have validation and resolved-printing
+  commands that catch unknown keys, wrong scalar types, unsupported enum values,
+  and missing DI sections before experiments silently fall back to defaults.
 
 ## Success Criteria
 
@@ -57,5 +60,7 @@ one doctor command, one structured event stream, and shared regression helpers.
   defaults.
 - `python3 tools/ndnsf_runtime.py di run --dry-run -- --out <tmp>` prints the
   underlying NativeTracer harness command with the canonical DI runtime profile.
+- `python3 tools/ndnsf_runtime.py di validate` succeeds for the canonical DI
+  profile, and a typo in a NativeTracer field fails validation.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.
