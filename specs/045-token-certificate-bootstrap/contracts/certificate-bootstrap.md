@@ -66,7 +66,8 @@ CertificateBootstrapResponse
 - Controller also checks that the supplied certificate request identity equals
   the requested identity.
 - Controller verifies the requester proof signature with the supplied certificate request.
-- Token is consumed after successful issuance in the same controller process.
+- Token entries are stable controller configuration. Successful issuance does
+  not mutate or consume the configured identity-token map.
 - Manual certificate flow remains supported when no bootstrap token is configured.
 - User/provider startup first checks the local default certificate for the requested
   identity. If its signature KeyLocator is under the controller identity prefix,

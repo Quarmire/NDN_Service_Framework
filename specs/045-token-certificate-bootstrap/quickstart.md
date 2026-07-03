@@ -14,10 +14,11 @@ the bootstrap request to the Controller certificate, and sends it to:
 `ServiceController` decrypts the request and issues a certificate only when the
 Interest identity, request identity, token-file identity, and certificate
 request identity all match. It also verifies the requester proof against the
-public key in the certificate request. Wrong tokens, wrong names, and tampered
-proofs are rejected before token consumption. On later startup, the user or
-provider reuses an existing controller-signed certificate from the local
-KeyChain instead of requesting another one.
+public key in the certificate request. The configured identity-token map is
+stable: successful issuance does not consume the map entry. Wrong tokens, wrong
+names, and tampered proofs are rejected without changing the map. On later
+startup, the user or provider normally reuses an existing controller-signed
+certificate from the local KeyChain instead of requesting another one.
 
 ## Build
 
@@ -55,6 +56,7 @@ The logs should show:
 ```text
 TAMPERED_BOOTSTRAP_PROOF_REJECTED=OK
 NDNSF_CERT_BOOTSTRAP_REFUSED identity=/example/hello/user reason=request-proof-invalid
+PRECONFIGURED_TOKEN_BOOTSTRAP_ACCEPTED=OK
 NDNSF_CERT_BOOTSTRAP_ISSUED identity=/example/hello/user
 NDNSF_CERT_BOOTSTRAP_INSTALLED identity=/example/hello/user
 NDNSF_CERT_BOOTSTRAP_REUSED identity=/example/hello/user
@@ -63,8 +65,9 @@ NDNSF_CERT_BOOTSTRAP_INSTALLED identity=/example/hello/provider
 Received response: HELLO
 ```
 
+The valid probe appears twice in the script and should pass both times, proving
+the preconfigured identity-token map is stable in the same controller process.
 The repeat user startup should reuse the existing controller-signed certificate.
-The controller log should contain only one user issuance for the same identity.
 The script starts a temporary host NFD when one is not already running and only
 stops the NFD instance it started.
 

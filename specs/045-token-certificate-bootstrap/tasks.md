@@ -73,10 +73,11 @@
 - [x] T045 Add NDNCERT token challenge documentation and shared token-file format coverage.
 - [x] T046 Add encrypted certificate bootstrap request envelope and RSA-wrapped AES-CBC helpers.
 - [x] T047 Make User/Provider bootstrap encrypt request payloads to the Controller certificate and include requester proof signatures.
-- [x] T048 Make ServiceController decrypt bootstrap requests and verify requester proof signatures before token consumption.
+- [x] T048 Make ServiceController decrypt bootstrap requests and verify requester proof signatures before certificate issuance.
 - [x] T049 Update certificate bootstrap spec/contract/data model for encrypted token-bearing requests.
-- [x] T050 Add tampered requester-proof regression that verifies ServiceController rejects `request-proof-invalid` without consuming the token.
+- [x] T050 Add tampered requester-proof regression that verifies ServiceController rejects `request-proof-invalid` without changing the configured identity-token map.
 - [x] T051 Add the token certificate bootstrap regression to the common security regression entrypoint and documentation.
+- [x] T052 Make the ServiceController identity-token map stable across successful issuance and add repeated valid-probe coverage.
 
 Validation note: NDNSF builds and the MiniNDN token-bootstrap smoke test passed.
 The local ndncert checkout was adjusted to the Ubuntu 20.04 Boost 1.71 baseline,

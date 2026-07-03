@@ -79,17 +79,18 @@ compatibility.
 - **FR-008**: NDNCERT MUST include a token challenge module that can validate a token bound to a requested identity.
 - **FR-009**: A regression script MUST verify the full controller/provider/user automatic bootstrap path.
 - **FR-010**: MiniNDN validation MUST run the automatic bootstrap path before normal service invocation.
-- **FR-011**: User and provider token bootstrap MUST first check the local KeyChain for an existing controller-signed certificate and MUST reuse it instead of consuming another token.
+- **FR-011**: User and provider token bootstrap MUST first check the local KeyChain for an existing controller-signed certificate and MUST reuse it instead of sending another bootstrap request.
 - **FR-012**: The NDNSF controller token file and NDNCERT token challenge file MUST share the same first two columns, `<identity> <token>`, with any third role column treated as optional metadata by NDNSF and ignored by NDNCERT.
 - **FR-013**: Python `ServiceController`, `ServiceProvider`, and `ServiceUser` APIs MUST expose certificate bootstrap configuration without requiring callers to hand-write example command-line flags or repeat the same identity name twice.
 - **FR-014**: Python process orchestration configs MUST expose the same controller token file and user/provider token fields while preserving existing `args` and `extra_args` escape hatches.
 - **FR-015**: A direct Python object-API smoke test MUST verify controller/provider/user token bootstrap and certificate reuse without invoking the C++ example applications.
 - **FR-016**: Automatic certificate bootstrap requests MUST encrypt the name-bound token and certificate request to the Controller certificate before sending them in Interest ApplicationParameters.
 - **FR-017**: Automatic certificate bootstrap requests MUST include a requester proof signature over the requested identity, token, certificate request, and nonce; ServiceController MUST verify that proof against the included certificate request before issuing a certificate.
+- **FR-018**: ServiceController MUST treat the identity-token file as stable preconfigured state; successful issuance MUST NOT consume, remove, or mutate the configured identity-token mapping.
 
 ### Key Entities
 
-- **Bootstrap Token Entry**: Requested identity name, token string, optional role, and consumed state.
+- **Bootstrap Token Entry**: Requested identity name, token string, and optional role loaded from stable controller configuration.
 - **Certificate Bootstrap Request**: Requested identity, token, and requester certificate wire encoding.
 - **Encrypted Certificate Bootstrap Request**: RSA-wrapped AES-CBC envelope carrying a Certificate Bootstrap Request for the Controller.
 - **Issued Certificate**: Controller-signed certificate copied from the requester public key.
@@ -109,11 +110,12 @@ compatibility.
 - **SC-008**: A direct Python controller/provider/user smoke test completes HELLO once after token issuance and once after local certificate reuse.
 - **SC-009**: Controller logs show encrypted bootstrap requests and valid requester proof for successful token issuance.
 - **SC-010**: A bootstrap request with an encrypted payload but tampered requester proof is rejected with `request-proof-invalid`, and the same token can still be used afterward for a valid issuance.
+- **SC-011**: In one running ServiceController process, two valid bootstrap probes for the same configured identity-token pair both succeed, proving the preconfigured map is stable.
 
 ## Assumptions
 
 - The first implementation uses an explicit token file rather than interactive token printing.
 - A certificate is considered reusable for this bootstrap path when its signature KeyLocator name is under the controller identity prefix.
-- Tokens are one-time within a running ServiceController process; durable token consumption can be added later.
+- Tokens are stable configured bootstrap secrets in this implementation; rotating or revoking them is an operator configuration update.
 - The bootstrap Interest carries the requester certificate request in ApplicationParameters.
 - The issued certificate is installed into the same local key in the requester KeyChain.

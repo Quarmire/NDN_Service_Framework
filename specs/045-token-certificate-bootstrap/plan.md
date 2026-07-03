@@ -18,7 +18,7 @@ valid only for the exact requested identity name.
 
 **Primary Dependencies**: ndn-cxx KeyChain/Face/Certificate, NDNSF ServiceController/User/Provider, ndncert token challenge semantics
 
-**Storage**: Plain text token file for v1; in-memory consumed-token state
+**Storage**: Plain text preconfigured identity-token map for v1; process-local issued-certificate cache for permission encryption
 
 **Testing**: waf build, existing HELLO regressions, new token bootstrap regression, MiniNDN HELLO validation
 
@@ -83,8 +83,8 @@ challenge so the same operational material can be reused.
 ## Design Decisions
 
 - Requesters generate or reuse a local key first, then send their self-created certificate wire to the controller. The controller copies the public key and signs a new certificate. Private keys never leave the requester.
-- Requesters encrypt the CertificateBootstrapRequest to the Controller's local certificate using RSA-wrapped AES-CBC before placing it in Interest ApplicationParameters. This protects the one-time token and certificate request from passive observers.
-- Requesters include a proof-of-possession signature inside the encrypted request. The signature covers requested identity, token, certificate request, and nonce. The Controller verifies this proof with the certificate request public key before consuming the token and issuing a Controller-signed certificate.
+- Requesters encrypt the CertificateBootstrapRequest to the Controller's local certificate using RSA-wrapped AES-CBC before placing it in Interest ApplicationParameters. This protects the configured token and certificate request from passive observers.
+- Requesters include a proof-of-possession signature inside the encrypted request. The signature covers requested identity, token, certificate request, and nonce. The Controller verifies this proof with the certificate request public key before issuing a Controller-signed certificate.
 - Token file format is line-oriented: `<identity> <token> [role]`. Lines beginning with `#` are ignored.
 - Endpoint prefix is `/<controller>/NDNSF/CERTBOOTSTRAP/<identity...>`.
 - ApplicationParameters carry a small TLV block with requested identity name,
@@ -92,9 +92,9 @@ challenge so the same operational material can be reused.
   the existing user/provider identity configuration, so application APIs do not
   require callers to repeat the same name as a separate bootstrap parameter.
 - Manual flow remains the default when no token option is provided.
-- Token consumption is in-memory in v1; this is enough for experiments and avoids adding a storage dependency.
+- The Controller treats the identity-token file as stable configuration. Successful issuance does not mutate or consume the configured map.
 - User/provider startup reuses an existing local controller-signed certificate before
-  sending bootstrap Interests, so repeated starts do not consume another token.
+  sending bootstrap Interests, so repeated starts normally avoid another signing request.
 - NDNSF and NDNCERT token files share `<identity> <token>` as the compatible prefix;
   NDNSF treats a third `role` column as optional diagnostics.
 - This is considered the complete NDNSF integration path for this project:
