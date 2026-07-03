@@ -42,6 +42,9 @@ one doctor command, one structured event stream, and shared regression helpers.
 - **FR-012**: Runtime profiles SHOULD have validation and resolved-printing
   commands that catch unknown keys, wrong scalar types, unsupported enum values,
   and missing DI sections before experiments silently fall back to defaults.
+- **FR-013**: NDNSF-DI runtime profile, wrapper, and validation usage SHOULD be
+  documented in one short workflow document, with README linking to it instead
+  of duplicating the full experiment recipe.
 
 ## Success Criteria
 
@@ -62,5 +65,7 @@ one doctor command, one structured event stream, and shared regression helpers.
   underlying NativeTracer harness command with the canonical DI runtime profile.
 - `python3 tools/ndnsf_runtime.py di validate` succeeds for the canonical DI
   profile, and a typo in a NativeTracer field fails validation.
+- `docs/NDNSF-DI-runtime-workflow.md` is the single README-linked entry point
+  for DI runtime validation, doctor, wrapper, and result hygiene steps.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.

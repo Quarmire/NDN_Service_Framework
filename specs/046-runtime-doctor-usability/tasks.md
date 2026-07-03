@@ -36,3 +36,5 @@
 - [x] T021 Add regression coverage for DI wrapper dry-run command generation.
 - [x] T022 Add runtime profile validation and resolved-printing subcommands.
 - [x] T023 Add regression coverage for DI profile validation and typo detection.
+- [x] T024 Move DI runtime profile, wrapper, and validation usage into
+  `docs/NDNSF-DI-runtime-workflow.md` and keep README as a short pointer.
