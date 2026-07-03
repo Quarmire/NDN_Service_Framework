@@ -1,0 +1,25 @@
+# Tasks: Negative ACK Early Stop
+
+- [x] T001 Document the minimal design and acceptance criteria.
+- [x] T002 Add user-side negative ACK pending-call state and helper declarations.
+- [x] T003 Record negative ACK provider/reason when ACK decode and validation succeeds.
+- [x] T004 Add known-provider all-negative early-stop logic that reuses the normal timeout callback path.
+- [x] T005 Add regression script using existing HELLO apps with two rejecting known providers.
+- [x] T006 Build and run existing selective ACK custom-selection regression.
+- [x] T007 Run new negative ACK regression and verify early-stop diagnostics.
+- [x] T008 Run MiniNDN smoke validation.
+- [x] T009 Add recommended negative ACK reason constants without changing the wire format.
+- [x] T010 Update HELLO provider defaults and regression checks to use recommended reason codes.
+- [x] T011 Warn on non-recommended negative ACK reason strings while preserving compatibility.
+- [x] T012 Apply recommended reason codes to DI native/Python provider readiness ACKs.
+- [x] T013 Add NativeTracer MiniNDN summary counters for negative ACK reasons.
+- [x] T014 Add regression coverage for artifact readiness reasons and summary counter parsing.
+- [x] T015 Fix Python DI no-model/no-provision capability ACK to return `MODEL_UNAVAILABLE`.
+- [x] T016 Add NativeTracer failure breakdown for timeout vs negative ACK diagnostics.
+- [x] T017 Add opt-in Python DI provider admission policy backed by `RuntimeTelemetryV1`.
+- [x] T018 Expose the admission policy through `APPProvider.serve()` / `serve_service()`.
+- [x] T019 Add regression tests proving default behavior is unchanged and telemetry thresholds map to standard reason codes.
+- [x] T020 Add opt-in native provider admission thresholds for active workers, pending queue, and free memory.
+- [x] T021 Expose native provider admission thresholds through the NativeTracer MiniNDN harness and summary.
+- [x] T022 Add a provider-admission MiniNDN campaign script that compares baseline and admission-enabled runs.
+- [x] T023 Capture the first campaign observation: negative ACK diagnostics work, but latency improves only when an alternate provider/layout exists.
