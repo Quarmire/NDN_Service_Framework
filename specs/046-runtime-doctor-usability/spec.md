@@ -26,6 +26,9 @@ one doctor command, one structured event stream, and shared regression helpers.
   harness files, Qwen tiny proportional artifacts, provider profiles, required
   smoke binaries, expected topology nodes, and records a reproducible MiniNDN
   command.
+- **FR-008**: The NativeTracer MiniNDN harness SHOULD accept the same runtime
+  profile or resolved doctor JSON as defaults, while keeping explicit command
+  line flags as overrides.
 
 ## Success Criteria
 
@@ -34,5 +37,8 @@ one doctor command, one structured event stream, and shared regression helpers.
   succeeds after a normal build.
 - `python3 tools/ndnsf_runtime.py doctor --profile examples/di-native-tracer.runtime.json`
   succeeds after a normal build and emits `DI_NATIVE_TRACER_PREFLIGHT`.
+- `python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile
+  examples/di-native-tracer.runtime.json --out <tmp>` succeeds in
+  local-execution-only mode from profile defaults.
 - The token certificate bootstrap regression still passes.
 - The aggregate security regression still passes.

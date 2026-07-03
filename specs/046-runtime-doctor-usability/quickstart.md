@@ -36,3 +36,15 @@ model spec, provider profiles, required C++ smoke binaries, and expected
 topology nodes. The resolved JSON includes the recommended MiniNDN command under
 `profile.distributed_inference.native_tracer.command`, and the event log
 includes `DI_NATIVE_TRACER_PREFLIGHT`.
+
+Use the same profile to launch the NativeTracer harness:
+
+```bash
+python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --out /tmp/ndnsf-di-profile-run
+```
+
+Use `--runtime-resolved /tmp/ndnsf-di-runtime-resolved.json` when the launch
+should consume the exact resolved paths produced by the doctor. Explicit command
+line flags override profile defaults.

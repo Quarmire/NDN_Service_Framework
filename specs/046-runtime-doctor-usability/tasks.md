@@ -21,3 +21,7 @@
 - [x] T012 Add regression coverage for DI profile resolution and structured
   preflight events.
 - [x] T013 Document the DI runtime doctor workflow in README and quickstart.
+- [x] T014 Let the NativeTracer MiniNDN harness read runtime profile or resolved
+  doctor JSON defaults directly.
+- [x] T015 Add regression coverage proving the profile drives local
+  NativeTracer execution defaults.
