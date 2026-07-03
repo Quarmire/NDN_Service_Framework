@@ -109,6 +109,36 @@ Expected:
 PYTHON_TOKEN_CERTIFICATE_BOOTSTRAP_REGRESSION=PASS
 ```
 
+## NDNCERT Token Challenge Compatibility
+
+The same token file can be used by the simplified NDNSF Controller signer and
+by an independent NDNCERT CA token challenge:
+
+```text
+# identity token optional-role
+/example/hello/user user-token-045 user
+/example/hello/provider provider-token-045 provider
+```
+
+For the NDNSF Controller path, start the controller with:
+
+```python
+ServiceController(
+    bootstrap_token_file="examples/hello.bootstrap-tokens")
+```
+
+For the NDNCERT CA path, configure the token challenge to read the same file:
+
+```bash
+export NDNCERT_TOKEN_CHALLENGE_FILE=examples/hello.bootstrap-tokens
+```
+
+The requester still supplies only the token. The requested name comes from the
+certificate request, and both paths accept the token only when it is bound to
+that exact identity. This lets experiments use the built-in NDNSF Controller
+signer now and move to a standalone NDNCERT CA later without changing the token
+inventory.
+
 ## MiniNDN Validation
 
 Run the HELLO MiniNDN harness with the token bootstrap flags enabled. Expected result is normal HELLO completion after user/provider certificate bootstrap.
