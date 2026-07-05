@@ -53,8 +53,8 @@
 
 - [X] T017 [US1] Implement DI residency cost constants and score breakdown structure in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [X] T018 [US1] Implement runtime-aware candidate scoring helper that consumes generic core hints plus DI payloads in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T019 [US1] Wire runtime-aware scoring into the NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T020 [US1] Emit selected assignment and rejected candidate reasons in NativeTracer planner output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [x] T019 [US1] Wire runtime-aware scoring into the NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [x] T020 [US1] Emit selected assignment and rejected candidate reasons in NativeTracer planner output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
 - [X] T021 [US1] Validate US1 with `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 **Checkpoint**: User-side planner can choose assignments from runtime state without lease enforcement.
@@ -108,8 +108,8 @@
 - [ ] T039 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
 - [X] T040 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [X] T041 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T042 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T043 [US3] Add edge-cost details to selected assignment output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [x] T042 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [x] T043 [US3] Add edge-cost details to selected assignment output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
 - [X] T044 [US3] Validate US3 with graph assignment fixture tests
 
 **Checkpoint**: Planner treats NDNSF-DI as graph placement, not independent provider ranking.
