@@ -125,15 +125,15 @@
 ### Tests for User Story 4
 
 - [X] T045 [P] [US4] Add replan record serialization test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T046 [P] [US4] Add bounded replan test for `FRAGMENT_EVICTED` in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T047 [P] [US4] Add max-attempt failure test with structured planner reason in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [x] T046 [P] [US4] Add bounded replan test for `FRAGMENT_EVICTED` in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [x] T047 [P] [US4] Add max-attempt failure test with structured planner reason in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 ### Implementation for User Story 4
 
-- [ ] T048 [US4] Implement `ReplanRecord` model and exclusion list handling in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T049 [US4] Add bounded replan loop to NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
-- [ ] T050 [US4] Emit replan count and reason into planner metrics in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
-- [ ] T051 [US4] Validate US4 with fixture tests
+- [x] T048 [US4] Implement `ReplanRecord` model and exclusion list handling in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [x] T049 [US4] Add bounded replan loop to NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
+- [x] T050 [US4] Emit replan count and reason into planner metrics in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
+- [x] T051 [US4] Validate US4 with fixture tests
 
 **Checkpoint**: Runtime-aware user-side planning recovers from stale leases within bounded attempts.
 
