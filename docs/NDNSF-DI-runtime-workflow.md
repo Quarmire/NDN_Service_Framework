@@ -97,6 +97,34 @@ you only want to inspect the generated command.
 - `di sweep`: NativeTracer request-rate sweep.
 - `di search`: planner-side greedy versus proportional RPS search.
 
+## Runtime-Aware User-Side Planner Boundary
+
+Spec047 keeps planning in the user process, but separates reusable NDNSF core
+metadata from DI-specific inference semantics.
+
+NDNSF core metadata is service-neutral:
+
+- `GenericAckMetadata`: an ACK envelope for structured provider state.
+- `GenericProviderRuntimeHint`: queue length, active work, wait estimate,
+  capacity hints, confidence, and directed peer metrics.
+- `PeerNetworkMetric`: directed RTT, bandwidth, loss, jitter, staleness, and
+  confidence for provider-to-provider edges.
+- `GenericAdmissionLease`: an optional, short-lived admission/resource proof.
+
+NDNSF-DI interprets the service payload:
+
+- `ModelFragmentKey`: digest-based model/split/stage/shard identity.
+- `DiFragmentRuntimeState`: GPU, CPU, disk, repo, or missing residency state.
+- `DiLeaseResourceBinding`: DI role plus fragment binding inside a generic
+  lease.
+- `ProviderNetworkMatrix`: graph-placement edge-cost view over directed peer
+  metrics.
+
+Admission leases are opt-in. Existing non-lease services keep the current
+ACK/Selection/Response path and still rely on ProviderToken, UserToken,
+NAC-ABE, provider permissions, and replay protection. A lease is only an
+admission-control proof; it is not a replacement for those security checks.
+
 ## When To Use Lower-Level Scripts
 
 Use the wrapper first. Drop down to lower-level scripts only when you need to

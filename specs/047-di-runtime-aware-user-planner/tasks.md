@@ -12,11 +12,11 @@
 
 **Purpose**: Prepare fixtures and shared schema locations without changing runtime behavior.
 
-- [ ] T001 Create runtime-aware planner fixture directory in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/`
-- [ ] T002 [P] Add sample model fragment inventory fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/provider_fragments.json`
-- [ ] T003 [P] Add sample directed provider network matrix fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/provider_network_matrix.json`
-- [ ] T004 [P] Add sample multi-user workload fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/multi_user_requests.json`
-- [ ] T005 Add feature flag/profile knob for runtime-aware user-side planning in `examples/di-native-tracer.runtime.json`
+- [X] T001 Create runtime-aware planner fixture directory in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/`
+- [X] T002 [P] Add sample model fragment inventory fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/provider_fragments.json`
+- [X] T003 [P] Add sample directed provider network matrix fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/provider_network_matrix.json`
+- [X] T004 [P] Add sample multi-user workload fixture in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/multi_user_requests.json`
+- [X] T005 Add feature flag/profile knob for runtime-aware user-side planning in `examples/di-native-tracer.runtime.json`
 
 ---
 
@@ -25,13 +25,13 @@
 **Purpose**: Define NDNSF core reusable envelopes first, then DI-specific schemas built on top of them.
 
 - [ ] T006 Define generic `GenericAckMetadata`, `GenericProviderRuntimeHint`, `PeerNetworkMetric`, `GenericAdmissionLease`, and `GenericLeaseValidationResult` schema helpers in NDNSF core message/runtime support files under `ndn-service-framework/`
-- [ ] T007 [P] Add NDNSF core serialization/deserialization tests for generic ACK metadata, admission lease, and peer telemetry envelopes in `tests/python/test_ndnsf_core_admission_metadata.py` or an equivalent focused regression
-- [ ] T008 Add DI-specific `ModelFragmentKey`, `DiFragmentRuntimeState`, `DiProviderRuntimeState`, `DiLeaseResourceBinding`, and `ProviderNetworkMatrix` schemas in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T009 [P] Add DI serialization/deserialization unit tests for fragment, residency, DI lease binding, and network matrix schemas in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T010 Add `PlanTemplate` versus `RuntimeAssignment` schema separation in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T011 [P] Add fixture loader helpers for fragment inventory and network matrix in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/loader.py`
-- [ ] T012 Document core-versus-DI runtime-aware planner data assumptions in `docs/NDNSF-DI-runtime-workflow.md`
-- [ ] T013 Run `python3 -m py_compile` for changed Python modules plus generic core and DI schema tests
+- [X] T007 [P] Add NDNSF core serialization/deserialization tests for generic ACK metadata, admission lease, and peer telemetry envelopes in `tests/python/test_ndnsf_core_admission_metadata.py` or an equivalent focused regression
+- [X] T008 Add DI-specific `ModelFragmentKey`, `DiFragmentRuntimeState`, `DiProviderRuntimeState`, `DiLeaseResourceBinding`, and `ProviderNetworkMatrix` schemas in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T009 [P] Add DI serialization/deserialization unit tests for fragment, residency, DI lease binding, and network matrix schemas in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T010 Add `PlanTemplate` versus `RuntimeAssignment` schema separation in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T011 [P] Add fixture loader helpers for fragment inventory and network matrix in `examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/loader.py`
+- [X] T012 Document core-versus-DI runtime-aware planner data assumptions in `docs/NDNSF-DI-runtime-workflow.md`
+- [X] T013 Run `python3 -m py_compile` for changed Python modules plus generic core and DI schema tests
 
 **Checkpoint**: Schemas and fixtures exist; no service behavior changes yet.
 
@@ -45,17 +45,17 @@
 
 ### Tests for User Story 1
 
-- [ ] T014 [P] [US1] Add planner fixture test for fragment residency ordering in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T015 [P] [US1] Add planner fixture test excluding providers without valid runtime state when runtime-aware mode is required in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T016 [P] [US1] Add planner fixture test for conservative fallback when runtime-aware mode is optional in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T014 [P] [US1] Add planner fixture test for fragment residency ordering in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T015 [P] [US1] Add planner fixture test excluding providers without valid runtime state when runtime-aware mode is required in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T016 [P] [US1] Add planner fixture test for conservative fallback when runtime-aware mode is optional in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Implement DI residency cost constants and score breakdown structure in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T018 [US1] Implement runtime-aware candidate scoring helper that consumes generic core hints plus DI payloads in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T017 [US1] Implement DI residency cost constants and score breakdown structure in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T018 [US1] Implement runtime-aware candidate scoring helper that consumes generic core hints plus DI payloads in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [ ] T019 [US1] Wire runtime-aware scoring into the NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
 - [ ] T020 [US1] Emit selected assignment and rejected candidate reasons in NativeTracer planner output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T021 [US1] Validate US1 with `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T021 [US1] Validate US1 with `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 **Checkpoint**: User-side planner can choose assignments from runtime state without lease enforcement.
 
@@ -69,9 +69,9 @@
 
 ### Tests for User Story 2
 
-- [ ] T022 [P] [US2] Add generic lease manager unit test for grant, expire, consume, and release behavior in `tests/python/test_ndnsf_core_admission_metadata.py`
-- [ ] T023 [P] [US2] Add generic selection validation test for expired/mismatched/already-consumed leases in `tests/python/test_ndnsf_core_admission_metadata.py`
-- [ ] T024 [P] [US2] Add DI binding validation test for role/fragment mismatch in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T022 [P] [US2] Add generic lease manager unit test for grant, expire, consume, and release behavior in `tests/python/test_ndnsf_core_admission_metadata.py`
+- [X] T023 [P] [US2] Add generic selection validation test for expired/mismatched/already-consumed leases in `tests/python/test_ndnsf_core_admission_metadata.py`
+- [X] T024 [P] [US2] Add DI binding validation test for role/fragment mismatch in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 - [ ] T025 [P] [US2] Add C++ or shell smoke test ensuring provider rejects invalid lease before role execution in a focused NDNSF runtime regression
 - [ ] T026 [P] [US2] Add compatibility smoke test proving a non-lease service still executes with the current ACK/Selection/Response path
 
@@ -98,19 +98,19 @@
 
 ### Tests for User Story 3
 
-- [ ] T035 [P] [US3] Add generic directed peer metric parsing test in `tests/python/test_ndnsf_core_admission_metadata.py`
-- [ ] T036 [P] [US3] Add DI edge-cost scoring test for bandwidth/RTT/loss/jitter in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T037 [P] [US3] Add stale/unknown metric penalty test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T038 [P] [US3] Add graph assignment test where edge-aware placement beats compute-only placement in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T035 [P] [US3] Add generic directed peer metric parsing test in `tests/python/test_ndnsf_core_admission_metadata.py`
+- [X] T036 [P] [US3] Add DI edge-cost scoring test for bandwidth/RTT/loss/jitter in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T037 [P] [US3] Add stale/unknown metric penalty test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T038 [P] [US3] Add graph assignment test where edge-aware placement beats compute-only placement in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 ### Implementation for User Story 3
 
 - [ ] T039 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
-- [ ] T040 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T041 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T040 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T041 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [ ] T042 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
 - [ ] T043 [US3] Add edge-cost details to selected assignment output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T044 [US3] Validate US3 with graph assignment fixture tests
+- [X] T044 [US3] Validate US3 with graph assignment fixture tests
 
 **Checkpoint**: Planner treats NDNSF-DI as graph placement, not independent provider ranking.
 
@@ -124,7 +124,7 @@
 
 ### Tests for User Story 4
 
-- [ ] T045 [P] [US4] Add replan record serialization test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T045 [P] [US4] Add replan record serialization test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 - [ ] T046 [P] [US4] Add bounded replan test for `FRAGMENT_EVICTED` in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 - [ ] T047 [P] [US4] Add max-attempt failure test with structured planner reason in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
