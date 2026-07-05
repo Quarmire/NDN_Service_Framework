@@ -56,6 +56,22 @@ python3 tools/ndnsf_runtime.py di run \
 Arguments before `--` belong to the wrapper. Arguments after `--` are passed to
 the underlying experiment script and override profile defaults.
 
+For a runtime-aware smoke run that starts MiniNDN but does not run the full
+user/provider request path:
+
+```bash
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --out /tmp/ndnsf-spec047-minindn-smoke \
+  --requests 2 \
+  --concurrency 1 \
+  --provider-check-timeout 45 \
+  --no-local-execution-only
+```
+
+The default profile keeps `local_execution_only=true` so routine checks stay
+fast. Use `--no-local-execution-only` when you intentionally want MiniNDN.
+
 ## Common Commands
 
 Single NativeTracer harness run:
@@ -124,6 +140,43 @@ Admission leases are opt-in. Existing non-lease services keep the current
 ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
 admission-control proof; it is not a replacement for those security checks.
+
+## Runtime-Aware Campaign Outputs
+
+Spec047 runs now write these stable files in the result directory:
+
+```text
+summary.json
+summary.txt
+planner-metrics.json
+planner-metrics.csv
+assignment.csv
+runtime-v1/runtime-v1-minindn-evidence-summary.json
+```
+
+`planner-metrics.json` is the compact surface for paper or slide evidence. It
+records p50/p95/mean latency when the user path runs, success rate, provider
+utilization, lease counters, residency counters, edge-cost summary, and bounded
+replan count. In local-execution-only and provider-check runs, user latency is
+zero because the full user request path is intentionally gated; the local plan,
+manifest, runtime-v1 evidence, and MiniNDN provider placement are still
+validated.
+
+The multi-user fixture is:
+
+```bash
+examples/python/NDNSF-DistributedInference/native_di_tracer/runtime_aware_fixtures/multi_user_requests.json
+```
+
+The directed provider-to-provider metric fixture is:
+
+```bash
+Experiments/Topology/AI_Lab_RuntimeAwarePeerMetrics.json
+```
+
+It is separate from `AI_Lab.conf` because MiniNDN topology links are symmetric,
+while runtime-aware DI planning needs directed overlay metrics such as
+provider A to provider B RTT/bandwidth versus provider B to provider A.
 
 ## When To Use Lower-Level Scripts
 

@@ -1,8 +1,7 @@
 # Quickstart: DI Runtime-Aware User-Side Planner Validation
 
-This guide describes validation targets for the feature. Commands are placeholders
-for the implementation phase and should be wired to concrete scripts as tasks
-are completed.
+This guide describes validation targets for the feature and records the
+commands used to validate the implemented path.
 
 ## 0. Validate core versus DI layering
 
@@ -82,3 +81,56 @@ Expected outcome:
 - Output includes p50/p95 latency, success rate, selected assignments, lease
   counters, residency counters, edge-cost summary, replan count, and provider
   utilization.
+
+Implemented smoke command:
+
+```bash
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --out /tmp/ndnsf-spec047-minindn-smoke \
+  --requests 2 \
+  --concurrency 1 \
+  --provider-check-timeout 45 \
+  --no-local-execution-only
+```
+
+Observed result:
+
+```text
+status=SUCCESS
+miniNDNStatus=available-root
+miniNDNRun=started
+localExecution=executed
+dependencyExecution=local-baseline-executed
+plannerMetrics=/tmp/ndnsf-spec047-minindn-smoke/planner-metrics.json
+```
+
+Known environment warning:
+
+```text
+RuntimeError: module compiled against API version 0xe but this version of numpy is 0xd
+```
+
+The warning is printed by an optional Python dependency during MiniNDN startup
+in this local environment. The command still returned 0 and completed the
+provider-check MiniNDN smoke. Full user/provider `--full-network` campaign
+latency evidence remains a heavier follow-up run.
+
+## Final validation commands
+
+```bash
+./waf build --target=unit-tests
+./build/unit-tests --run_test=GenericAdmissionLease
+./build/unit-tests --run_test=NativeProviderAssignmentPayloadValidatesRoleAndFragment
+./build/unit-tests --run_test=GenericDynamicApi/TokensAndReplay/TokenModeDisabledKeepsFirstRespondingAckSelectionResponsePath
+./build/unit-tests --run_test=GenericDynamicApi/AllSelectedAndWorkers/AllSelectedProvidersExecuteOnlyAfterSelection
+PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_core_admission_metadata.py
+PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_planner.py
+PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py
+python3 tools/ndnsf_runtime.py di validate
+python3 tools/ndnsf_runtime.py di run --dry-run
+python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --dry-run
+python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --out /tmp/ndnsf-spec047-local --local-execution-only
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --out /tmp/ndnsf-spec047-minindn-smoke --requests 2 --concurrency 1 --provider-check-timeout 45 --no-local-execution-only
+git diff --check
+```

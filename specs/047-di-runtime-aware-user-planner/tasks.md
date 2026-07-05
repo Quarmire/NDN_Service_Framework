@@ -147,17 +147,17 @@
 
 ### Tests for User Story 5
 
-- [ ] T052 [P] [US5] Add dry-run test for multi-user runtime-aware campaign arguments in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
-- [ ] T053 [P] [US5] Add parser test for planner metrics aggregation in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [X] T052 [P] [US5] Add dry-run test for multi-user runtime-aware campaign arguments in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [X] T053 [P] [US5] Add parser test for planner metrics aggregation in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
 
 ### Implementation for User Story 5
 
-- [ ] T054 [US5] Add multi-user workload mode to `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T055 [US5] Add asymmetric provider-to-provider link profile to `Experiments/Topology/AI_Lab.conf` or a new DI topology fixture
-- [ ] T056 [US5] Add runtime-aware planner mode flags to `tools/ndnsf_runtime.py di run` passthrough documentation and profile defaults
-- [ ] T057 [US5] Emit planner metrics JSON/CSV from MiniNDN campaign in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T058 [US5] Add campaign summary fields for p50/p95 latency, success rate, utilization, lease counters, residency counters, edge-cost summary, and replan count in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T059 [US5] Run a short MiniNDN validation campaign and save canonical command/results summary under `docs/` or tracked experiment documentation
+- [X] T054 [US5] Add multi-user workload mode to `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [X] T055 [US5] Add asymmetric provider-to-provider link profile to `Experiments/Topology/AI_Lab.conf` or a new DI topology fixture
+- [X] T056 [US5] Add runtime-aware planner mode flags to `tools/ndnsf_runtime.py di run` passthrough documentation and profile defaults
+- [X] T057 [US5] Emit planner metrics JSON/CSV from MiniNDN campaign in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [X] T058 [US5] Add campaign summary fields for p50/p95 latency, success rate, utilization, lease counters, residency counters, edge-cost summary, and replan count in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [X] T059 [US5] Run a short MiniNDN validation campaign and save canonical command/results summary under `docs/` or tracked experiment documentation
 
 **Checkpoint**: Feature has measurable MiniNDN evidence for multi-user and provider-pair network behavior.
 
@@ -167,16 +167,16 @@
 
 **Purpose**: Documentation, security checks, and regression cleanup.
 
-- [ ] T060 [P] Update `docs/NDNSF-DI-runtime-workflow.md` with runtime-aware planner workflow and metrics outputs
-- [ ] T061 [P] Update `docs/native-di-roadmap.md` with plan-template versus runtime-assignment and edge-aware planning rationale
-- [ ] T062 [P] Update generic NDNSF framework docs to describe reusable admission lease, ACK metadata, and peer telemetry boundaries
-- [ ] T063 Run focused token/security regressions covering UserToken/ProviderToken and selection validation paths
-- [ ] T064 Run generic core admission metadata tests
-- [ ] T065 Run `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T066 Run `python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py`
-- [ ] T067 Run `python3 tools/ndnsf_runtime.py di validate`
-- [ ] T068 Run `git diff --check`
-- [ ] T069 Record final validation commands and known limitations in `specs/047-di-runtime-aware-user-planner/quickstart.md`
+- [X] T060 [P] Update `docs/NDNSF-DI-runtime-workflow.md` with runtime-aware planner workflow and metrics outputs
+- [X] T061 [P] Update `docs/native-di-roadmap.md` with plan-template versus runtime-assignment and edge-aware planning rationale
+- [X] T062 [P] Update generic NDNSF framework docs to describe reusable admission lease, ACK metadata, and peer telemetry boundaries
+- [X] T063 Run focused token/security regressions covering UserToken/ProviderToken and selection validation paths
+- [X] T064 Run generic core admission metadata tests
+- [X] T065 Run `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [X] T066 Run `python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [X] T067 Run `python3 tools/ndnsf_runtime.py di validate`
+- [X] T068 Run `git diff --check`
+- [X] T069 Record final validation commands and known limitations in `specs/047-di-runtime-aware-user-planner/quickstart.md`
 
 ---
 
