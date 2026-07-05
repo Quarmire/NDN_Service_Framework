@@ -107,6 +107,18 @@ NativeTracer rate sweep:
 python3 tools/ndnsf_runtime.py di sweep -- --target-rps-list 0,1,2
 ```
 
+Runtime-aware multi-user MiniNDN RPS sweep:
+
+```bash
+sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
+  python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py \
+  --out /tmp/ndnsf-di-runtime-aware-rps-sweep \
+  --rps 0.2,0.4 \
+  --requests 2 \
+  --concurrency 2 \
+  -- --provider-check-timeout 60
+```
+
 Planner-only LLM proportional RPS search:
 
 ```bash
@@ -171,11 +183,66 @@ runtime-v1/runtime-v1-minindn-evidence-summary.json
 
 `planner-metrics.json` is the compact surface for paper or slide evidence. It
 records p50/p95/mean latency when the user path runs, success rate, provider
-utilization, lease counters, residency counters, edge-cost summary, and bounded
-replan count. In local-execution-only and provider-check runs, user latency is
-zero because the full user request path is intentionally gated; the local plan,
-manifest, runtime-v1 evidence, and MiniNDN provider placement are still
-validated.
+utilization, lease counters, planner-selected residency counters, observed
+provider residency counters, edge-cost summary, and bounded replan count. In
+local-execution-only and provider-check runs, user latency is zero because the
+full user request path is intentionally gated; the local plan, manifest,
+runtime-v1 evidence, and MiniNDN provider placement are still validated.
+
+Provider fragment residency should come from `ProviderFragmentInventoryManager`
+when the provider runtime can expose local state. The manager treats GPU and CPU
+residency as explicit runtime load/evict events, treats disk residency as the
+presence of the configured local artifact file, and falls back to
+`REPO_AVAILABLE` or `MISSING` when the fragment is not local. The resulting
+`DiProviderRuntimeState` is embedded in `GenericAckMetadata.servicePayload`, so
+the user-side planner can prefer already-loaded or already-resident fragments
+without putting model-specific concepts into NDNSF core.
+
+The native C++ provider also emits provider-local inventory events:
+
+```text
+NDNSF_DI_FRAGMENT_INVENTORY event=CPU_RESIDENT provider=/P role=/Backbone \
+  fragmentDigest=sha256:... backend=onnx-cpu path=/tmp/stage.onnx \
+  residency=CPU_RESIDENT epoch_ms=...
+```
+
+`DISK_RESIDENT` is emitted before runner creation, `CPU_RESIDENT` or
+`GPU_LOADED` after runner creation depending on the runtime/device metadata,
+`EXECUTION_OBSERVED` when the provider actually executes that role, and
+`EVICTED` when the provider runtime is released. Current ONNX CPU runs should
+normally report CPU residency, not GPU residency. The MiniNDN harness scans
+these events into `providerFragmentInventory`, including `eventCounters`,
+`residencyCounters`, `latestByProviderRole`, and `latestByFragment`.
+`planner-metrics.json.residencyCounters` remains the planner-selected residency
+view; `planner-metrics.json.observedResidencyCounters` is the provider-log
+observation view.
+
+For multi-user evidence, report both direct lease counters and residency hits:
+
+```text
+leaseCounters.granted / rejected / expired / consumed
+residencyCounters.GPU_LOADED / CPU_RESIDENT / DISK_RESIDENT / REPO_AVAILABLE / MISSING
+observedResidencyCounters.CPU_RESIDENT / GPU_LOADED / DISK_RESIDENT
+latencyMs.p50 / latencyMs.p95
+maxStableRps from the RPS sweep
+```
+
+This is the minimum evidence needed to show whether user-side plans are being
+controlled by provider admission leases and whether provider-local model
+fragments are actually being reused.
+
+The campaign harness scans provider logs for
+`NDNSF_ADMISSION_LEASE_ACCEPTED` and `NDNSF_ADMISSION_LEASE_REJECTED`. If the
+specific NativeTracer run does not enable generic admission leases, these
+counters are expected to stay at zero; the residency and latency fields still
+describe the runtime-aware assignment that was exercised.
+
+The current NativeTracer full-network path has runtime-aware assignment,
+provider admission/backpressure, and provider-local inventory evidence. Generic
+admission lease validation exists in NDNSF core, but NativeTracer does not yet
+publish lease offers in ACKs and echo lease proofs in Selection. Treat
+`leaseCounters=0` as a NativeTracer integration gap, not as a failure of the
+inventory/RPS sweep machinery.
 
 The multi-user fixture is:
 

@@ -178,6 +178,44 @@
 - [X] T068 Run `git diff --check`
 - [X] T069 Record final validation commands and known limitations in `specs/047-di-runtime-aware-user-planner/quickstart.md`
 
+## Follow-up: Real Provider Fragment Inventory Evidence
+
+**Purpose**: Close the gap between fixture-reported residency and provider-local
+runtime state so multi-user campaigns can prove model-fragment reuse.
+
+- [X] T070 Add `ProviderFragmentInventoryManager` and `ProviderFragmentInventoryEntry` to `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [X] T071 Add inventory unit coverage proving actual disk files become `DISK_RESIDENT`, runtime marks become `CPU_RESIDENT`/`GPU_LOADED`, and ACK metadata carries the resulting state
+- [X] T072 Fix campaign metrics aggregation so `residencyCounters` count selected fragment residency instead of selected provider names
+- [X] T073 Add campaign metrics aggregation for direct lease counters and `maxStableRps` from RPS sweep entries
+- [X] T074 Document provider-local inventory and multi-user campaign evidence in `docs/NDNSF-DI-runtime-workflow.md` and `quickstart.md`
+- [X] T075 Validate with runtime-v1 tests, runtime-aware campaign tests, py_compile, dry-run multi-user campaign, and diff check
+
+## Follow-up: Native Provider Inventory Events and RPS Sweep
+
+**Purpose**: Connect the C++ NativeProviderHandler artifact lifecycle to
+campaign evidence and provide a repeatable multi-user RPS sweep wrapper.
+
+- [X] T076 Emit `NDNSF_DI_FRAGMENT_INVENTORY` events from `NativeProviderHandler` when artifacts become disk-resident, CPU/GPU-loaded, observed during execution, and evicted at provider shutdown
+- [X] T077 Aggregate provider fragment inventory events from MiniNDN provider logs into `summary.json` and `planner-metrics.json`
+- [X] T078 Add focused campaign tests for inventory event parsing and runtime-aware RPS sweep dry-run command generation
+- [X] T079 Add `Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py` as the repeatable wrapper for runtime-aware multi-user RPS sweeps
+- [X] T080 Document the provider inventory event bridge, RPS sweep command, and current NativeTracer lease limitation
+
+## Follow-up: NativeTracer Generic Admission Lease Integration
+
+**Purpose**: Turn the existing NDNSF core generic admission lease mechanism into
+a real NativeTracer full-network path so multi-user campaigns can measure
+resource conflict control instead of only inventory reuse.
+
+- [ ] T081 Commit the stable provider-inventory and RPS-sweep work before lease edits
+- [ ] T082 Add NativeTracer lease task plan and validation notes to `docs/NDNSF-DI-runtime-workflow.md` and `quickstart.md`
+- [ ] T083 Extend `SelectedParticipant` / `AckSelectionCandidate` handling so collaboration selection can carry lease id and resource binding from ACK payload into Selection assignment payload
+- [ ] T084 Make `DI_NativeProviderExecutable` grant one generic admission lease per successful readiness ACK, with role/fragment resource binding proof
+- [ ] T085 Enable `setGenericAdmissionLeaseRequired()` for NativeTracer services and preserve non-lease compatibility when the flag is disabled
+- [ ] T086 Add tests for lease payload extraction, assignment payload merging, and provider accept/reject log aggregation
+- [ ] T087 Run focused C++ build/unit tests plus Python campaign tests
+- [ ] T088 Run a short lease-enabled multi-user MiniNDN RPS sweep and record observed lease counters, residency counters, p50/p95, and max stable RPS
+
 ---
 
 ## Dependencies & Execution Order

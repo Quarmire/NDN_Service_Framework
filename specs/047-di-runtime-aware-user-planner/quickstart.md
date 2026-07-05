@@ -75,12 +75,30 @@ Expected scenario:
 - Multi-user workload.
 - Asymmetric provider-to-provider links.
 - Mixed fragment residency states.
+- Provider runtime exposes local fragment inventory: GPU/CPU load events,
+  actual disk artifact presence, and repo/missing fallback.
 
 Expected outcome:
 
 - Output includes p50/p95 latency, success rate, selected assignments, lease
   counters, residency counters, edge-cost summary, replan count, and provider
   utilization.
+- `residencyCounters` count selected fragment residency values, not provider
+  names.
+- `maxStableRps` records the highest RPS sweep point that meets the campaign
+  stability threshold.
+
+Inventory unit validation:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_v1.py
+```
+
+Campaign metric aggregation validation:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:Experiments python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py
+```
 
 Implemented smoke command:
 
@@ -156,6 +174,45 @@ meanEstimatedUtilization=0.287673
 replanCount=0
 ```
 
+## 6. Runtime-aware multi-user RPS sweep
+
+Use the sweep wrapper when the question is maximum stable request rate under
+multi-user contention:
+
+```bash
+sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
+  python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py \
+  --out /tmp/ndnsf-spec047-runtime-aware-rps-sweep \
+  --rps 0.2,0.4 \
+  --requests 2 \
+  --concurrency 2 \
+  -- --provider-check-timeout 60
+```
+
+The wrapper writes:
+
+```text
+rps-sweep-commands.json
+rps-sweep-summary.json
+rps-sweep-summary.csv
+rps-<value>/summary.json
+rps-<value>/planner-metrics.json
+```
+
+Provider-local artifact events are collected from provider logs as
+`providerFragmentInventory`. For current ONNX CPU NativeTracer runs, expect
+`CPU_RESIDENT` and `DISK_RESIDENT` events. `GPU_LOADED` is only expected when a
+GPU runtime/backend is configured. In `planner-metrics.json`,
+`residencyCounters` is the planner-selected residency view, while
+`observedResidencyCounters` is the provider-log observation view.
+
+Current limitation: NDNSF core generic admission leases are implemented and
+tested, but NativeTracer does not yet include lease offers in ACKs or echo
+lease proofs in Selection. A NativeTracer RPS sweep therefore quantifies
+runtime-aware assignment, provider-local fragment reuse, and
+admission/backpressure behavior; `leaseCounters` may remain zero until the
+NativeTracer lease payload path is wired.
+
 ## Final validation commands
 
 ```bash
@@ -167,6 +224,7 @@ replanCount=0
 PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_core_admission_metadata.py
 PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_planner.py
 PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py
+python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py --dry-run --out /tmp/ndnsf-spec047-rps-sweep-dry-run --rps 0.2,0.4 --requests 2 --concurrency 2 -- --provider-check-timeout 60
 python3 tools/ndnsf_runtime.py di validate
 python3 tools/ndnsf_runtime.py di run --dry-run
 python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --dry-run
