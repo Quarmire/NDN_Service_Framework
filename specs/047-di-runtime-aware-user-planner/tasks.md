@@ -24,7 +24,7 @@
 
 **Purpose**: Define NDNSF core reusable envelopes first, then DI-specific schemas built on top of them.
 
-- [ ] T006 Define generic `GenericAckMetadata`, `GenericProviderRuntimeHint`, `PeerNetworkMetric`, `GenericAdmissionLease`, and `GenericLeaseValidationResult` schema helpers in NDNSF core message/runtime support files under `ndn-service-framework/`
+- [X] T006 Define generic `GenericAckMetadata`, `GenericProviderRuntimeHint`, `PeerNetworkMetric`, `GenericAdmissionLease`, and `GenericLeaseValidationResult` schema helpers in NDNSF core message/runtime support files under `ndn-service-framework/`
 - [X] T007 [P] Add NDNSF core serialization/deserialization tests for generic ACK metadata, admission lease, and peer telemetry envelopes in `tests/python/test_ndnsf_core_admission_metadata.py` or an equivalent focused regression
 - [X] T008 Add DI-specific `ModelFragmentKey`, `DiFragmentRuntimeState`, `DiProviderRuntimeState`, `DiLeaseResourceBinding`, and `ProviderNetworkMatrix` schemas in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [X] T009 [P] Add DI serialization/deserialization unit tests for fragment, residency, DI lease binding, and network matrix schemas in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
@@ -105,7 +105,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T039 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
+- [X] T039 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
 - [X] T040 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [X] T041 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
 - [x] T042 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
