@@ -4,6 +4,21 @@ This guide describes validation targets for the feature. Commands are placeholde
 for the implementation phase and should be wired to concrete scripts as tasks
 are completed.
 
+## 0. Validate core versus DI layering
+
+Expected scenario:
+
+- NDNSF core sees generic ACK metadata, generic admission lease fields, and
+  directed peer telemetry.
+- NDNSF-DI sees model fragment keys, fragment residency, KV-cache hints, and
+  graph-placement costs through service-defined payloads.
+
+Expected outcome:
+
+- Core tests prove lease validation works without model/GPU concepts.
+- DI tests prove model fragment and residency payloads can be carried inside
+  the generic core envelopes.
+
 ## 1. Validate deterministic planner scoring
 
 Expected scenario:

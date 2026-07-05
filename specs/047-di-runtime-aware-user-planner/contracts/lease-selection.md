@@ -1,32 +1,37 @@
-# Contract: Lease-Aware Selection
+# Contract: Generic Lease-Aware Selection
 
 ## Purpose
 
 Ensure a provider executes a role only when the user selected a lease that the
-provider actually granted and still considers valid.
+provider actually granted and still considers valid. NDNSF core validates the
+generic lease; NDNSF-DI validates the DI resource binding payload.
 
 ## Selection Entry Shape
 
 ```json
 {
-  "schema": "ndnsf-di-lease-selection-v1",
+  "schema": "ndnsf-lease-selection-v1",
   "requestId": "<request-id>",
+  "serviceName": "/Inference/NativeTracer",
   "providerName": "/provider/A",
-  "roleId": "/Stage/0",
   "leaseId": "<lease-id>",
-  "fragmentKey": {
-    "modelId": "qwen-tiny",
-    "modelDigest": "sha256:...",
-    "runtimeBackend": "onnx-cuda",
-    "precision": "fp16",
-    "splitStrategy": "pipeline",
-    "stageIndex": 0,
-    "stageCount": 3,
-    "layerStart": 0,
-    "layerEnd": 7,
-    "shardIndex": 0,
-    "shardCount": 1,
-    "fragmentDigest": "sha256:..."
+  "resourceBindingSchema": "ndnsf-di-lease-binding-v1",
+  "resourceBinding": {
+    "roleId": "/Stage/0",
+    "fragmentKey": {
+      "modelId": "qwen-tiny",
+      "modelDigest": "sha256:...",
+      "runtimeBackend": "onnx-cuda",
+      "precision": "fp16",
+      "splitStrategy": "pipeline",
+      "stageIndex": 0,
+      "stageCount": 3,
+      "layerStart": 0,
+      "layerEnd": 7,
+      "shardIndex": 0,
+      "shardCount": 1,
+      "fragmentDigest": "sha256:..."
+    }
   }
 }
 ```
@@ -39,10 +44,13 @@ The provider must reject without executing when:
 - lease is expired;
 - lease was already consumed;
 - request id does not match;
-- role id does not match;
-- fragment key does not match;
+- service name does not match;
+- generic resource binding proof does not match;
 - reserved resource is no longer available;
 - provider token validation fails.
+
+NDNSF-DI additionally rejects when role id or fragment key does not match the
+DI lease binding.
 
 ## Rejection Result
 
@@ -53,6 +61,6 @@ Rejected selections must expose a structured reason so the user can replan:
   "status": false,
   "reasonCode": "LEASE_EXPIRED",
   "leaseId": "<lease-id>",
-  "roleId": "/Stage/0"
+  "serviceName": "/Inference/NativeTracer"
 }
 ```

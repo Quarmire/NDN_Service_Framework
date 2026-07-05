@@ -1,30 +1,34 @@
-# Contract: Runtime-Aware ACK Payload
+# Contract: Runtime-Aware ACK Metadata
 
 ## Purpose
 
 Allow a provider ACK to carry enough runtime information for a user-side planner
 to make a current assignment decision without making the provider responsible
-for global planning.
+for global planning. The outer envelope is reusable NDNSF core metadata; the DI
+payload is service-defined.
 
 ## Logical Shape
 
 ```json
 {
-  "schema": "ndnsf-di-runtime-ack-v1",
-  "providerRuntimeState": {
+  "schema": "ndnsf-ack-metadata-v1",
+  "providerRuntimeHint": {
     "providerName": "/provider/A",
     "timestampMs": 0,
     "activeRoleCount": 0,
     "queueLength": 0,
     "estimatedQueueWaitMs": 0,
-    "freeGpuMemoryMb": 0,
-    "freeCpuMemoryMb": 0,
-    "supportedBackends": ["onnx-cpu", "onnx-cuda"],
-    "fragmentStates": [],
+    "capacityHints": {},
     "peerMetrics": [],
     "confidence": 1.0
   },
   "leaseOffers": [],
+  "servicePayloadSchema": "ndnsf-di-runtime-ack-v1",
+  "servicePayload": {
+    "fragmentStates": [],
+    "diCapacityHints": {},
+    "kvCacheHints": []
+  },
   "metricDigest": "",
   "notes": ""
 }
@@ -38,9 +42,11 @@ for global planning.
   conservative scoring.
 - If runtime-aware mode is required, missing fields produce a structured
   unsupported-feature reason.
+- NDNSF core validates only the generic envelope and lease envelope. NDNSF-DI
+  validates `servicePayload`.
 
 ## Required Validation
 
 - Provider name in runtime state must match the ACK provider.
 - Lease offers must bind the same request id as the ACK.
-- Fragment keys in lease offers must match the role being offered.
+- DI resource bindings inside lease offers must match the role being offered.

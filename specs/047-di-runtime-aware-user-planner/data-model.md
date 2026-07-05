@@ -59,6 +59,106 @@ Validation:
 - Selected leases must be unexpired at selection time.
 - Dependency edges must have an estimated edge cost.
 
+## GenericAckMetadata
+
+NDNSF core envelope for structured provider metadata carried by ACKs.
+
+Fields:
+- `schema`
+- `providerRuntimeHint`
+- `leaseOffers`
+- `servicePayloadSchema`
+- `servicePayload`
+- `metricDigest`
+- `notes`
+
+Validation:
+- Provider identity must match the ACK provider.
+- Core validates generic fields only.
+- Service-specific payloads are interpreted by the application layer.
+
+## GenericProviderRuntimeHint
+
+NDNSF core provider state summary reusable by non-DI applications.
+
+Fields:
+- `providerName`
+- `timestampMs`
+- `activeWorkCount`
+- `queueLength`
+- `estimatedQueueWaitMs`
+- `capacityHints`
+- `peerMetrics`
+- `confidence`
+
+Validation:
+- Negative queue or work counts are invalid.
+- Capacity hints are typed key/value metadata and must not require DI semantics.
+
+## PeerNetworkMetric
+
+NDNSF core directed provider-to-provider or provider-to-peer metric.
+
+Fields:
+- `srcPeer`
+- `dstPeer`
+- `rttMs`
+- `bandwidthMbps`
+- `lossRate`
+- `jitterMs`
+- `bytesSampled`
+- `updatedAtMs`
+- `confidence`
+
+Validation:
+- Metrics are directed.
+- Loss rate must be between 0 and 1.
+- Bandwidth must be positive when present.
+
+## GenericAdmissionLease
+
+NDNSF core short-lived provider admission reservation.
+
+Fields:
+- `leaseId`
+- `requestId`
+- `serviceName`
+- `providerName`
+- `status`
+- `reasonCode`
+- `estimatedStartMs`
+- `estimatedFinishMs`
+- `expiresAtMs`
+- `resourceBindingSchema`
+- `resourceBinding`
+
+Validation:
+- Valid leases require `leaseId`, `requestId`, `serviceName`, `providerName`,
+  and `expiresAtMs`.
+- The core stores and compares resource binding bytes or digest, but does not
+  interpret service-specific payloads.
+
+## GenericLeaseValidationResult
+
+NDNSF core decision when consuming a selected lease.
+
+Fields:
+- `status`
+- `reasonCode`
+- `leaseId`
+- `requestId`
+- `serviceName`
+- `providerName`
+
+Reason examples:
+- `LEASE_EXPIRED`
+- `LEASE_NOT_FOUND`
+- `LEASE_ALREADY_CONSUMED`
+- `LEASE_REQUEST_MISMATCH`
+- `LEASE_SERVICE_MISMATCH`
+- `LEASE_BINDING_MISMATCH`
+- `QUEUE_OVERLOADED`
+
 ## ModelFragmentKey
 
 Canonical fragment identity.
@@ -84,7 +184,7 @@ Validation:
 - `shardIndex < shardCount`.
 - Layer range must be valid for the model spec.
 
-## FragmentRuntimeState
+## DiFragmentRuntimeState
 
 Provider-reported state for one fragment.
 
@@ -108,9 +208,10 @@ Validation:
 - `estimatedReadyMs` is zero or near-zero for GPU-loaded fragments.
 - Missing fragments must carry high ready cost.
 
-## ProviderRuntimeState
+## DiProviderRuntimeState
 
-Provider dynamic runtime state used during planning.
+DI-specific provider dynamic runtime state used during planning. It is carried
+inside `GenericAckMetadata.servicePayload`.
 
 Fields:
 - `providerName`
@@ -122,59 +223,49 @@ Fields:
 - `freeCpuMemoryMb`
 - `supportedBackends`
 - `fragmentStates`
-- `peerMetrics`
+- `kvCacheHints`
 - `confidence`
 
 Validation:
 - Timestamp must be present.
 - Negative memory or queue values are invalid.
-- Peer metrics are directed.
+- Generic queue and peer metrics should be taken from `GenericProviderRuntimeHint`.
 
-## ProviderPairMetric
+## DiLeaseResourceBinding
 
-Directed provider-to-provider network metric.
-
-Fields:
-- `srcProvider`
-- `dstProvider`
-- `rttMs`
-- `bandwidthMbps`
-- `lossRate`
-- `jitterMs`
-- `bytesSampled`
-- `updatedAtMs`
-- `confidence`
-
-Validation:
-- `srcProvider != dstProvider` unless local-edge optimization is explicitly represented.
-- Bandwidth must be positive when present.
-- Loss rate must be between 0 and 1.
-
-## LeaseOffer
-
-Short-lived provider admission reservation.
+DI-specific resource payload carried by `GenericAdmissionLease`.
 
 Fields:
-- `leaseId`
-- `requestId`
-- `providerName`
 - `roleId`
 - `fragmentKey`
-- `status`
-- `reasonCode`
+- `residency`
 - `reservedGpuMemoryMb`
-- `reservedQueueSlot`
-- `estimatedStartMs`
-- `estimatedFinishMs`
-- `expiresAtMs`
+- `reservedCpuMemoryMb`
+- `estimatedReadyMs`
 
 Validation:
-- Valid lease must include `leaseId`, `requestId`, `roleId`, `fragmentKey`, and `expiresAtMs`.
-- Rejected offers must include a reason code.
+- Role id must match the selected DI role.
+- Fragment key must match the offered DI fragment.
+- The payload is opaque to NDNSF core except for byte/digest comparison.
 
-## LeaseValidationResult
+## ProviderNetworkMatrix
 
-Provider decision when consuming a selected lease.
+DI planner view over generic directed peer metrics.
+
+Fields:
+- `metrics`
+- `defaultRttMs`
+- `defaultBandwidthMbps`
+- `stalePenaltyMs`
+- `unknownPenaltyMs`
+
+Validation:
+- Missing directed metrics must fall back conservatively.
+- Stale or low-confidence metrics must be penalized.
+
+## DiLeaseValidationResult
+
+DI decision after core lease validation succeeds.
 
 Fields:
 - `status`
@@ -186,13 +277,9 @@ Fields:
 - `providerName`
 
 Reason examples:
-- `LEASE_EXPIRED`
-- `LEASE_NOT_FOUND`
-- `LEASE_ALREADY_CONSUMED`
 - `LEASE_ROLE_MISMATCH`
 - `LEASE_FRAGMENT_MISMATCH`
 - `FRAGMENT_EVICTED`
-- `QUEUE_OVERLOADED`
 - `INSUFFICIENT_GPU_MEMORY`
 
 ## ReplanRecord
