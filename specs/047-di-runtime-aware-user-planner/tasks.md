@@ -73,16 +73,18 @@
 - [ ] T023 [P] [US2] Add generic selection validation test for expired/mismatched/already-consumed leases in `tests/python/test_ndnsf_core_admission_metadata.py`
 - [ ] T024 [P] [US2] Add DI binding validation test for role/fragment mismatch in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 - [ ] T025 [P] [US2] Add C++ or shell smoke test ensuring provider rejects invalid lease before role execution in a focused NDNSF runtime regression
+- [ ] T026 [P] [US2] Add compatibility smoke test proving a non-lease service still executes with the current ACK/Selection/Response path
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Implement generic provider lease table model in NDNSF core runtime support under `ndn-service-framework/`
-- [ ] T027 [US2] Extend ACK runtime payload builder with generic `GenericAdmissionLease` fields in `ndn-service-framework/ServiceProvider.cpp`
-- [ ] T028 [US2] Extend selection payload parsing to carry generic lease id, service name, and resource binding proof in `ndn-service-framework/ServiceUser.cpp`
-- [ ] T029 [US2] Implement provider-side generic lease validation before selected service execution in `ndn-service-framework/ServiceProvider.cpp`
-- [ ] T030 [US2] Implement DI resource binding validation for role id and fragment key in the NDNSF-DI provider path
-- [ ] T031 [US2] Add structured generic and DI lease rejection reasons to provider/user diagnostics in `ndn-service-framework/ServiceProvider.cpp`, `ndn-service-framework/ServiceUser.cpp`, and DI runtime logs
-- [ ] T032 [US2] Validate US2 with core lease unit tests, DI binding tests, and focused provider selection smoke test
+- [ ] T027 [US2] Implement generic provider lease table model in NDNSF core runtime support under `ndn-service-framework/`
+- [ ] T028 [US2] Extend ACK runtime payload builder with optional generic `GenericAdmissionLease` fields in `ndn-service-framework/ServiceProvider.cpp`
+- [ ] T029 [US2] Extend selection payload parsing to optionally carry generic lease id, service name, and resource binding proof in `ndn-service-framework/ServiceUser.cpp`
+- [ ] T030 [US2] Implement opt-in provider-side generic lease validation before selected service execution in `ndn-service-framework/ServiceProvider.cpp`
+- [ ] T031 [US2] Preserve current non-lease service behavior when lease validation is disabled in `ndn-service-framework/ServiceProvider.cpp` and `ndn-service-framework/ServiceUser.cpp`
+- [ ] T032 [US2] Implement DI resource binding validation for role id and fragment key in the NDNSF-DI provider path
+- [ ] T033 [US2] Add structured generic and DI lease rejection reasons to provider/user diagnostics in `ndn-service-framework/ServiceProvider.cpp`, `ndn-service-framework/ServiceUser.cpp`, and DI runtime logs
+- [ ] T034 [US2] Validate US2 with core lease unit tests, DI binding tests, non-lease compatibility smoke test, and focused provider selection smoke test
 
 **Checkpoint**: Concurrent users can receive independent ACKs, but provider lease validation controls execution.
 
@@ -96,19 +98,19 @@
 
 ### Tests for User Story 3
 
-- [ ] T033 [P] [US3] Add generic directed peer metric parsing test in `tests/python/test_ndnsf_core_admission_metadata.py`
-- [ ] T034 [P] [US3] Add DI edge-cost scoring test for bandwidth/RTT/loss/jitter in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T035 [P] [US3] Add stale/unknown metric penalty test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T036 [P] [US3] Add graph assignment test where edge-aware placement beats compute-only placement in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T035 [P] [US3] Add generic directed peer metric parsing test in `tests/python/test_ndnsf_core_admission_metadata.py`
+- [ ] T036 [P] [US3] Add DI edge-cost scoring test for bandwidth/RTT/loss/jitter in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T037 [P] [US3] Add stale/unknown metric penalty test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T038 [P] [US3] Add graph assignment test where edge-aware placement beats compute-only placement in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 ### Implementation for User Story 3
 
-- [ ] T037 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
-- [ ] T038 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T039 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T040 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T041 [US3] Add edge-cost details to selected assignment output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
-- [ ] T042 [US3] Validate US3 with graph assignment fixture tests
+- [ ] T039 [US3] Implement generic `PeerNetworkMetric` envelope support in NDNSF core runtime metadata paths
+- [ ] T040 [US3] Implement DI `ProviderNetworkMatrix` helper over generic peer metrics in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [ ] T041 [US3] Implement DI dependency edge byte-size and transfer-cost estimator in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [ ] T042 [US3] Integrate node-cost plus edge-cost assignment scoring in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [ ] T043 [US3] Add edge-cost details to selected assignment output in `examples/python/NDNSF-DistributedInference/native_di_tracer/plan_tracer.py`
+- [ ] T044 [US3] Validate US3 with graph assignment fixture tests
 
 **Checkpoint**: Planner treats NDNSF-DI as graph placement, not independent provider ranking.
 
@@ -122,16 +124,16 @@
 
 ### Tests for User Story 4
 
-- [ ] T043 [P] [US4] Add replan record serialization test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T044 [P] [US4] Add bounded replan test for `FRAGMENT_EVICTED` in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T045 [P] [US4] Add max-attempt failure test with structured planner reason in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T045 [P] [US4] Add replan record serialization test in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T046 [P] [US4] Add bounded replan test for `FRAGMENT_EVICTED` in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T047 [P] [US4] Add max-attempt failure test with structured planner reason in `tests/python/test_ndnsf_di_runtime_aware_planner.py`
 
 ### Implementation for User Story 4
 
-- [ ] T046 [US4] Implement `ReplanRecord` model and exclusion list handling in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
-- [ ] T047 [US4] Add bounded replan loop to NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
-- [ ] T048 [US4] Emit replan count and reason into planner metrics in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
-- [ ] T049 [US4] Validate US4 with fixture tests
+- [ ] T048 [US4] Implement `ReplanRecord` model and exclusion list handling in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`
+- [ ] T049 [US4] Add bounded replan loop to NativeTracer user-side planner path in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
+- [ ] T050 [US4] Emit replan count and reason into planner metrics in `examples/python/NDNSF-DistributedInference/native_di_tracer/user_driver.py`
+- [ ] T051 [US4] Validate US4 with fixture tests
 
 **Checkpoint**: Runtime-aware user-side planning recovers from stale leases within bounded attempts.
 
@@ -145,17 +147,17 @@
 
 ### Tests for User Story 5
 
-- [ ] T050 [P] [US5] Add dry-run test for multi-user runtime-aware campaign arguments in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
-- [ ] T051 [P] [US5] Add parser test for planner metrics aggregation in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [ ] T052 [P] [US5] Add dry-run test for multi-user runtime-aware campaign arguments in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [ ] T053 [P] [US5] Add parser test for planner metrics aggregation in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`
 
 ### Implementation for User Story 5
 
-- [ ] T052 [US5] Add multi-user workload mode to `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T053 [US5] Add asymmetric provider-to-provider link profile to `Experiments/Topology/AI_Lab.conf` or a new DI topology fixture
-- [ ] T054 [US5] Add runtime-aware planner mode flags to `tools/ndnsf_runtime.py di run` passthrough documentation and profile defaults
-- [ ] T055 [US5] Emit planner metrics JSON/CSV from MiniNDN campaign in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T056 [US5] Add campaign summary fields for p50/p95 latency, success rate, utilization, lease counters, residency counters, edge-cost summary, and replan count in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
-- [ ] T057 [US5] Run a short MiniNDN validation campaign and save canonical command/results summary under `docs/` or tracked experiment documentation
+- [ ] T054 [US5] Add multi-user workload mode to `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [ ] T055 [US5] Add asymmetric provider-to-provider link profile to `Experiments/Topology/AI_Lab.conf` or a new DI topology fixture
+- [ ] T056 [US5] Add runtime-aware planner mode flags to `tools/ndnsf_runtime.py di run` passthrough documentation and profile defaults
+- [ ] T057 [US5] Emit planner metrics JSON/CSV from MiniNDN campaign in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [ ] T058 [US5] Add campaign summary fields for p50/p95 latency, success rate, utilization, lease counters, residency counters, edge-cost summary, and replan count in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`
+- [ ] T059 [US5] Run a short MiniNDN validation campaign and save canonical command/results summary under `docs/` or tracked experiment documentation
 
 **Checkpoint**: Feature has measurable MiniNDN evidence for multi-user and provider-pair network behavior.
 
@@ -165,16 +167,16 @@
 
 **Purpose**: Documentation, security checks, and regression cleanup.
 
-- [ ] T058 [P] Update `docs/NDNSF-DI-runtime-workflow.md` with runtime-aware planner workflow and metrics outputs
-- [ ] T059 [P] Update `docs/native-di-roadmap.md` with plan-template versus runtime-assignment and edge-aware planning rationale
-- [ ] T060 [P] Update generic NDNSF framework docs to describe reusable admission lease, ACK metadata, and peer telemetry boundaries
-- [ ] T061 Run focused token/security regressions covering UserToken/ProviderToken and selection validation paths
-- [ ] T062 Run generic core admission metadata tests
-- [ ] T063 Run `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
-- [ ] T064 Run `python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py`
-- [ ] T065 Run `python3 tools/ndnsf_runtime.py di validate`
-- [ ] T066 Run `git diff --check`
-- [ ] T067 Record final validation commands and known limitations in `specs/047-di-runtime-aware-user-planner/quickstart.md`
+- [ ] T060 [P] Update `docs/NDNSF-DI-runtime-workflow.md` with runtime-aware planner workflow and metrics outputs
+- [ ] T061 [P] Update `docs/native-di-roadmap.md` with plan-template versus runtime-assignment and edge-aware planning rationale
+- [ ] T062 [P] Update generic NDNSF framework docs to describe reusable admission lease, ACK metadata, and peer telemetry boundaries
+- [ ] T063 Run focused token/security regressions covering UserToken/ProviderToken and selection validation paths
+- [ ] T064 Run generic core admission metadata tests
+- [ ] T065 Run `python3 tests/python/test_ndnsf_di_runtime_aware_planner.py`
+- [ ] T066 Run `python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py`
+- [ ] T067 Run `python3 tools/ndnsf_runtime.py di validate`
+- [ ] T068 Run `git diff --check`
+- [ ] T069 Record final validation commands and known limitations in `specs/047-di-runtime-aware-user-planner/quickstart.md`
 
 ---
 
@@ -204,8 +206,8 @@
 - T002, T003, T004 can run in parallel.
 - T007 and T009 can run in parallel after T006 begins.
 - US1 tests T012-T014 can be written in parallel.
-- US3 tests T029-T032 can be written in parallel.
-- Documentation tasks T058, T059, and T060 can be done in parallel after implementation behavior stabilizes.
+- US3 tests T035-T038 can be written in parallel.
+- Documentation tasks T060, T061, and T062 can be done in parallel after implementation behavior stabilizes.
 
 ## Implementation Strategy
 

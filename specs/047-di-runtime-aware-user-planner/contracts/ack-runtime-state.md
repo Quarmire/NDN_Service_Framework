@@ -38,12 +38,17 @@ payload is service-defined.
 
 - Existing ACK status, message, payload, UserToken, and ProviderToken behavior
   must remain valid.
+- Services that do not opt into admission leases may ignore `leaseOffers`.
+- The absence of `leaseOffers` must not change legacy behavior unless the user
+  request or service configuration explicitly requires lease-aware admission.
 - If runtime-aware mode is optional, missing payload fields fall back to
   conservative scoring.
 - If runtime-aware mode is required, missing fields produce a structured
   unsupported-feature reason.
 - NDNSF core validates only the generic envelope and lease envelope. NDNSF-DI
   validates `servicePayload`.
+- ProviderToken remains the security/selection proof. Admission lease metadata
+  is only an admission/resource proof.
 
 ## Required Validation
 

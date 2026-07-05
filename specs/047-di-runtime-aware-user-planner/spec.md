@@ -109,6 +109,10 @@ Researchers run a MiniNDN campaign that compares static user-side planning with 
 ### Edge Cases
 
 - Provider ACK omits runtime state or lease fields; the planner must fall back to legacy compatibility or conservative scoring.
+- A non-DI application such as UAV or DistributedRepo does not enable admission
+  leases; its existing ACK/Selection/Response behavior must remain unchanged.
+- A service enables admission leases but receives a selection without a lease;
+  the provider must reject with a structured admission reason before execution.
 - Provider-to-provider metrics are asymmetric; P1-to-P2 and P2-to-P1 must be treated as different edges.
 - Provider state is stale by the time selection arrives; lease validation must be authoritative.
 - A provider evicts a fragment after ACK but before execution; selection/execution must fail with structured reason and trigger bounded replan.
@@ -128,23 +132,26 @@ Researchers run a MiniNDN campaign that compares static user-side planning with 
 - **FR-003**: NDNSF core MUST provide a generic ACK metadata envelope that can carry structured service-defined runtime hints without requiring the core to understand application-specific fields.
 - **FR-004**: NDNSF core MUST provide a generic admission lease envelope that binds request id, service name, provider identity, expiration time, estimated start/finish time, status, reason code, and an opaque service-defined resource binding payload.
 - **FR-005**: NDNSF core MUST allow provider selection to carry a selected lease id and resource binding proof so the provider can validate admission before execution.
-- **FR-006**: NDNSF core MUST reject expired, missing, mismatched, or already-consumed leases before executing the selected service handler.
-- **FR-007**: NDNSF core MUST expose reusable provider runtime hints such as queue length, active work count, estimated queue wait, available capacity hints, timestamp, and confidence without defining DI-specific resources.
-- **FR-008**: NDNSF core MUST expose directed peer network telemetry such as peer name, RTT, bandwidth, loss, jitter, timestamp, and confidence in a form reusable by non-DI applications.
-- **FR-009**: NDNSF-DI MUST define a canonical model fragment identity that distinguishes model id, model version or digest, runtime backend, precision, split strategy, stage/layer range, shard index, and fragment digest.
-- **FR-010**: NDNSF-DI MUST define fragment residency levels including GPU-loaded, CPU-resident, disk-resident, repo-available, and missing as DI-specific runtime hints.
-- **FR-011**: NDNSF-DI MUST define a DI lease resource binding payload that binds role id, model fragment identity, residency, reserved GPU/CPU memory hints, and DI-specific readiness estimates inside the generic NDNSF core lease.
-- **FR-012**: The NDNSF-DI planner MUST score an assignment as graph placement: role/provider node costs plus dependency/provider-pair edge costs.
-- **FR-013**: The DI edge cost MUST include provider-to-provider RTT and transfer time derived from dependency bytes and bandwidth, with penalties for loss, jitter, stale metrics, and unknown metrics.
-- **FR-014**: Provider ACKs MUST be able to carry generic core runtime metadata plus DI-specific runtime payloads while preserving compatibility with existing ACK selection behavior.
-- **FR-015**: Providers MUST release or expire leases predictably when roles complete, selections time out, or lease expiration is reached.
-- **FR-016**: The user-side planner MUST exclude invalid leases and providers during bounded replan attempts.
-- **FR-017**: The user-side planner MUST record structured reasons for assignment choice, rejected candidates, replan events, and final failure.
-- **FR-018**: The feature MUST expose metrics for lease granted/rejected/expired/consumed, residency hits, provider queue wait, dependency edge cost, replan count, selected assignments, p50/p95 latency, success rate, and provider utilization.
-- **FR-019**: The MiniNDN validation MUST include at least one multi-user scenario and one asymmetric provider-to-provider network scenario.
-- **FR-020**: Existing NDNSF security behavior MUST remain intact: NAC-ABE attributes, user/provider tokens, replay protection, provider permissions, and V2 naming must not be bypassed.
-- **FR-021**: Legacy non-runtime-aware ACKs MUST either remain usable through conservative scoring or fail with a clear unsupported-feature reason when runtime-aware mode is explicitly required.
-- **FR-022**: The design MUST support exact KV-cache locality as a future or optional DI node-cost input without confusing it with semantic cache matching.
+- **FR-006**: Admission lease validation MUST be opt-in per service or per request; services that do not enable it MUST keep current NDNSF behavior.
+- **FR-007**: NDNSF core MUST reject expired, missing, mismatched, or already-consumed leases before executing the selected service handler only when lease validation is enabled for that service/request.
+- **FR-008**: Admission leases MUST NOT replace ProviderToken, UserToken, NAC-ABE, provider permission checks, or replay protection.
+- **FR-009**: NDNSF core MUST expose reusable provider runtime hints such as queue length, active work count, estimated queue wait, available capacity hints, timestamp, and confidence without defining DI-specific resources.
+- **FR-010**: NDNSF core MUST expose directed peer network telemetry such as peer name, RTT, bandwidth, loss, jitter, timestamp, and confidence in a form reusable by non-DI applications.
+- **FR-011**: NDNSF-DI MUST define a canonical model fragment identity that distinguishes model id, model version or digest, runtime backend, precision, split strategy, stage/layer range, shard index, and fragment digest.
+- **FR-012**: NDNSF-DI MUST define fragment residency levels including GPU-loaded, CPU-resident, disk-resident, repo-available, and missing as DI-specific runtime hints.
+- **FR-013**: NDNSF-DI MUST define a DI lease resource binding payload that binds role id, model fragment identity, residency, reserved GPU/CPU memory hints, and DI-specific readiness estimates inside the generic NDNSF core lease.
+- **FR-014**: The NDNSF-DI planner MUST score an assignment as graph placement: role/provider node costs plus dependency/provider-pair edge costs.
+- **FR-015**: The DI edge cost MUST include provider-to-provider RTT and transfer time derived from dependency bytes and bandwidth, with penalties for loss, jitter, stale metrics, and unknown metrics.
+- **FR-016**: Provider ACKs MUST be able to carry generic core runtime metadata plus DI-specific runtime payloads while preserving compatibility with existing ACK selection behavior.
+- **FR-017**: Providers MUST release or expire leases predictably when roles complete, selections time out, or lease expiration is reached.
+- **FR-018**: The user-side planner MUST exclude invalid leases and providers during bounded replan attempts.
+- **FR-019**: The user-side planner MUST record structured reasons for assignment choice, rejected candidates, replan events, and final failure.
+- **FR-020**: The feature MUST expose metrics for lease granted/rejected/expired/consumed, residency hits, provider queue wait, dependency edge cost, replan count, selected assignments, p50/p95 latency, success rate, and provider utilization.
+- **FR-021**: The MiniNDN validation MUST include at least one multi-user scenario and one asymmetric provider-to-provider network scenario.
+- **FR-022**: Existing NDNSF security behavior MUST remain intact: NAC-ABE attributes, user/provider tokens, replay protection, provider permissions, and V2 naming must not be bypassed.
+- **FR-023**: Legacy non-runtime-aware ACKs MUST either remain usable through conservative scoring or fail with a clear unsupported-feature reason when runtime-aware mode is explicitly required.
+- **FR-024**: The design MUST support exact KV-cache locality as a future or optional DI node-cost input without confusing it with semantic cache matching.
+- **FR-025**: UAV-APP, DistributedRepo, and other existing applications MUST NOT be required to produce or consume lease metadata unless they explicitly opt into admission lease validation.
 
 ### Key Entities
 
@@ -176,6 +183,7 @@ Researchers run a MiniNDN campaign that compares static user-side planning with 
 - **SC-006**: MiniNDN campaign output contains p50/p95 latency, success rate, selected assignments, lease counters, residency hit counters, inter-provider edge costs, and provider utilization.
 - **SC-007**: In an asymmetric network MiniNDN topology, the edge-aware planner avoids a poor provider-provider dependency edge when an alternative assignment has lower estimated end-to-end cost.
 - **SC-008**: Existing focused security and token regressions remain passing after lease/ACK changes.
+- **SC-009**: Existing UAV and DistributedRepo smoke or documentation regressions continue to use their current non-lease invocation behavior unless explicitly configured otherwise.
 
 ## Assumptions
 
@@ -183,6 +191,8 @@ Researchers run a MiniNDN campaign that compares static user-side planning with 
 - Lease/admission is the concurrency-control boundary; users do not coordinate directly with each other.
 - Provider-to-provider network metrics can initially come from configured MiniNDN topology, passive dependency transfer timing, or synthetic provider ACK fixtures.
 - Runtime-aware mode may be enabled per DI workload/profile so existing non-DI examples do not need to change immediately.
+- Admission lease validation is an optional admission-control layer, not a
+  mandatory part of every NDNSF service call.
 - Provider state reports are hints for planning; lease validation is authoritative.
 - Generic leases and peer telemetry should be useful for future non-DI applications; DI-specific fields must stay in opaque service-defined payloads from the core perspective.
 - Model fragment identity is digest-based where possible; human-readable stage names are not sufficient for equality.

@@ -6,6 +6,11 @@ Ensure a provider executes a role only when the user selected a lease that the
 provider actually granted and still considers valid. NDNSF core validates the
 generic lease; NDNSF-DI validates the DI resource binding payload.
 
+Admission lease validation is opt-in. A service that does not enable lease
+validation must continue to accept the current NDNSF selection flow, subject to
+the existing ProviderToken, UserToken, NAC-ABE, provider permission, and replay
+checks.
+
 ## Selection Entry Shape
 
 ```json
@@ -51,6 +56,9 @@ The provider must reject without executing when:
 
 NDNSF-DI additionally rejects when role id or fragment key does not match the
 DI lease binding.
+
+These lease checks run after the existing security checks are available and do
+not replace them.
 
 ## Rejection Result
 
