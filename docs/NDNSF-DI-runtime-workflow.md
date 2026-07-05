@@ -72,6 +72,21 @@ sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
 The default profile keeps `local_execution_only=true` so routine checks stay
 fast. Use `--no-local-execution-only` when you intentionally want MiniNDN.
 
+For the short full-network evidence path that exercises controller,
+providers, user driver, ACK/Selection/Response, and dependency exchange:
+
+```bash
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --out /tmp/ndnsf-spec047-full-network-audit \
+  --requests 2 \
+  --concurrency 1 \
+  --provider-check-timeout 60 \
+  --no-local-execution-only \
+  --full-network \
+  --tracer-deterministic-runner
+```
+
 ## Common Commands
 
 Single NativeTracer harness run:

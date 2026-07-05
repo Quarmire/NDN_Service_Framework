@@ -113,8 +113,48 @@ RuntimeError: module compiled against API version 0xe but this version of numpy 
 
 The warning is printed by an optional Python dependency during MiniNDN startup
 in this local environment. The command still returned 0 and completed the
-provider-check MiniNDN smoke. Full user/provider `--full-network` campaign
-latency evidence remains a heavier follow-up run.
+provider-check MiniNDN smoke.
+
+Implemented full-network evidence command:
+
+```bash
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --out /tmp/ndnsf-spec047-full-network-audit \
+  --requests 2 \
+  --concurrency 1 \
+  --provider-check-timeout 60 \
+  --no-local-execution-only \
+  --full-network \
+  --tracer-deterministic-runner
+```
+
+Observed result:
+
+```text
+status=SUCCESS
+miniNDNStatus=available-root
+miniNDNRun=started
+runnerMode=qwen-onnx-native
+securityBootstrap=executed
+userExecution=executed
+dependencyExecution=executed
+plannerMetrics=/tmp/ndnsf-spec047-full-network-audit/planner-metrics.json
+```
+
+Observed planner metrics:
+
+```text
+requestCount=2
+successCount=2
+successRate=1.0
+p50Ms=163.16181999900436
+p95Ms=343.0532000002131
+meanMs=253.10750999960874
+makespanMs=506.4827599999262
+meanEstimatedUtilization=0.287673
+replanCount=0
+```
 
 ## Final validation commands
 
@@ -132,5 +172,6 @@ python3 tools/ndnsf_runtime.py di run --dry-run
 python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --dry-run
 python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --out /tmp/ndnsf-spec047-local --local-execution-only
 sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --out /tmp/ndnsf-spec047-minindn-smoke --requests 2 --concurrency 1 --provider-check-timeout 45 --no-local-execution-only
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --out /tmp/ndnsf-spec047-full-network-audit --requests 2 --concurrency 1 --provider-check-timeout 60 --no-local-execution-only --full-network --tracer-deterministic-runner
 git diff --check
 ```
