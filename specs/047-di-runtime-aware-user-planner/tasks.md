@@ -78,8 +78,8 @@
 ### Implementation for User Story 2
 
 - [x] T027 [US2] Implement generic provider lease table model in NDNSF core runtime support under `ndn-service-framework/`
-- [ ] T028 [US2] Extend ACK runtime payload builder with optional generic `GenericAdmissionLease` fields in `ndn-service-framework/ServiceProvider.cpp`
-- [ ] T029 [US2] Extend selection payload parsing to optionally carry generic lease id, service name, and resource binding proof in `ndn-service-framework/ServiceUser.cpp`
+- [x] T028 [US2] Extend ACK runtime payload builder with optional generic `GenericAdmissionLease` fields in `ndn-service-framework/ServiceProvider.cpp`
+- [x] T029 [US2] Extend selection payload parsing to optionally carry generic lease id, service name, and resource binding proof in `ndn-service-framework/ServiceUser.cpp`
 - [x] T030 [US2] Implement opt-in provider-side generic lease validation before selected service execution in `ndn-service-framework/ServiceProvider.cpp`
 - [x] T031 [US2] Preserve current non-lease service behavior when lease validation is disabled in `ndn-service-framework/ServiceProvider.cpp` and `ndn-service-framework/ServiceUser.cpp`
 - [ ] T032 [US2] Implement DI resource binding validation for role id and fragment key in the NDNSF-DI provider path
