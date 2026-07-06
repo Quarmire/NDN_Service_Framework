@@ -207,14 +207,66 @@ campaign evidence and provide a repeatable multi-user RPS sweep wrapper.
 a real NativeTracer full-network path so multi-user campaigns can measure
 resource conflict control instead of only inventory reuse.
 
-- [ ] T081 Commit the stable provider-inventory and RPS-sweep work before lease edits
-- [ ] T082 Add NativeTracer lease task plan and validation notes to `docs/NDNSF-DI-runtime-workflow.md` and `quickstart.md`
-- [ ] T083 Extend `SelectedParticipant` / `AckSelectionCandidate` handling so collaboration selection can carry lease id and resource binding from ACK payload into Selection assignment payload
-- [ ] T084 Make `DI_NativeProviderExecutable` grant one generic admission lease per successful readiness ACK, with role/fragment resource binding proof
-- [ ] T085 Enable `setGenericAdmissionLeaseRequired()` for NativeTracer services and preserve non-lease compatibility when the flag is disabled
-- [ ] T086 Add tests for lease payload extraction, assignment payload merging, and provider accept/reject log aggregation
-- [ ] T087 Run focused C++ build/unit tests plus Python campaign tests
-- [ ] T088 Run a short lease-enabled multi-user MiniNDN RPS sweep and record observed lease counters, residency counters, p50/p95, and max stable RPS
+- [X] T081 Commit the stable provider-inventory and RPS-sweep work before lease edits
+- [X] T082 Add NativeTracer lease task plan and validation notes to `docs/NDNSF-DI-runtime-workflow.md` and `quickstart.md`
+- [X] T083 Extend `SelectedParticipant` / `AckSelectionCandidate` handling so collaboration selection can carry lease id and resource binding from ACK payload into Selection assignment payload
+- [X] T084 Make `DI_NativeProviderExecutable` grant one generic admission lease per successful readiness ACK, with role/fragment resource binding proof
+- [X] T085 Enable `setGenericAdmissionLeaseRequired()` for NativeTracer services and preserve non-lease compatibility when the flag is disabled
+- [X] T086 Add tests for lease payload extraction, assignment payload merging, and provider accept/reject log aggregation
+- [X] T087 Run focused C++ build/unit tests plus Python campaign tests
+- [X] T088 Run a short lease-enabled multi-user MiniNDN RPS sweep and record observed lease counters, residency counters, p50/p95, and max stable RPS
+
+Validation evidence for T088:
+
+```text
+resultDir=/tmp/ndnsf-di-lease-smoke-final/rps-0p2
+status=SUCCESS
+requestCount=2
+successCount=2
+successRate=1.0
+leaseCounters.granted=12
+leaseCounters.consumed=8
+leaseCounters.rejected=0
+observedResidencyCounters.CPU_RESIDENT=12
+observedResidencyCounters.DISK_RESIDENT=4
+p50Ms=126.8783830000757
+p95Ms=252.5117709992628
+maxStableRps=0.2
+providerFragmentInventory.eventCounters.EXECUTION_OBSERVED=8
+```
+
+Extended lease/no-lease sweep evidence from 2026-07-05:
+
+```text
+closedLoopLeaseDir=/tmp/ndnsf-di-lease-rps-sweep-enabled-20260705
+closedLoopNoLeaseDir=/tmp/ndnsf-di-lease-rps-sweep-disabled-20260705
+rps=0.2,0.4,0.8,1.2
+requests=4
+concurrency=2
+leaseEnabledResult=all points SUCCESS, successRate=1.0, maxStableRps=1.2
+noLeaseResult=all points SUCCESS, successRate=1.0, maxStableRps=1.2
+leaseCounters.enabled=granted=16 consumed=16 rejected=0 at every point
+leaseCounters.disabled=granted=0 consumed=0 rejected=0 at every point
+observedThroughput=about 0.203 RPS at every target RPS
+interpretation=closed-loop wrapper validates correctness but does not create higher offered load.
+```
+
+Open-loop comparison evidence from 2026-07-05:
+
+```text
+openLoopLeaseDir=/tmp/ndnsf-di-lease-rps-sweep-enabled-openloop-20260705
+openLoopNoLeaseDir=/tmp/ndnsf-di-lease-rps-sweep-disabled-openloop-20260705
+openLoopDurationS=20
+rps=0.2,0.4,0.8,1.2
+requests=4
+concurrency=2
+leaseEnabledMaxStableRps=0.2
+noLeaseMaxStableRps=0.2
+0.2Result=SUCCESS, successRate=1.0
+0.4/0.8/1.2Result=FAILURE, successRate=0.5
+failureReason=local-open-loop-backpressure before provider admission lease becomes the bottleneck.
+interpretation=current open-loop child-process user driver must be fixed or replaced before using this sweep to claim lease benefit under high concurrency.
+```
 
 ---
 

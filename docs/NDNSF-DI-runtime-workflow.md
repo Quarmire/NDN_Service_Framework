@@ -119,6 +119,25 @@ sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
   -- --provider-check-timeout 60
 ```
 
+Pure user-side versus advisory-coordinator RPS sweep:
+
+```bash
+sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
+  python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py \
+  --compare-advisory-coordinator \
+  --out /tmp/ndnsf-di-advisory-rps-sweep \
+  --rps 0.2,0.4,0.8,1.2 \
+  --requests 10 \
+  --concurrency 2 \
+  -- --provider-check-timeout 60
+```
+
+The `pure/` result tree uses normal user-side planning. The `advisory/` result
+tree starts `/NDNSF/Coordination/Advisory` as a normal NDNSF service and makes
+each user request a non-binding suggestion before local execution. Compare
+conflict counters, p50/p95 latency, failure rate, and max stable RPS in
+`rps-sweep-summary.json`.
+
 Planner-only LLM proportional RPS search:
 
 ```bash
@@ -167,6 +186,18 @@ Admission leases are opt-in. Existing non-lease services keep the current
 ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
 admission-control proof; it is not a replacement for those security checks.
+
+For multi-user contention, use the optional advisory coordinator contract in
+[SPEC048](../specs/048-di-advisory-coordinator/quickstart.md). The
+coordinator can suggest role/provider assignments across several user intents,
+but users still validate suggestions against their own current ACK candidates
+and providers still enforce leases. This keeps pure user-side planning as the
+default while providing a path to reduce avoidable provider conflicts.
+The generic coordination envelope behind that DI contract is documented in
+[SPEC049](../specs/049-core-coordination-envelope/quickstart.md): NDNSF core
+owns intent/suggestion freshness, proof, nonce, and opaque payload schema,
+while NDNSF-DI owns model fragments, stages, scoring, and role assignment
+payload interpretation.
 
 ## Runtime-Aware Campaign Outputs
 
@@ -231,18 +262,37 @@ This is the minimum evidence needed to show whether user-side plans are being
 controlled by provider admission leases and whether provider-local model
 fragments are actually being reused.
 
-The campaign harness scans provider logs for
-`NDNSF_ADMISSION_LEASE_ACCEPTED` and `NDNSF_ADMISSION_LEASE_REJECTED`. If the
-specific NativeTracer run does not enable generic admission leases, these
-counters are expected to stay at zero; the residency and latency fields still
-describe the runtime-aware assignment that was exercised.
+The campaign harness scans provider logs for NativeTracer lease grants plus
+`NDNSF_ADMISSION_LEASE_ACCEPTED` and `NDNSF_ADMISSION_LEASE_REJECTED`.
+NativeTracer full-network sweeps now enable generic admission leases by default:
+providers grant one lease in each successful readiness ACK, the Python
+collaboration selector copies `leaseId` and `resourceBindingProof` into each
+provider assignment payload, and providers consume the lease before executing
+the selected role. Use `--disable-native-admission-lease` on the RPS sweep
+wrapper only for an explicit no-lease comparison.
 
-The current NativeTracer full-network path has runtime-aware assignment,
-provider admission/backpressure, and provider-local inventory evidence. Generic
-admission lease validation exists in NDNSF core, but NativeTracer does not yet
-publish lease offers in ACKs and echo lease proofs in Selection. Treat
-`leaseCounters=0` as a NativeTracer integration gap, not as a failure of the
-inventory/RPS sweep machinery.
+Expected healthy lease-enabled evidence for a two-request four-role smoke is
+`granted > consumed`, `consumed = 8`, `rejected = 0`, and
+`providerFragmentInventory.eventCounters.EXECUTION_OBSERVED = 8`.
+
+Use two RPS modes carefully:
+
+- Closed-loop sweeps with `--requests` and `--concurrency` validate end-to-end
+  correctness, lease counters, residency counters, and latency, but
+  `--target-rps` is only planner/load evidence unless `--open-loop-duration-s`
+  is set. A 2026-07-05 lease/no-lease comparison at target RPS
+  `0.2,0.4,0.8,1.2` kept observed throughput near `0.203 RPS` for every
+  point, so it did not create a real high-load conflict.
+- Open-loop sweeps with `--open-loop-duration-s` do schedule by target rate.
+  The same 2026-07-05 comparison with a 20-second window succeeded at `0.2`
+  RPS, but `0.4`, `0.8`, and `1.2` failed with
+  `local-open-loop-backpressure` in both lease-enabled and no-lease runs. That
+  means the current user-side child-process driver hits local backpressure
+  before provider admission leases become the bottleneck.
+
+For a defensible high-concurrency lease result, first use or implement a user
+driver that can keep the offered load close to the target rate without local
+backpressure, then rerun the same lease/no-lease comparison.
 
 The multi-user fixture is:
 

@@ -206,12 +206,14 @@ GPU runtime/backend is configured. In `planner-metrics.json`,
 `residencyCounters` is the planner-selected residency view, while
 `observedResidencyCounters` is the provider-log observation view.
 
-Current limitation: NDNSF core generic admission leases are implemented and
-tested, but NativeTracer does not yet include lease offers in ACKs or echo
-lease proofs in Selection. A NativeTracer RPS sweep therefore quantifies
-runtime-aware assignment, provider-local fragment reuse, and
-admission/backpressure behavior; `leaseCounters` may remain zero until the
-NativeTracer lease payload path is wired.
+NativeTracer RPS sweeps enable generic admission leases by default. Each
+successful provider readiness ACK carries a lease offer; the collaboration
+selector echoes the selected provider's `leaseId` and `resourceBindingProof` in
+the Selection assignment payload; the provider consumes that lease before role
+execution. Use `--disable-native-admission-lease` only when comparing against a
+no-lease baseline. A healthy two-request four-role smoke should report
+`leaseCounters.consumed = 8`, `leaseCounters.rejected = 0`, and
+`providerFragmentInventory.eventCounters.EXECUTION_OBSERVED = 8`.
 
 ## Final validation commands
 
@@ -225,6 +227,7 @@ PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_core_admis
 PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_planner.py
 PYTHONPATH=NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py
 python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py --dry-run --out /tmp/ndnsf-spec047-rps-sweep-dry-run --rps 0.2,0.4 --requests 2 --concurrency 2 -- --provider-check-timeout 60
+sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py --out /tmp/ndnsf-spec047-lease-smoke --rps 0.2 --requests 1 --concurrency 1 -- --provider-check-timeout 60
 python3 tools/ndnsf_runtime.py di validate
 python3 tools/ndnsf_runtime.py di run --dry-run
 python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --runtime-profile examples/di-native-tracer.runtime.json --dry-run
