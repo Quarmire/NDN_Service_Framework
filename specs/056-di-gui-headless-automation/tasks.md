@@ -103,6 +103,18 @@
 - [x] T048 Validate CSV generation against the real GUI Qwen MiniNDN sweep
       evidence directory.
 
+## Phase 10 - GUI Sweep Markdown Report
+
+- [x] T049 Write a sibling Markdown report next to the GUI aggregate JSON and
+      CSV.
+- [x] T050 Include total/success/failed runs, best p50, best throughput,
+      provider utilization, failure diagnostics, and per-run `summary.json`
+      paths.
+- [x] T051 Add Xvfb widget coverage for Markdown report generation from
+      representative run summaries.
+- [x] T052 Validate Markdown generation against the real GUI Qwen MiniNDN sweep
+      evidence directory.
+
 ## Evidence
 
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_gui.py Experiments/NDNSF_DI_GUI.py Experiments/NDNSF_DI_GUI_Minindn.py`: passed.
@@ -127,3 +139,6 @@
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 <inline GUI Run Sweep driver>`: passed a real non-headless GUI sweep with `Target RPS sweep list=0.2,0.4`, `Sweep repeats=1`, `Dry run only=false`, and `Wrap with sudo -n env=true`. Aggregate summary `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-summary.json` reported `ok=true`, two runs, both `status=SUCCESS`, both `runnerMode=qwen-onnx-native`, both `successCount=2`, `failureCount=0`; p50/p95 were `186.23/355.94 ms` for `rps=0.2 run=1` and `200.11/321.41 ms` for `rps=0.4 run=1`.
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 9 tests passed after adding CSV report generation.
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 <inline GUI CSV export check>`: passed against `/tmp/ndnsf-di-gui-qwen-real-sweep`, wrote `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-report.csv` with two rows. The rows include `targetRps=0.2/0.4`, `successRate=1.0`, `throughputRps=3.68/3.83`, `dependencyStatus=executed`, `providerCount=3`, and `providerMeanUtilization=0.280372/0.265451`.
+- `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py Experiments/NDNSF_DI_GUI.py`: passed after adding Markdown report generation.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 9 tests passed after extending CSV coverage to Markdown report generation.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 <inline GUI Markdown export check>`: passed against `/tmp/ndnsf-di-gui-qwen-real-sweep`, wrote `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-markdown-report.md` with best p50, best throughput, no failed runs, provider utilization summary, and the two per-run `summary.json` paths.
