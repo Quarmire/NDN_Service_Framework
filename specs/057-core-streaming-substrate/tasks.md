@@ -86,3 +86,9 @@
 
 - [x] T041 Move the streaming substrate boundary and live-smoke recipe into tracked feature documentation.
 - [x] T042 Keep ignored `docs/` output out of commits while preserving the evidence in `specs/057-core-streaming-substrate/streaming-substrate.md`.
+
+## Phase 14: Lossy MiniNDN Stream Smoke
+
+- [x] T043 Run the UAV MiniNDN quick smoke on `Experiments/Topology/UAV(loss=5%)`.
+- [x] T044 Run headless-drone auto video smoke on the 5% loss topology.
+- [x] T045 Record decoded-frame, packet, FEC-group, and clean-stop evidence for the 5% loss run.

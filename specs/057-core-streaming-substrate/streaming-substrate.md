@@ -105,3 +105,29 @@ The July 7, 2026 smoke run under
 the ground station logged `GS_DECODED_FRAMES count=30` and reached 88 decoded
 frames before stop, and the drone logged both `video streaming` and
 `video stopped`.
+
+The 5% lossy MiniNDN smoke uses `Experiments/Topology/UAV(loss=5%)`, where the
+nodes are `drone1` and `gs1`:
+
+```bash
+python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --quick-smoke --no-cli --drone-headless --camera-mode file \
+  --topology-file 'Experiments/Topology/UAV(loss=5%)' \
+  --controller-node gs1 --gs-node gs1 --drone-node drone1
+
+sudo -E timeout 220s xvfb-run -a \
+  python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+    --no-cli --no-xhost --drone-headless --camera-mode file \
+    --topology-file 'Experiments/Topology/UAV(loss=5%)' \
+    --controller-node gs1 --gs-node gs1 --drone-node drone1 \
+    --auto-video-test --auto-stop-seconds 10 --auto-start-delay-ms 1000 \
+    --video-bitrate-kbps 1200 --video-width 320 \
+    --output-dir results/uav_core_stream_loss5_smoke_<timestamp>
+```
+
+The July 7, 2026 5% loss run under
+`results/uav_core_stream_loss5_smoke_20260707_172517` also passed with
+`NDNSF_UAV_GUI_MININDN_SMOKE_OK`. The drone published 42 stream packets across
+12 FEC groups, the ground station logged `GS_DECODED_FRAMES count=30` and
+reached 194 decoded frames before stop, and the ground station exited with
+`GS_GUI_EXIT rc=0`.
