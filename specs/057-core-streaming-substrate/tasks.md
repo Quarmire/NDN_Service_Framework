@@ -38,7 +38,7 @@
 
 ## Phase 6: Documentation
 
-- [x] T016 Add `docs/streaming-substrate.md` with NDNSF/UAV boundary and migration mapping.
+- [x] T016 Add `specs/057-core-streaming-substrate/streaming-substrate.md` with NDNSF/UAV boundary and migration mapping.
 - [x] T017 Update `pythonWrapper/README.md` and `pythonWrapper/README_ch.md` with a short API entry.
 - [x] T018 Update `NDNSF-UAV-APP/README.md` and `NDNSF-UAV-APP/README_ch.md` to reference the core substrate boundary.
 
@@ -81,3 +81,8 @@
 - [x] T038 Run the UAV MiniNDN quick smoke for binary/config/topology readiness.
 - [x] T039 Run headless-drone auto video smoke through `Experiments/NDNSF_UAV_GUI_Minindn.py`.
 - [x] T040 Verify the live stream starts, produces drone-owned video Data, decodes frames at the ground station, and stops cleanly.
+
+## Phase 13: Durable Documentation
+
+- [x] T041 Move the streaming substrate boundary and live-smoke recipe into tracked feature documentation.
+- [x] T042 Keep ignored `docs/` output out of commits while preserving the evidence in `specs/057-core-streaming-substrate/streaming-substrate.md`.

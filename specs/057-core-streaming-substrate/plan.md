@@ -67,12 +67,10 @@ tests/unit-tests/
 tests/python/
 └── test_ndnsf_core_streaming.py
 
-docs/
-└── streaming-substrate.md
-
 specs/057-core-streaming-substrate/
 ├── spec.md
 ├── plan.md
+├── streaming-substrate.md
 └── tasks.md
 ```
 
@@ -91,3 +89,6 @@ specs/057-core-streaming-substrate/
 PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_streaming.py
 PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_coordination.py
 ```
+
+The live MiniNDN validation recipe and July 7, 2026 smoke evidence are recorded
+in [streaming-substrate.md](streaming-substrate.md).
