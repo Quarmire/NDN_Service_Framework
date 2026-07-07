@@ -109,6 +109,43 @@ examples/python/NDNSF-DistributedInference/gui_three_role_profile.json
 The GUI is an operator entrypoint. CLI commands below remain the reproducible
 evidence path for MiniNDN campaigns and paper-quality measurements.
 
+Headless GUI automation uses the same profile and runtime controller as the Tk
+tabs, but does not create a display window. Use fake mode for CI-style logic
+checks:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 Experiments/NDNSF_DI_GUI.py \
+    -headless \
+    -controller_auto_run \
+    -provider_auto_run \
+    -user_auto_run \
+    -user_config=examples/python/NDNSF-DistributedInference/gui_user_hello.config \
+    -provider_config=examples/python/NDNSF-DistributedInference/gui_provider_hello.config \
+    -controller_config=examples/python/NDNSF-DistributedInference/gui_controller_hello.config \
+    --runtime-mode fake \
+    --send-user-request \
+    --output-json /tmp/ndnsf-di-gui-headless.json
+```
+
+Use `--runtime-mode direct` only inside a prepared NFD or MiniNDN environment,
+because it constructs the real `ServiceController`, `ServiceProvider`, and
+`ServiceUser` wrapper objects. The `-user_config`, `-provider_config`, and
+`-controller_config` files are JSON role overrides; they may also be wrapped
+under a top-level `user`, `provider`, or `controller` key.
+
+MiniNDN GUI preflight without opening the window:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 Experiments/NDNSF_DI_GUI_Minindn.py --preflight-only
+```
+
+This preflight verifies imports, policy loading, and the headless fake
+Controller/Provider/User request path. Add `--run-minindn --case yolo-2x2` when
+you also want the existing MiniNDN regression before launching or skipping the
+GUI.
+
 Single NativeTracer harness run:
 
 ```bash
