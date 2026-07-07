@@ -146,6 +146,26 @@ Controller/Provider/User request path. Add `--run-minindn --case yolo-2x2` when
 you also want the existing MiniNDN regression before launching or skipping the
 GUI.
 
+GUI tests are layered:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 tests/python/test_ndnsf_di_tk_gui.py
+
+xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 tests/python/test_ndnsf_di_tk_widgets.py
+
+xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 tests/python/test_ndnsf_di_gui_visual_smoke.py
+```
+
+The first command tests the non-display headless/runtime helpers. The second
+creates a real Tk window under Xvfb and checks the `User`, `Provider`, and
+`Controller` tabs, editable fields, Run buttons, and User request panel through
+the same fake runtime factory. The third is optional and only captures a real
+window screenshot when PyAutoGUI is installed; it is not the source of truth for
+NDNSF-DI behavior.
+
 Single NativeTracer harness run:
 
 ```bash
