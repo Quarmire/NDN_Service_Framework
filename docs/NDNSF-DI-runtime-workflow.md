@@ -179,6 +179,12 @@ that the GUI lets an operator edit fields and click Run instead of passing
 `--headless-experiment qwen-minindn`. Keep `Wrap with sudo -n env` enabled when
 starting MiniNDN from a normal desktop session.
 
+For a small GUI-driven campaign, set `Target RPS sweep list` to a comma-separated
+list such as `0.2,0.4,0.8`, set `Sweep repeats`, then click `Run Sweep`. The GUI
+runs the same Qwen MiniNDN command sequentially for each RPS/repeat and writes
+each run under a separate subdirectory such as `rps-0_4-run-1`. Use `Dry run
+only` first to verify the expanded command list without starting MiniNDN.
+
 GUI tests are layered:
 
 ```bash

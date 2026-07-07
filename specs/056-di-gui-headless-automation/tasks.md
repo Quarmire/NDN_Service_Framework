@@ -77,6 +77,19 @@
       execution without starting MiniNDN.
 - [x] T037 Update the runtime workflow documentation.
 
+## Phase 8 - GUI Qwen MiniNDN Sweep
+
+- [x] T038 Add editable target-RPS sweep list and repeat count fields to the
+      `Qwen MiniNDN` tab.
+- [x] T039 Expand sweep values into sequential qwen-minindn commands using the
+      same `build_qwen_minindn_command()` path as single run and headless mode.
+- [x] T040 Write each sweep run to a distinct output subdirectory.
+- [x] T041 Add a `Run Sweep` button, shared Stop behavior, and log headers for
+      each sweep item.
+- [x] T042 Add Xvfb widget tests for sweep command generation and dry-run
+      button execution.
+- [x] T043 Update the runtime workflow documentation.
+
 ## Evidence
 
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_gui.py Experiments/NDNSF_DI_GUI.py Experiments/NDNSF_DI_GUI_Minindn.py`: passed.
@@ -96,3 +109,5 @@
 - `codegraph sync . && codegraph status .`: passed, index up to date.
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py`: passed after adding the non-headless Qwen MiniNDN tab.
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 6 tests passed, including the `Qwen MiniNDN` tab command preview and dry-run Run button path.
+- `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py Experiments/NDNSF_DI_GUI.py`: passed after adding GUI sweep.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 8 tests passed, including sweep command expansion and dry-run Run Sweep execution.
