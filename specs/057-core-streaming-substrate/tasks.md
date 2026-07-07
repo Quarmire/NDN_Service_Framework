@@ -105,3 +105,51 @@
 - [x] T050 Add `NativeProviderHandlerConfig::streamChunkDependencies` and `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` runtime enablement.
 - [x] T051 Add unit tests for tensor-bundle StreamChunk round trip and invalid content/segment rejection.
 - [x] T052 Run focused stream tests, Python streaming tests, and full C++ `unit-tests`.
+
+## Phase 17: Real MiniNDN DI StreamChunk Correctness
+
+- [ ] T053 Locate the current MiniNDN Qwen/NativeTracer full-network entrypoint in `Experiments/` and record its raw-mode command in `specs/057-core-streaming-substrate/streaming-substrate.md`.
+- [ ] T054 Add or confirm a single flag/env hook in the MiniNDN harness under `Experiments/` that enables `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` for every provider process.
+- [ ] T055 Add a run-directory marker in the MiniNDN harness summary writer under `Experiments/` that records `dependency_payload_mode=raw|streamchunk` in `config.json` or `summary.json`.
+- [ ] T056 Run the existing raw-mode full-network smoke from `Experiments/` and save the result directory under `results/` as baseline evidence.
+- [ ] T057 Run the same full-network smoke from `Experiments/` with StreamChunk dependencies enabled and save the result directory under `results/`.
+- [ ] T058 Compare raw and StreamChunk final outputs using exact text or output hash in a script under `Experiments/` or `tools/`.
+- [ ] T059 Verify provider logs under the two `results/` directories show `publishLargeNamed/fetchLarge` dependency execution, not an in-memory store.
+- [ ] T060 Record the correctness result, commands, and accepted result paths in `specs/057-core-streaming-substrate/streaming-substrate.md`.
+
+## Phase 18: C++ Stream Dependency Diagnostics
+
+- [ ] T061 Add a lightweight `NDNSF_DI_STREAM_DEPENDENCY` log line in `NDNSF-DistributedInference/cpp/ndnsf-di/NdnsfCollaborationDependencyIo.cpp` for publish/fetch success.
+- [ ] T062 Include session, scope, planned name, mode, payload bytes, wire bytes, envelope bytes, and status in the `NdnsfCollaborationDependencyIo.cpp` log line.
+- [ ] T063 Add decode-error logging in `NdnsfCollaborationDependencyIo.cpp` before rethrowing invalid StreamChunk dependency payloads.
+- [ ] T064 Add unit tests or focused parser tests in `tests/unit-tests/distributed-inference-async-runtime.t.cpp` or `tests/python/` for the counter/summary extraction format if a parser is introduced.
+- [ ] T065 Re-run `./build/unit-tests --run_test=NdnsfCollaborationDependencyIoWrapsTensorBundleAsStreamChunk`, `./build/unit-tests --run_test=Stream`, `tests/python/test_ndnsf_core_streaming.py`, and full `./build/unit-tests`.
+
+## Phase 19: Raw vs StreamChunk Overhead Campaign
+
+- [ ] T066 Create or extend a small campaign script under `Experiments/` that runs the same MiniNDN DI workload in raw mode and StreamChunk mode.
+- [ ] T067 Collect p50/p95/p99 latency, dependency fetch p50/p95, request completion count, failure rate, timeout count, and output hash into `summary.json` under each `results/` run directory.
+- [ ] T068 Collect raw payload bytes, StreamChunk wire bytes, envelope bytes, and overhead ratio into `summary.json` or `streamchunk_counters.json` under each `results/` run directory.
+- [ ] T069 Run at least 3 repetitions per mode from the `Experiments/` campaign script for smoke; use 10 repetitions if runtime is acceptable.
+- [ ] T070 Generate a compact CSV/table under the accepted `results/` campaign directory comparing both modes.
+- [ ] T071 Record the accepted benchmark command and result path in `specs/057-core-streaming-substrate/streaming-substrate.md`.
+
+## Phase 20: Loss And Robustness Smoke
+
+- [ ] T072 After 0% loss is stable, run raw and StreamChunk modes from `Experiments/` on a low-loss MiniNDN topology, preferably 1-5%.
+- [ ] T073 Confirm from `results/` logs that StreamChunk mode introduces no decode failures, hangs, or new timeout pattern versus raw mode.
+- [ ] T074 Record in `specs/057-core-streaming-substrate/streaming-substrate.md` whether loss behavior is unchanged, worse, or better; do not claim improvement unless the data shows it.
+
+## Phase 21: GUI And Headless Experiment Entry
+
+- [ ] T075 Expose the dependency payload mode in the NDNSF-DI GUI/headless config path under `Experiments/` or the GUI module that launches DI processes.
+- [ ] T076 Ensure headless and non-headless GUI execution under `Experiments/` pass the same dependency payload mode into provider processes.
+- [ ] T077 Add a headless smoke under `Experiments/` or `tests/python/` that runs StreamChunk mode without manual GUI interaction.
+- [ ] T078 Show the dependency payload mode and summary counters in GUI status text or run summary output under `Experiments/` or the GUI module.
+
+## Phase 22: Documentation And Default Decision
+
+- [ ] T079 Document when to use raw dependency mode versus StreamChunk dependency mode in `specs/057-core-streaming-substrate/streaming-substrate.md`.
+- [ ] T080 Add a troubleshooting section in `specs/057-core-streaming-substrate/streaming-substrate.md` for content-type mismatch, segment mismatch, scope/session mismatch, and timeout.
+- [ ] T081 Decide in `specs/057-core-streaming-substrate/streaming-substrate.md` whether StreamChunk dependency mode remains opt-in or becomes the default, based only on Phase 17-20 evidence.
+- [ ] T082 If default changes, add an explicit opt-out path in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp` or the relevant `Experiments/` harness and re-run all required tests in both modes.

@@ -208,3 +208,139 @@ PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_streaming.py
 The full `unit-tests` run passed with 185 test cases. This proves the new C++
 StreamChunk tensor-bundle envelope is available without changing default raw
 DI dependency behavior.
+
+## Next Design: Real DI StreamChunk Validation Campaign
+
+The next batch moves the StreamChunk DI work from local/unit proof to the real
+NDNSF-DI network path. The design principle is conservative:
+
+```text
+default mode       = raw tensor bundle payload
+experimental mode  = StreamChunk tensor bundle envelope
+decision point     = enable by default only after real-network evidence
+```
+
+The campaign should answer four questions:
+
+1. Does `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` work end-to-end in the same
+   MiniNDN Qwen/NativeTracer path used by NDNSF-DI experiments?
+2. Do the final outputs and dependency execution order match the raw baseline?
+3. How much wire-size, latency, and failure-rate overhead does the StreamChunk
+   envelope add?
+4. Does the feature help future stream/counter/debug reuse enough to justify
+   turning it on by default?
+
+### Runtime Path
+
+The full-network validation must use the real C++ provider path:
+
+```text
+NativeProviderHandler
+  -> NdnsfCollaborationDependencyIo
+  -> CollaborationContext.publishLargeNamed(...)
+  -> NDNSF large-data path
+  -> CollaborationContext.fetchLarge(...)
+  -> NdnsfCollaborationDependencyIo
+```
+
+The test is not considered sufficient if it only uses an in-memory dependency
+store or the Python fake LLM pipeline. Those remain useful smoke tests, but the
+next gate is the real `publishLargeNamed/fetchLarge` path.
+
+### Mode Matrix
+
+Run the same workload in both modes:
+
+```text
+raw mode:
+  NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=0
+
+StreamChunk mode:
+  NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1
+```
+
+At minimum, use the current smallest Qwen/NativeTracer artifacts and the
+existing MiniNDN full-network harness. If a full Qwen model run is too slow for
+iteration, use a short NativeTracer correctness smoke first, then run the
+smallest Qwen configuration as the acceptance test.
+
+### Required Evidence
+
+Each run should emit a compact evidence bundle:
+
+```text
+config.json
+run.log
+request_lifecycle.csv or equivalent sampled lifecycle trace
+dependency_lifecycle.csv
+streamchunk_counters.json
+summary.json
+```
+
+The summary should include:
+
+```text
+mode
+requests offered
+requests completed
+failure rate
+p50/p95/p99 latency
+dependency fetch p50/p95
+published dependency bytes
+fetched dependency bytes
+StreamChunk envelope bytes
+overhead ratio
+timeout count
+decode rejection count
+final output hash or exact output text
+```
+
+### Diagnostics
+
+The C++ path should produce grep-friendly counters when
+`NDNSF_DI_RUNTIME_TIMING=1` or a new stream-specific diagnostics flag is set:
+
+```text
+NDNSF_DI_STREAM_DEPENDENCY
+  session=<id>
+  scope=<scope>
+  mode=raw|streamchunk
+  direction=publish|fetch
+  payload_bytes=<n>
+  wire_bytes=<n>
+  envelope_bytes=<n>
+  planned_name=<name>
+  status=ok|decode-error|timeout
+```
+
+This is intentionally a low-friction log interface first. A richer metrics API
+can come later if the evidence shows the mode is worth promoting.
+
+### Benchmark Policy
+
+The first comparison should be small but reproducible:
+
+```text
+loss: 0%
+requests: short smoke plus small campaign
+modes: raw and StreamChunk
+repetitions: at least 3 for smoke, 10 for final small campaign if runtime allows
+```
+
+Only after the 0% run is stable should we add 1-5% loss. The purpose is not to
+claim StreamChunk improves loss recovery; the purpose is to confirm the
+envelope does not make NDNSF-DI less robust under normal experimental loss.
+
+### Enable-By-Default Rule
+
+Keep StreamChunk dependency mode off by default until all of these are true:
+
+- raw and StreamChunk modes produce matching outputs;
+- StreamChunk mode has no new decode failures or hangs;
+- overhead is measured and acceptable for tensor payload sizes used by
+  NDNSF-DI;
+- at least one real MiniNDN full-network run passes in StreamChunk mode;
+- documentation explains when to use raw mode versus StreamChunk mode.
+
+If these gates pass, the next spec can decide whether to flip the default or
+keep it as an explicit debug/interoperability mode.
