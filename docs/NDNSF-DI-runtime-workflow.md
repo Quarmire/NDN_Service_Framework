@@ -89,6 +89,26 @@ sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
 
 ## Common Commands
 
+Tk operator console:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  python3 Experiments/NDNSF_DI_GUI.py
+```
+
+The GUI's first three tabs are `User`, `Provider`, and `Controller`. Loading a
+profile does not start anything. A role starts only when its tab's Run button
+is clicked, and all three roles may run at the same time. The User tab includes
+a request/response panel for normal service requests and collaboration request
+JSON inputs. The default reusable profile is:
+
+```bash
+examples/python/NDNSF-DistributedInference/gui_three_role_profile.json
+```
+
+The GUI is an operator entrypoint. CLI commands below remain the reproducible
+evidence path for MiniNDN campaigns and paper-quality measurements.
+
 Single NativeTracer harness run:
 
 ```bash
