@@ -65,6 +65,18 @@
 - [x] T031 Run the real Qwen MiniNDN experiment.
 - [x] T032 Run compile checks, helper tests, diff check, and CodeGraph sync.
 
+## Phase 7 - Shared Non-Headless Qwen MiniNDN GUI
+
+- [x] T033 Add a non-headless `Qwen MiniNDN` tab with editable experiment
+      parameters.
+- [x] T034 Reuse the same `build_qwen_minindn_command()` helper used by
+      `--headless-experiment qwen-minindn`.
+- [x] T035 Run the experiment in a background subprocess, stream output into
+      the GUI, support Stop, and write compact GUI summary JSON.
+- [x] T036 Add Xvfb widget tests for command construction and dry-run button
+      execution without starting MiniNDN.
+- [x] T037 Update the runtime workflow documentation.
+
 ## Evidence
 
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_gui.py Experiments/NDNSF_DI_GUI.py Experiments/NDNSF_DI_GUI_Minindn.py`: passed.
@@ -82,3 +94,5 @@
 - `sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 Experiments/NDNSF_DI_GUI.py -headless --headless-experiment qwen-minindn --experiment-runtime-profile examples/di-native-tracer.runtime.json --experiment-out /tmp/ndnsf-di-gui-qwen-headless-minindn --experiment-requests 1 --experiment-concurrency 1 --experiment-provider-check-timeout 60 --output-json /tmp/ndnsf-di-gui-qwen-headless-minindn/gui-headless-summary.json`: passed. `summary.json` reported `status=SUCCESS`, `runnerMode=qwen-onnx-native`, `miniNDNRun=started`, `userExecution.status=executed`, `dependencyExecution.status=executed`, `requestCount=2`, `successCount=2`, `failureCount=0`, `p50Ms=230.49`, `p95Ms=331.43`, `throughputRps=3.55`.
 - `git diff --check`: passed.
 - `codegraph sync . && codegraph status .`: passed, index up to date.
+- `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py`: passed after adding the non-headless Qwen MiniNDN tab.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 6 tests passed, including the `Qwen MiniNDN` tab command preview and dry-run Run button path.

@@ -170,6 +170,15 @@ llm-proportional`, `--llm-planner-mode proportional`, `--full-network`, and
 `--no-local-execution-only`. Use `--experiment-dry-run` first when checking a
 configuration without starting MiniNDN.
 
+The non-headless GUI exposes the same path in the `Qwen MiniNDN` tab. Edit the
+runtime profile, output directory, request count, concurrency, provider-check
+timeout, target RPS, open-loop duration, and extra harness arguments there,
+then click `Preview Command` or `Run Qwen MiniNDN`. The tab uses the same
+`build_qwen_minindn_command()` helper as headless mode; the only difference is
+that the GUI lets an operator edit fields and click Run instead of passing
+`--headless-experiment qwen-minindn`. Keep `Wrap with sudo -n env` enabled when
+starting MiniNDN from a normal desktop session.
+
 GUI tests are layered:
 
 ```bash
