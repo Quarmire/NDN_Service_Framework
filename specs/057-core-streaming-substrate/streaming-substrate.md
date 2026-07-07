@@ -344,3 +344,196 @@ Keep StreamChunk dependency mode off by default until all of these are true:
 
 If these gates pass, the next spec can decide whether to flip the default or
 keep it as an explicit debug/interoperability mode.
+
+## DI StreamChunk Validation Campaign Result
+
+Completed on July 7, 2026. The canonical full-network entrypoint is:
+
+```bash
+PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:. \
+python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --out results/streamchunk_mode_raw_smoke_20260707c \
+  --full-network \
+  --tracer-deterministic-runner \
+  --dependency-payload-mode raw \
+  --requests 1 \
+  --concurrency 1 \
+  --provider-check-timeout 60
+```
+
+The StreamChunk mode uses the same harness and workload, changing only:
+
+```bash
+--dependency-payload-mode streamchunk
+```
+
+The harness maps this to provider environment:
+
+```text
+raw:
+  NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=0
+  NDNSF_DI_STREAM_DEPENDENCY_TRACE=1
+
+streamchunk:
+  NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1
+  NDNSF_DI_STREAM_DEPENDENCY_TRACE=1
+```
+
+The accepted campaign wrapper is:
+
+```bash
+sudo -E timeout 1800s env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:. \
+python3 Experiments/NDNSF_DI_StreamChunk_Mode_Campaign.py \
+  --out results/streamchunk_mode_campaign_3rep_20260707 \
+  --modes raw,streamchunk \
+  --repeats 3 \
+  --requests 1 \
+  --concurrency 1 \
+  -- \
+  --tracer-deterministic-runner \
+  --provider-check-timeout 60
+```
+
+Accepted 0% loss result:
+
+```text
+results/streamchunk_mode_campaign_3rep_20260707
+```
+
+Summary:
+
+| Mode | Repeats | Success | Mean p50 ms | Decode errors | Dependency events | Output hash |
+|---|---:|---:|---:|---:|---:|---|
+| raw | 3 | 3/3 | 260.054 | 0 | 24 | matched |
+| streamchunk | 3 | 3/3 | 268.555 | 0 | 24 | matched |
+
+Per run, the NativeTracer plan produced 8 dependency events: 4 publish events
+and 4 fetch events across the real NDNSF large-data path. Provider logs include
+both existing `NDNSF_DI_DEPENDENCY_OUTPUT_TIMING` /
+`NDNSF_DI_DEPENDENCY_INPUT_TIMING` entries and the new
+`NDNSF_DI_STREAM_DEPENDENCY` entries. This confirms the validation used
+`publishLargeNamed(...)` and `fetchLarge(...)`, not the earlier in-memory
+dependency store.
+
+For this tiny deterministic tensor payload, StreamChunk mode added a visible
+wire envelope:
+
+```text
+raw payload bytes:        492
+raw wire bytes:           492
+stream payload bytes:     492
+stream wire bytes:        4892
+stream envelope bytes:    4400
+stream overhead ratio:    8.943089
+```
+
+This overhead ratio is high because the smoke payloads are intentionally tiny
+NativeTracer artifacts. The result is still useful: it proves correctness,
+metadata preservation, decode rejection plumbing, and measurement support. It
+does not prove that StreamChunk should be faster or smaller than raw tensor
+payloads.
+
+## Low-Loss Robustness Smoke
+
+The harness now accepts an explicit topology path:
+
+```bash
+--topology-file Experiments/Topology/AI_Lab(loss=1%).conf
+```
+
+The low-loss topology keeps the same AI Lab nodes and adds `loss=1` to each
+link. Accepted low-loss command:
+
+```bash
+sudo -E timeout 700s env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:. \
+python3 Experiments/NDNSF_DI_StreamChunk_Mode_Campaign.py \
+  --out results/streamchunk_mode_loss1_campaign_20260707 \
+  --modes raw,streamchunk \
+  --repeats 1 \
+  --requests 1 \
+  --concurrency 1 \
+  -- \
+  --tracer-deterministic-runner \
+  --provider-check-timeout 60 \
+  --topology-file 'Experiments/Topology/AI_Lab(loss=1%).conf'
+```
+
+Accepted 1% loss result:
+
+```text
+results/streamchunk_mode_loss1_campaign_20260707
+```
+
+Summary:
+
+| Mode | Success | p50 ms | Timeout count | Decode errors | Output hash |
+|---|---:|---:|---:|---:|---|
+| raw | 1/1 | 721.773 | 0 | 0 | matched |
+| streamchunk | 1/1 | 1495.472 | 0 | 0 | matched |
+
+The low-loss smoke shows no StreamChunk decode failures, hangs, or new timeout
+pattern in this one-request validation. It should not be read as a performance
+improvement. StreamChunk mode was slower in this lossy smoke, consistent with
+the extra envelope bytes and the already-known bounded-time behavior of
+SVS-based service invocation under loss.
+
+## Raw Versus StreamChunk Dependency Mode
+
+Keep raw dependency mode as the default.
+
+Use raw mode when:
+
+- the dependency payload is already an application-specific tensor bundle;
+- throughput and latency are more important than reusable stream metadata;
+- the experiment does not need stream-level diagnostics or cross-application
+  stream/FEC/reorder semantics.
+
+Use StreamChunk dependency mode when:
+
+- the experiment needs app-neutral stream metadata on DI dependencies;
+- the same diagnostics/counter tools should work across video streams and DI
+  tensor streams;
+- the payload must carry explicit session, scope, producer, consumer,
+  planned-data-name, content-type, and segment metadata;
+- the goal is interoperability or debugging, not minimum wire overhead.
+
+The default remains opt-in because the validation shows correctness, but also
+measures non-trivial envelope overhead on tiny NativeTracer payloads. The
+existing opt-in path is:
+
+```bash
+--dependency-payload-mode streamchunk
+```
+
+or, for direct provider configuration:
+
+```bash
+NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1
+```
+
+No default flip was made, so no new opt-out flag is required.
+
+## StreamChunk Dependency Troubleshooting
+
+Useful grep patterns:
+
+```bash
+rg "NDNSF_DI_STREAM_DEPENDENCY|NDNSF_DI_DEPENDENCY_INPUT_TIMING|NDNSF_DI_DEPENDENCY_OUTPUT_TIMING" \
+  results/<run>/logs
+```
+
+Common failures:
+
+- `content type mismatch`: the payload decoded as `StreamChunk`, but its
+  `contentType` is not `application/x-ndnsf-di-tensor-bundle`.
+- `segment mismatch`: DI dependency mode currently expects one complete tensor
+  bundle per StreamChunk envelope, with `segmentIndex=0` and `segmentCount=1`.
+- `scope/session mismatch`: metadata in the received StreamChunk does not match
+  the planned dependency edge or active request session.
+- `timeout`: check whether the provider published
+  `NDNSF_DI_DEPENDENCY_OUTPUT_TIMING` for the planned name before the consumer
+  logged input timing. If publication exists but fetch times out, inspect
+  topology loss, NFD routes, and SVS bounded-time delivery behavior.
+- `decode-error`: inspect the matching `NDNSF_DI_STREAM_DEPENDENCY` entry for
+  mode, planned name, and wire bytes. The harness counts these in
+  `streamchunk_counters.json` and `summary.json`.
