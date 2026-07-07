@@ -92,3 +92,9 @@
 - [x] T043 Run the UAV MiniNDN quick smoke on `Experiments/Topology/UAV(loss=5%)`.
 - [x] T044 Run headless-drone auto video smoke on the 5% loss topology.
 - [x] T045 Record decoded-frame, packet, FEC-group, and clean-stop evidence for the 5% loss run.
+
+## Phase 15: Non-Video DI Stream Smoke
+
+- [x] T046 Update the LLM pipeline smoke dependency store to publish hidden-state bundles as core `StreamChunk` wires.
+- [x] T047 Validate dependency metadata, content type, sequence, and segment count when reassembling DI tensor bundles.
+- [x] T048 Run the LLM pipeline smoke with default and forced-small stream chunks to prove multi-chunk non-video reassembly.

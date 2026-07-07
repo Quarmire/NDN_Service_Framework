@@ -131,3 +131,35 @@ The July 7, 2026 5% loss run under
 12 FEC groups, the ground station logged `GS_DECODED_FRAMES count=30` and
 reached 194 decoded frames before stop, and the ground station exited with
 `GS_GUI_EXIT rc=0`.
+
+## Distributed Inference Tensor Stream Smoke
+
+The substrate is not video-specific. `Experiments/NDNSF_DI_LlmPipeline_Smoke.py`
+uses core `StreamChunk` encoding for its fake LLM hidden-state dependency
+store. Each planned dependency is published as one or more stream chunks with:
+
+```text
+contentType = application/x-ndnsf-di-tensor-bundle
+metadata    = producer, consumer, keyScope, tensors, objectName
+payload     = hidden-state bundle bytes
+```
+
+The consumer decodes each chunk, validates the stream id, sequence number,
+content type, segment count, and object metadata, then reassembles the original
+hidden-state bundle before executing the next fake pipeline stage.
+
+Validation:
+
+```bash
+python3 Experiments/NDNSF_DI_LlmPipeline_Smoke.py \
+  --out-dir /tmp/ndnsf-di-llm-pipeline-stream-smoke-default
+
+python3 Experiments/NDNSF_DI_LlmPipeline_Smoke.py \
+  --stream-chunk-bytes 17 \
+  --out-dir /tmp/ndnsf-di-llm-pipeline-stream-smoke-small
+```
+
+Both runs passed on July 7, 2026. The default 64-byte chunk setting published
+5 stream chunks for 2 dependencies; the forced 17-byte setting published 19
+stream chunks. Both produced the same final output size and preserved the LLM
+pipeline execution order.
