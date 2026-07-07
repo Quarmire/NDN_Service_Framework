@@ -183,7 +183,12 @@ For a small GUI-driven campaign, set `Target RPS sweep list` to a comma-separate
 list such as `0.2,0.4,0.8`, set `Sweep repeats`, then click `Run Sweep`. The GUI
 runs the same Qwen MiniNDN command sequentially for each RPS/repeat and writes
 each run under a separate subdirectory such as `rps-0_4-run-1`. Use `Dry run
-only` first to verify the expanded command list without starting MiniNDN.
+only` first to verify the expanded command list without starting MiniNDN. When
+`Output JSON` is set, the GUI also writes a sibling CSV report with one row per
+run. The CSV includes status, runner mode, target RPS, request/success/failure
+counts, p50/p95/mean/makespan latency, throughput, dependency status, dependency
+roles, provider count, mean provider utilization, and total provider busy
+handler time.
 
 GUI tests are layered:
 
