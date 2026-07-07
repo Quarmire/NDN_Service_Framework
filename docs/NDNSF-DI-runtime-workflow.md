@@ -146,6 +146,30 @@ Controller/Provider/User request path. Add `--run-minindn --case yolo-2x2` when
 you also want the existing MiniNDN regression before launching or skipping the
 GUI.
 
+GUI headless Qwen NativeTracer MiniNDN experiment:
+
+```bash
+sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper \
+  PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache \
+  python3 Experiments/NDNSF_DI_GUI.py \
+    -headless \
+    --headless-experiment qwen-minindn \
+    --experiment-runtime-profile examples/di-native-tracer.runtime.json \
+    --experiment-out /tmp/ndnsf-di-gui-qwen-headless-minindn \
+    --experiment-requests 1 \
+    --experiment-concurrency 1 \
+    --experiment-provider-check-timeout 60 \
+    --output-json /tmp/ndnsf-di-gui-qwen-headless-minindn/gui-headless-summary.json
+```
+
+This entrypoint keeps the GUI profile as the operator-facing configuration
+surface, but delegates the network run to the canonical
+`NDNSF_DI_NativeTracer_Minindn.py` harness. It forces the Qwen proportional
+planner path with `--assignment llm-proportional`, `--policy-bundle
+llm-proportional`, `--llm-planner-mode proportional`, `--full-network`, and
+`--no-local-execution-only`. Use `--experiment-dry-run` first when checking a
+configuration without starting MiniNDN.
+
 GUI tests are layered:
 
 ```bash
