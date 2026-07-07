@@ -115,6 +115,17 @@
 - [x] T052 Validate Markdown generation against the real GUI Qwen MiniNDN sweep
       evidence directory.
 
+## Phase 11 - GUI Sweep SVG Plot
+
+- [x] T053 Write a dependency-free sibling SVG plot next to the GUI aggregate
+      JSON, CSV, and Markdown report.
+- [x] T054 Plot p50/p95 latency, throughput, and mean provider utilization for
+      each sweep run.
+- [x] T055 Embed the SVG from the Markdown report and record the SVG path in the
+      aggregate JSON.
+- [x] T056 Add Xvfb widget coverage and validate SVG generation against the real
+      GUI Qwen MiniNDN sweep evidence directory.
+
 ## Evidence
 
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_gui.py Experiments/NDNSF_DI_GUI.py Experiments/NDNSF_DI_GUI_Minindn.py`: passed.
@@ -142,3 +153,6 @@
 - `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py Experiments/NDNSF_DI_GUI.py`: passed after adding Markdown report generation.
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 9 tests passed after extending CSV coverage to Markdown report generation.
 - `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 <inline GUI Markdown export check>`: passed against `/tmp/ndnsf-di-gui-qwen-real-sweep`, wrote `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-markdown-report.md` with best p50, best throughput, no failed runs, provider utilization summary, and the two per-run `summary.json` paths.
+- `PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 -m py_compile NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py tests/python/test_ndnsf_di_tk_widgets.py Experiments/NDNSF_DI_GUI.py`: passed after adding dependency-free SVG plot generation.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 tests/python/test_ndnsf_di_tk_widgets.py`: 9 tests passed after extending the report test to assert SVG output and Markdown embedding.
+- `xvfb-run -a env PYTHONPATH=NDNSF-DistributedInference:pythonWrapper PYTHONPYCACHEPREFIX=/tmp/ndnsf_pycache python3 <inline GUI SVG export check>`: passed against `/tmp/ndnsf-di-gui-qwen-real-sweep`, wrote `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-plot-report.svg` and embedded it from `/tmp/ndnsf-di-gui-qwen-real-sweep/gui-sweep-plot-report.md`.
