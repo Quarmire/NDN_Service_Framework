@@ -163,3 +163,48 @@ Both runs passed on July 7, 2026. The default 64-byte chunk setting published
 5 stream chunks for 2 dependencies; the forced 17-byte setting published 19
 stream chunks. Both produced the same final output size and preserved the LLM
 pipeline execution order.
+
+## C++ Distributed Inference Large-Data Path
+
+The real C++ DI collaboration path can also carry dependency tensors as core
+`StreamChunk` payloads. `NdnsfCollaborationDependencyIo` keeps the old raw
+payload behavior by default. When enabled, it wraps each complete tensor bundle
+before `publishLargeNamed(...)` and unwraps it after `fetchLarge(...)`:
+
+```text
+contentType = application/x-ndnsf-di-tensor-bundle
+streamId    = plannedDataName
+seq         = 0
+segment     = 0 of 1
+metadata    = sessionId, scope, producerRole, consumerRole, plannedDataName,
+              bundleName, tensors
+payload     = tensor bundle bytes
+```
+
+The mode is enabled through either:
+
+```cpp
+NativeProviderHandlerConfig config;
+config.streamChunkDependencies = true;
+```
+
+or the runtime environment:
+
+```bash
+NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1
+```
+
+Validation added on July 7, 2026:
+
+```bash
+./waf build --targets=unit-tests
+./build/unit-tests --run_test=NdnsfCollaborationDependencyIoWrapsTensorBundleAsStreamChunk
+./build/unit-tests --run_test=NdnsfCollaborationDependencyIoRejectsInvalidStreamChunkPayload
+./build/unit-tests --run_test=Stream
+PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_streaming.py
+./build/unit-tests
+```
+
+The full `unit-tests` run passed with 185 test cases. This proves the new C++
+StreamChunk tensor-bundle envelope is available without changing default raw
+DI dependency behavior.

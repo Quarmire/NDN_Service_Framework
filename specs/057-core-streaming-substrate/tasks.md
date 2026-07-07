@@ -98,3 +98,10 @@
 - [x] T046 Update the LLM pipeline smoke dependency store to publish hidden-state bundles as core `StreamChunk` wires.
 - [x] T047 Validate dependency metadata, content type, sequence, and segment count when reassembling DI tensor bundles.
 - [x] T048 Run the LLM pipeline smoke with default and forced-small stream chunks to prove multi-chunk non-video reassembly.
+
+## Phase 16: C++ DI Large-Data StreamChunk Path
+
+- [x] T049 Add optional `StreamChunk` tensor-bundle wrapping to `NdnsfCollaborationDependencyIo`.
+- [x] T050 Add `NativeProviderHandlerConfig::streamChunkDependencies` and `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` runtime enablement.
+- [x] T051 Add unit tests for tensor-bundle StreamChunk round trip and invalid content/segment rejection.
+- [x] T052 Run focused stream tests, Python streaming tests, and full C++ `unit-tests`.
