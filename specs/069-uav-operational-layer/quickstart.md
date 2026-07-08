@@ -189,6 +189,8 @@ Expected marker: `NDNSF_UAV_AUTHORITY_ALERT_HISTORY_MININDN_SMOKE_OK`. The
 ground station records an `admin-override` alert when the issuer revokes an
 older exclusive lease, then records `lease-revoked-detected` when the original
 operator refreshes and detects that its active lease is no longer valid. The
+alerts are persisted in the configured authority state file, reloaded, and
+then checked again so the same evidence can support post-mission review. The
 Operator Authority inspector displays the most recent alert entries.
 
 Expected evidence:

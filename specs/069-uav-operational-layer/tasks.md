@@ -262,6 +262,21 @@ state contracts.
 - [x] T098 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-alert-history MiniNDN smoke.
 
+## Phase 23: Operator Authority Audit Trail Persistence
+
+- [x] T099 [US4] Persist bounded operator-authority alert entries in the
+  configured authority state file beside active leases and revocation records.
+- [x] T100 [US4] Reload persisted alert entries at startup so post-mission
+  review can inspect admin override and revocation-detected evidence after a
+  process restart.
+- [x] T101 [US4] Extend the authority alert-history headless smoke to clear
+  in-memory alerts, reload the authority state file, and verify the audit
+  entries survive.
+- [x] T102 [US4] Update quickstart and README docs to describe the persisted
+  audit trail evidence.
+- [x] T103 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-alert-history MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -270,5 +285,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should decide whether authority alerts should stay process-local
-or be exported as a queryable operator audit trail for post-mission review.
+Future tasks should decide whether persisted authority alerts need a separate
+network query service for offboard post-mission review, or whether the
+ground-station state file remains sufficient for the current proposal demo.
