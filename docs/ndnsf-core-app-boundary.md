@@ -158,6 +158,12 @@ Repo should use core envelopes for:
 
 Repo should not move its catalog or storage backend into core.
 
+Repo selection policy still belongs to Repo. The core provides readiness facts
+through `ProviderCapabilityHint` and `ServiceDiscoveryRecord`; Repo uses those
+facts before applying its own storage-capacity and replica-placement policy. A
+draining or unready typed provider hint must not be selected just because the
+legacy storage fields report free capacity.
+
 ## NDNSF-UAV-APP Boundary
 
 UAV owns:
@@ -198,6 +204,12 @@ DI should use core envelopes for:
 DI should not move model-specific planner logic, cache semantics, or tensor
 formats into core.
 
+Deployment lifecycle records should preserve DI-visible deployment fields such
+as `deploymentId`, `planId`, `fragmentMap`, and legacy `status`, but they should
+also carry core `ServiceOperationStatus` as `operationStatus`. Discovery and
+sorting should prefer the core operation-status envelope when present, then fall
+back to the legacy `status` field for older records.
+
 ## Missing or Incomplete Core Surfaces
 
 The current implementation now has the core vocabulary and the first app
@@ -234,19 +246,28 @@ Completed bridge points:
   definitions.
 - Repo Python clients prefer `ProviderCapabilityHint` over conflicting legacy
   ACK fields while retaining legacy-only fallback.
+- Repo capacity selection now converts ACKs into core discovery records and
+  skips typed unready or draining providers before applying Repo replica
+  placement policy. Legacy-only ACKs still behave as ready fallback.
 - Core C++ and Python stream helpers expose `StreamHealth`; UAV can map its
   video adaptive state to this helper while retaining H264/FEC/ROI policy.
+- Deployment ACK role capture now uses core ACK metadata parsing. A typed ready
+  provider must pass `ServiceDiscoveryRecord.ready_for_new_request()` before its
+  role is recorded; explicit `MODEL_UNAVAILABLE` negative ACKs remain valid for
+  provisioning assignments during deployment.
+- Deployment dictionaries now carry core `ServiceOperationStatus` in
+  `operationStatus` while preserving the legacy `status` field. Deployment
+  discovery sorting prefers the core status envelope and falls back to legacy
+  status for older records.
 
 Remaining migrations:
 
 - Repo, UAV, and DI should gradually emit `ProviderCapabilityHint` instead of
   one-off ACK fields where practical.
-- Repo operation status should be mapped to `ServiceOperationStatus`.
 - UAV mission/recording status should be mapped to `ServiceOperationStatus`
   without changing MAVLink or camera logic.
-- DI provisioning/execution status should keep expanding
-  `ServiceOperationStatus` coverage while keeping model-specific details in DI
-  payloads.
+- DI request execution status should keep expanding `ServiceOperationStatus`
+  coverage while keeping model-specific details in DI payloads.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
   `ProviderNetworkMatrix` facts. Live collection and app-specific scoring are
   still workload-specific follow-up work.
