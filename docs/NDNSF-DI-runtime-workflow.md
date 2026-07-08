@@ -329,6 +329,17 @@ Telemetry from the current run is written after execution, so it is evidence
 for the next planning run or campaign phase, not retroactive input to the plan
 that already started.
 
+Full-network NativeTracer runs collect this evidence by default with a
+dependency-edge ndnping probe after provider provisioning and before the user
+workload. The resulting file is:
+
+```text
+<run-out>/dependency-edge-ndnping-rtt-stats.json
+```
+
+Use `--skip-provider-pair-telemetry-probe` only for fast smoke runs where
+provider-pair telemetry is not needed.
+
 Admission leases are opt-in. Existing non-lease services keep the current
 ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
