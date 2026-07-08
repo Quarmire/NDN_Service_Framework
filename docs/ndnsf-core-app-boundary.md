@@ -251,6 +251,10 @@ Completed bridge points:
   placement policy. Legacy-only ACKs still behave as ready fallback.
 - Core C++ and Python stream helpers expose `StreamHealth`; UAV can map its
   video adaptive state to this helper while retaining H264/FEC/ROI policy.
+- UAV shared protocol helpers now map flight command state, mission part
+  state, mission progress, and recording data products into core
+  `ServiceOperationStatus` and `DataProductReference` without moving MAVLink,
+  camera, codec, FEC, ROI, or mission-planning semantics into core.
 - Deployment ACK role capture now uses core ACK metadata parsing. A typed ready
   provider must pass `ServiceDiscoveryRecord.ready_for_new_request()` before its
   role is recorded; explicit `MODEL_UNAVAILABLE` negative ACKs remain valid for
@@ -264,8 +268,6 @@ Remaining migrations:
 
 - Repo, UAV, and DI should gradually emit `ProviderCapabilityHint` instead of
   one-off ACK fields where practical.
-- UAV mission/recording status should be mapped to `ServiceOperationStatus`
-  without changing MAVLink or camera logic.
 - DI request execution status should keep expanding `ServiceOperationStatus`
   coverage while keeping model-specific details in DI payloads.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
