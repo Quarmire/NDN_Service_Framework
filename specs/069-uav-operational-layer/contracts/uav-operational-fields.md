@@ -1,7 +1,8 @@
 # UAV Operational Field Contract
 
 This feature uses the existing `Fields` key/value representation. It does not
-add new NDNSF wire names.
+change NDNSF core wire names. The UAV app adds one application service suffix,
+`/UAV/Camera/Repo/Catalog`, for browsing a drone's repo-backed data products.
 
 ## MissionPlanDocument
 
@@ -49,15 +50,22 @@ to use the existing encoded field format.
 
 Keys:
 
+- `catalog_repo_objects`
 - `catalog_recording_products`
 - `catalog_telemetry_log_products`
 - `catalog_detection_products`
 - `catalog_mission_log_products`
 - `catalog_total_bytes`
+- `catalog_source_repo`
 - `catalog_latest_product_type`
 - `catalog_latest_object_prefix`
 - `catalog_latest_mission_id`
 - `catalog_updated_ms`
+
+When the backing repo stores many chunks for one recording, catalog helpers
+collapse `<recording>/chunk/<index>` and `<recording>/seg/<index>` into one
+recording product. The repo object count remains available separately through
+`catalog_repo_objects`.
 
 ## VehicleParameterSnapshot
 

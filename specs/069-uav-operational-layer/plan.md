@@ -97,9 +97,8 @@ git diff --check
 
 ## Next Wiring Step
 
-After this state-contract slice, wire the models into:
+After the mission-file and repo-catalog slices, wire the remaining models into:
 
-1. repo-backed catalog browsing for recordings/logs/detections;
-2. MAVLink parameter fetch/cache service;
-3. command execution checks that require a control lease when multi-operator
+1. MAVLink parameter fetch/cache service;
+2. command execution checks that require a control lease when multi-operator
    mode is enabled.

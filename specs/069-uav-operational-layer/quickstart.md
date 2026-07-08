@@ -40,6 +40,19 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 
 Expected marker: `NDNSF_UAV_LOADED_MISSION_PLAN_MININDN_SMOKE_OK`.
 
+MiniNDN repo catalog smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-repo-catalog-browse-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_REPO_CATALOG_MININDN_SMOKE_OK`. The drone records
+camera chunks to its local in-app repo, serves `/UAV/Camera/Repo/Catalog`, and
+the ground station summarizes the repo objects as object-level UAV data
+products instead of listing every chunk as a separate recording.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
@@ -48,7 +61,8 @@ Expected evidence:
 - `UavFunctionalityStateTracksImplementedAndMissingCapabilities` reports
   mission files as available once a mission plan exists.
 - `UavDataProductCatalogSummarizesQueryableProducts` passes and shows catalog
-  product counts and latest object prefix round-trip.
+  product counts, repo object counts, latest object prefix round-trip, and
+  chunk-to-recording product folding.
 - `VehicleParameterSnapshotCarriesCapabilityView` passes and shows compact and
   full parameter views remain usable.
 - `OperatorAuthorityLeaseBlocksConflictingControl` passes and shows valid,

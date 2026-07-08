@@ -101,6 +101,20 @@ state contracts.
 - [x] T036 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and loaded mission MiniNDN smoke when practical.
 
+## Phase 12: Repo-Backed Data Product Catalog Browsing
+
+- [x] T037 [US2] Add a drone repo catalog service that summarizes the
+  recording repo through `UavDataProductCatalogState`.
+- [x] T038 [US2] Add ground-station runtime and GUI controls for browsing the
+  selected drone's repo catalog.
+- [x] T039 [US2] Add MiniNDN harness support for
+  `--auto-repo-catalog-browse-test`.
+- [x] T040 [US2] Extend catalog state tests so repo chunks collapse into
+  object-level recording products.
+- [x] T041 Document the repo catalog MiniNDN smoke command.
+- [x] T042 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and repo catalog MiniNDN smoke when practical.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -111,6 +125,5 @@ state contracts.
 
 Future tasks should wire these models into:
 
-- repo-backed catalog browsing;
 - MAVLink parameter fetch/cache service;
 - optional command lease checks in the MAVLink execute and mission assign paths.
