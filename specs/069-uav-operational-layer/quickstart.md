@@ -209,7 +209,9 @@ same smoke also queries a one-entry window with `offset`, `limit`, and
 `from_ms` to verify bounded post-mission review can page through the audit
 trail without fetching every entry. It also queries with `redaction=summary`
 and verifies that operator identities are hidden while the event type, lease,
-drone, scope, and reason remain available for safe review.
+drone, scope, and reason remain available for safe review. Finally, it queries
+with `redaction=self` and a spoofed `requester_operator` field to verify that
+the service prefers the NDNSF requester identity mapping when one is available.
 
 Expected evidence:
 

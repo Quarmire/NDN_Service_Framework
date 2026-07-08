@@ -321,6 +321,20 @@ state contracts.
 - [x] T118 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-audit-query MiniNDN smoke.
 
+## Phase 27: Operator Authority Audit Requester Binding
+
+- [x] T119 [US4] Pass the NDNSF requester identity from the audit service
+  handler into the local audit query implementation.
+- [x] T120 [US4] Prefer an operator id derived from authenticated requester
+  identity over caller-supplied `requester_operator`, while preserving payload
+  fallback for unmapped identities.
+- [x] T121 [US4] Return `requester_identity`, `effective_requester_operator`,
+  and `requester_operator_source` in audit responses for diagnostics.
+- [x] T122 [US4] Extend the headless audit smoke to prove that a spoofed
+  payload requester does not override the authenticated requester mapping.
+- [x] T123 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-audit-query MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -329,6 +343,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should bind audit redaction to authenticated requester identity
-instead of caller-supplied `requester_operator` when multi-ground-station
-security policy is needed.
+Future tasks should decide whether `redaction=full` must require admin
+authority when audit queries come from non-local operator identities.
