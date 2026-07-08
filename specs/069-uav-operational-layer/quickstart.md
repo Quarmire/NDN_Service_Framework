@@ -14,11 +14,26 @@ PYTHONPATH=.:pythonWrapper:NDNSF-DistributedInference:NDNSF-DistributedRepo/pyth
   python3 tests/python/test_ndnsf_app_core_envelope_migration.py
 ```
 
+Ground-station GUI wiring:
+
+```bash
+./build/examples/UavGroundStationApp \
+  --app-config NDNSF-UAV-APP/configs/ground-station.conf \
+  --mission-plan-file /tmp/ndnsf-uav-mission-plan.conf
+```
+
+The Map / Mission controls expose a mission-plan file path plus `Save Plan`
+and `Load Plan` buttons. Saving uses the current map preview when available,
+otherwise the currently uploaded runtime mission plan. Loading updates the
+runtime mission plan snapshot and refreshes the inspector/map preview.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
   mission plan v2 fields round-trip plus save/load through a temporary
   line-oriented config file.
+- `UavFunctionalityStateTracksImplementedAndMissingCapabilities` reports
+  mission files as available once a mission plan exists.
 - `UavDataProductCatalogSummarizesQueryableProducts` passes and shows catalog
   product counts and latest object prefix round-trip.
 - `VehicleParameterSnapshotCarriesCapabilityView` passes and shows compact and

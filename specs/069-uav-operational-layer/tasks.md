@@ -69,6 +69,18 @@ state contracts.
 - [x] T023 Re-run build, focused C++ unit test, Python envelope regression, and
   whitespace check after the file-persistence slice.
 
+## Phase 9: Ground-Station Save/Load Wiring
+
+- [x] T024 [US1] Add ground-station runtime methods for saving a current or
+  preview mission plan and loading a saved mission plan document.
+- [x] T025 [US1] Add `mission-plan-file` config/CLI support.
+- [x] T026 [US1] Add GUI path entry plus `Save Plan` and `Load Plan` buttons to
+  the Map / Mission workflow.
+- [x] T027 [US1] Update functionality state/test expectations so mission files
+  become available when a mission plan exists.
+- [x] T028 Re-run build, focused C++ unit test, Python envelope regression, and
+  whitespace check after ground-station wiring.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -79,7 +91,6 @@ state contracts.
 
 Future tasks should wire these models into:
 
-- ground-station mission save/load controls that call the shared file helpers;
 - repo-backed catalog browsing;
 - MAVLink parameter fetch/cache service;
 - optional command lease checks in the MAVLink execute and mission assign paths.
