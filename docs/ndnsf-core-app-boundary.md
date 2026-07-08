@@ -48,10 +48,23 @@ Reusable Python helpers:
 - `ProviderAdmissionLeaseTable`
 - `RejectionReason`
 
+Reusable C++ helpers:
+
+- `ServiceProvider::ProviderCapabilityHint`
+- `ServiceProvider::GenericProviderRuntimeHint`
+- `ServiceProvider::GenericAckMetadata`
+- `ServiceProvider::GenericAdmissionLease`
+- `ServiceProvider::ProviderAdmissionLeaseTable`
+
 Applications may attach service-specific payloads through
 `service_payload_schema` and `service_payload`. For example, DI can attach model
 fragment residency; Repo can attach storage capacity; UAV can attach camera
 readiness. The core does not interpret those payloads.
+
+Provider drain state is also core-level metadata. A provider may be reachable
+and still advertise `DRAINING`, `PROVISIONING`, `MAINTENANCE`, or
+`UNAVAILABLE`, which means new requests should avoid it while existing work may
+still finish.
 
 ### Service Operation Status
 
@@ -65,9 +78,32 @@ Reusable Python helper:
 
 - `ServiceOperationStatus`
 
+Reusable C++ helper:
+
+- `ServiceProvider::ServiceOperationStatus`
+
 Repo insert/fetch operations, UAV missions and recordings, and DI provisioning
 or execution may all expose this shape. App-specific results belong in
 `result_reference` or `metadata`.
+
+When an operation produces a named object, use the core `DataProductReference`
+shape to point at the exact NDN name, producer, service, object class, content
+type, digest, size, and segment count. The application still defines what the
+object means.
+
+### Service Discovery Snapshot
+
+Core owns a common view of provider availability:
+
+- `ServiceDiscoveryRecord`
+- `ServiceDiscoverySnapshot`
+- `NdnsdHealthTracker`
+- `NdnsdProviderState`
+
+The discovery snapshot can be built from provider capability hints, NDNSD health
+records, or raw controller/test dictionaries. It separates ready, draining,
+stale, and unavailable providers. Applications decide how to score the ready
+set; core only supplies consistent facts.
 
 ### Stream Health
 
@@ -169,6 +205,12 @@ bridges, but some migrations are still incremental.
 
 Completed bridge points:
 
+- C++ core now has typed helpers for provider capability hints, service
+  operation status, and data-product references, with round-trip tests on the
+  existing generic ACK metadata path.
+- Python core now has `ServiceDiscoveryRecord` and `ServiceDiscoverySnapshot`
+  helpers that classify provider capability hints, NDNSD health records, and
+  raw dictionaries into ready, draining, stale, and unavailable records.
 - Repo ACK payloads keep the legacy storage fields and also carry
   `ProviderCapabilityHint` with storage capacity in `service_payload`.
 - Repo `CAPABILITY` responses include `ProviderCapabilityHint`; main store and
@@ -205,8 +247,9 @@ Remaining migrations:
 - DI provisioning/execution status should keep expanding
   `ServiceOperationStatus` coverage while keeping model-specific details in DI
   payloads.
-- Provider-pair telemetry should be collected from live runtime measurements
-  and fed into app-level selection/cooperation policies.
+- Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
+  `ProviderNetworkMatrix` facts. Live collection and app-specific scoring are
+  still workload-specific follow-up work.
 - UAV still surfaces domain-specific adaptive-video fields in its GUI; the
   core `StreamHealth` mapping is now available but the display migration should
   be done separately to avoid mixing UI changes into the boundary layer.
