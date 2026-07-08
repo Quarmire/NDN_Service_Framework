@@ -263,13 +263,14 @@ Completed bridge points:
   `operationStatus` while preserving the legacy `status` field. Deployment
   discovery sorting prefers the core status envelope and falls back to legacy
   status for older records.
+- NativeTracer MiniNDN summaries now add core `ServiceOperationStatus` to
+  `userExecution` and `dependencyExecution` while preserving legacy fields such
+  as `status`, `reason`, request counts, latency metrics, and role lists.
 
 Remaining migrations:
 
 - Repo, UAV, and DI should gradually emit `ProviderCapabilityHint` instead of
   one-off ACK fields where practical.
-- DI request execution status should keep expanding `ServiceOperationStatus`
-  coverage while keeping model-specific details in DI payloads.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
   `ProviderNetworkMatrix` facts. Live collection and app-specific scoring are
   still workload-specific follow-up work.
