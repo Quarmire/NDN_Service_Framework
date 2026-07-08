@@ -30,6 +30,16 @@ runtime mission plan snapshot and refreshes the inspector/map preview. The
 first, preserving per-drone parts from the file; if no editable plan exists, it
 falls back to the older patrol-input generation path.
 
+MiniNDN loaded-plan smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-loaded-mission-plan-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_LOADED_MISSION_PLAN_MININDN_SMOKE_OK`.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

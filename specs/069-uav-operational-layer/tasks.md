@@ -91,6 +91,16 @@ state contracts.
 - [x] T032 Re-run build, focused C++ unit test, Python envelope regression, and
   whitespace check after loaded-plan upload wiring.
 
+## Phase 11: Loaded Mission Plan Smoke Test
+
+- [x] T033 [US1] Add a ground-station auto test that saves, loads, and uploads
+  a generated `MissionPlanDocument`.
+- [x] T034 [US1] Add MiniNDN harness support for
+  `--auto-loaded-mission-plan-test`.
+- [x] T035 [US1] Document the loaded mission plan MiniNDN smoke command.
+- [x] T036 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and loaded mission MiniNDN smoke when practical.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
