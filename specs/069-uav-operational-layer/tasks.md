@@ -221,6 +221,21 @@ state contracts.
 - [x] T083 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-revocation MiniNDN smoke.
 
+## Phase 20: Client-Side Revocation Refresh
+
+- [x] T084 [US4] Add a client-side authority lease refresh helper that queries
+  `/UAV/GS/OperatorAuthority/Revocation` for the active lease ID.
+- [x] T085 [US4] Mark the local active operator lease as revoked when refresh
+  returns a matching revocation record, so existing command/mission gates
+  return `lease-revoked`.
+- [x] T086 [US4] Add a headless authority refresh smoke where one operator gets
+  control, an authorized admin overrides it, and the original operator detects
+  revocation through refresh.
+- [x] T087 [US4] Add MiniNDN harness support and quickstart docs for
+  `--auto-authority-refresh-test`.
+- [x] T088 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-refresh MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -229,6 +244,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should connect revocation lookup to real multi-operator client
-polling or notification if an operator process needs asynchronous lease
-invalidation after an admin override.
+Future tasks should expose authority refresh in the GUI/operator panel and, if
+needed, add a configurable periodic timer for long-running operator sessions.

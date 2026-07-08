@@ -148,6 +148,21 @@ queries `/UAV/GS/OperatorAuthority/Revocation` through the NDNSF service path
 to fetch the revoked lease record. A missing lease lookup returns a typed
 `found=false` response instead of timing out.
 
+MiniNDN operator-authority refresh smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-refresh-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_REFRESH_MININDN_SMOKE_OK`. The GS first
+acts as operator one and obtains a control lease. Operator two then obtains an
+authorized admin lease that revokes the first lease. The original operator
+refreshes its active lease against `/UAV/GS/OperatorAuthority/Revocation`,
+marks the local lease as revoked, and existing command/mission gates return
+`lease-revoked`.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
