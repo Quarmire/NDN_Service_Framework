@@ -67,6 +67,19 @@ and caches a `VehicleParameterSnapshot` for the selected drone. This is an
 operator-visible parameter/capability view, not a full QGroundControl parameter
 editor.
 
+MiniNDN operator-authority lease smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-lease-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_LEASE_MININDN_SMOKE_OK`. The GS starts
+with a local default `all/control` lease for normal demos, then the smoke test
+injects a monitor-only lease and an expired control lease to verify that UAV
+control and mission assignment fast-fail before network/MAVLink dispatch.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

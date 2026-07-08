@@ -129,6 +129,22 @@ state contracts.
 - [x] T048 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and parameter-cache MiniNDN smoke.
 
+## Phase 14: Operator Authority Lease Runtime Gate
+
+- [x] T049 [US4] Add a ground-station runtime active authority lease with a
+  default local `all/control` lease for existing demos.
+- [x] T050 [US4] Gate direct and sync MAVLink command paths with
+  `OperatorAuthorityLease::allowsCommand` before readiness, in-flight, or
+  network dispatch work.
+- [x] T051 [US4] Gate mission assignment entry points so monitor-only or
+  expired leases fast-fail before NDNSF mission requests are published.
+- [x] T052 [US4] Add a headless runtime smoke path for monitor-only and
+  expired-lease rejection.
+- [x] T053 [US4] Add MiniNDN harness support for
+  `--auto-authority-lease-test`.
+- [x] T054 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-lease MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -137,6 +153,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should wire the remaining model into:
-
-- optional command lease checks in the MAVLink execute and mission assign paths.
+Future tasks should connect operator leases to a real multi-operator lease
+issuer or controller policy path instead of the current local default lease.
