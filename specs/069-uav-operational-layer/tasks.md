@@ -145,6 +145,19 @@ state contracts.
 - [x] T054 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-lease MiniNDN smoke.
 
+## Phase 15: Configurable Operator Authority Lease Visibility
+
+- [x] T055 [US4] Add ground-station startup configuration for local operator
+  authority leases: operator id, covered drone, scope, and TTL.
+- [x] T056 [US4] Add a ground-station inspector section that shows the active
+  operator lease and whether the selected drone allows telemetry/control.
+- [x] T057 [US4] Add a headless configured-lease smoke path that starts with a
+  monitor lease and verifies control and mission assignment fast-fail.
+- [x] T058 [US4] Add MiniNDN harness support and documentation for
+  `--auto-authority-config-test`.
+- [x] T059 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and configured-authority MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.

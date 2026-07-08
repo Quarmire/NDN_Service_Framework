@@ -80,6 +80,19 @@ with a local default `all/control` lease for normal demos, then the smoke test
 injects a monitor-only lease and an expired control lease to verify that UAV
 control and mission assignment fast-fail before network/MAVLink dispatch.
 
+MiniNDN configured operator-authority smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-config-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_CONFIG_MININDN_SMOKE_OK`. The launcher
+starts the GS with a configured monitor-only lease for the selected drone, then
+the GS verifies that telemetry remains allowed while control and mission
+assignment are blocked by the startup lease.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
