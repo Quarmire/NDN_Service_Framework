@@ -266,6 +266,10 @@ Completed bridge points:
 - NativeTracer MiniNDN summaries now add core `ServiceOperationStatus` to
   `userExecution` and `dependencyExecution` while preserving legacy fields such
   as `status`, `reason`, request counts, latency metrics, and role lists.
+- NativeTracer MiniNDN summaries now collect dependency-edge ndnping evidence
+  into core `PeerNetworkMetric` and `ProviderNetworkMatrix` payloads under
+  `providerPairTelemetry`, using producer-to-consumer dataflow direction for
+  dependency exchange.
 - UAV ground-station display now shows a concise `StreamHealth`-derived
   `stream_health` summary beside existing adaptive-video text, while preserving
   UAV-specific bitrate, decoder, FEC, ROI, and pressure details.
@@ -275,6 +279,7 @@ Remaining migrations:
 - Repo, UAV, and DI should gradually emit `ProviderCapabilityHint` instead of
   one-off ACK fields where practical.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
-  `ProviderNetworkMatrix` facts. Live collection and app-specific scoring are
+  `ProviderNetworkMatrix` facts. NativeTracer now records observed dependency
+  edge RTTs this way; app-specific scoring and richer bandwidth/loss probes are
   still workload-specific follow-up work.
 These migrations should be done one workload at a time with regression tests.
