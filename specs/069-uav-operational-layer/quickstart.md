@@ -212,6 +212,9 @@ and verifies that operator identities are hidden while the event type, lease,
 drone, scope, and reason remain available for safe review. Finally, it queries
 with `redaction=self` and a spoofed `requester_operator` field to verify that
 the service prefers the NDNSF requester identity mapping when one is available.
+The same run verifies that a mapped non-admin operator receives
+`full-redaction-requires-admin` for `redaction=full` while `summary` and `self`
+remain usable.
 
 Expected evidence:
 

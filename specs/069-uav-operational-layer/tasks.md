@@ -335,6 +335,19 @@ state contracts.
 - [x] T123 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-audit-query MiniNDN smoke.
 
+## Phase 28: Operator Authority Full Audit Gate
+
+- [x] T124 [US4] Require admin authority for `redaction=full` when the
+  requester identity maps to an operator.
+- [x] T125 [US4] Preserve backward compatibility for unmapped requester
+  identities by leaving their default `full` behavior unchanged.
+- [x] T126 [US4] Return a clear `full-redaction-requires-admin` audit response
+  instead of exposing full operator identities to non-admin operators.
+- [x] T127 [US4] Extend the headless audit smoke to verify that non-admin
+  requester identities can use `summary`/`self` but cannot use `full`.
+- [x] T128 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-audit-query MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -343,5 +356,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should decide whether `redaction=full` must require admin
-authority when audit queries come from non-local operator identities.
+Future tasks should add a second MiniNDN ground-station identity to exercise
+cross-GS operator-audit policy instead of only same-GS requester mapping.
