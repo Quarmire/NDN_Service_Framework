@@ -358,6 +358,13 @@ service-payload schemas, operation states, and each provider's latest core
 runtime view. The older `providerAckRuntimeHints` section remains for legacy
 queue/worker fields.
 
+For Qwen NativeTracer MiniNDN runs, the C++ native provider emits both forms:
+legacy semicolon ACK fields for old parsers and
+`providerCapabilityHint=json64:<json>` for the core envelope summary. A healthy
+small run should show `coreEnvelopeSummary.envelopeCounts.providerCapabilityHint`
+greater than zero and `providerReadiness.ready` matching the observed ACK
+events.
+
 Provider fragment residency should come from `ProviderFragmentInventoryManager`
 when the provider runtime can expose local state. The manager treats GPU and CPU
 residency as explicit runtime load/evict events, treats disk residency as the

@@ -246,3 +246,15 @@
 - [x] T092 Add a `Refresh Summary` button that reloads the current output
   directory's `summary.json` without rerunning MiniNDN.
 - [x] T093 Add regression coverage for the display formatter.
+
+## Phase 20: Native Provider Typed ACK Envelope
+
+- [x] T094 Make the C++ NativeTracer provider append a typed
+  `providerCapabilityHint=json64:<json>` payload while preserving legacy ACK
+  fields.
+- [x] T095 Pass real provider and service names into the native readiness ACK
+  envelope.
+- [x] T096 Add unit coverage that native readiness ACK payloads contain the
+  typed provider capability envelope.
+- [x] T097 Run a real Qwen MiniNDN headless smoke and confirm
+  `coreEnvelopeSummary.envelopeCounts.providerCapabilityHint` is populated.

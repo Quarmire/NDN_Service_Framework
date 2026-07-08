@@ -200,6 +200,14 @@ provider readiness, reason codes, operation states, latest provider runtime
 view, and the legacy ACK runtime hint counters. Operators can refresh the panel
 from the current output directory without rerunning MiniNDN.
 
+The C++ NativeTracer provider now emits the same typed provider capability
+envelope on the real ACK path. The ACK payload keeps the old
+`roles=...;queue=...;runtimeStatus=...;` fields for existing parsers and adds
+`providerCapabilityHint=json64:<json>` with provider name, service name,
+readiness, runtime queue/active-work counts, and DI capability payload schema.
+This closes the gap between Python provider tests and real Qwen MiniNDN runs:
+`coreEnvelopeSummary` is now populated by actual native provider ACKs.
+
 ## Validation
 
 ```bash
