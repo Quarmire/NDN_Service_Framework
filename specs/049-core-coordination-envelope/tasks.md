@@ -166,3 +166,83 @@
 - [x] T064 Record NativeTracer per-request ACK candidate snapshots from the
   observer, including queue, worker, runtime, and lease fields.
 - [x] T065 Add regression coverage for ACK candidate snapshot parsing.
+
+## Phase 14: Core/App Boundary Envelopes
+
+- [x] T066 Add `docs/ndnsf-core-app-boundary.md` to define which mechanisms
+  belong in NDNSF core and which semantics stay in Repo, UAV, and DI.
+- [x] T067 Add reusable `ServiceOperationStatus` and operation-state vocabulary
+  for Repo operations, UAV missions/recordings, and DI provisioning/execution.
+- [x] T068 Add reusable provider capability/runtime hint and rejection-reason
+  vocabulary while keeping app-specific payloads opaque.
+- [x] T069 Add stream health snapshots on top of the existing stream substrate
+  without moving UAV H264/FEC/ROI policy into core.
+- [x] T070 Add provider-pair telemetry ranking helpers so selection and
+  cooperation policies can use core network measurements.
+- [x] T071 Add focused Python regression coverage for the new core boundary
+  envelopes.
+
+## Phase 15: Repo/UAV/DI Core Envelope Bridge Migration
+
+- [x] T072 Make DistributedRepo storage ACKs preserve legacy fields while also
+  carrying `ProviderCapabilityHint` with storage capacity in
+  `service_payload`.
+- [x] T073 Make DistributedRepo store/insert responses expose
+  `ServiceOperationStatus` and successful named-object results expose
+  `DataProductReference`.
+- [x] T074 Make DistributedInference provider ACKs carry
+  `ProviderCapabilityHint` for ready, unavailable, and admission-rejected
+  providers while preserving existing ACK fields.
+- [x] T075 Make DI artifact provisioning ACKs carry `ServiceOperationStatus`
+  for installing, ready, and failed runtime states.
+- [x] T076 Add a C++ `StreamHealth` helper on top of the existing stream
+  substrate so UAV can report generic stream condition without moving video
+  policy into core.
+- [x] T077 Add focused migration regression tests for Repo, UAV stream health,
+  DI provider inventory hints, and DI artifact operation status.
+
+## Phase 16: Core-First Consumer Migration
+
+- [x] T078 Make Repo consumer ACK parsing prefer `ProviderCapabilityHint` over
+  conflicting legacy storage fields while preserving legacy-only fallback.
+- [x] T079 Make DI runtime-aware candidate scoring derive runtime metadata from
+  `ProviderCapabilityHint` when `genericAckMetadata` is absent.
+- [x] T080 Add a UAV `VideoAdaptiveState` to core `StreamHealth` mapping so
+  stream condition can be shared without moving video policy into core.
+- [x] T081 Add focused regression coverage for Repo core-priority parsing, DI
+  core capability consumption, and UAV stream-health mapping.
+
+## Phase 17: DI Runtime Telemetry Deduplication
+
+- [x] T082 Move `GenericAckMetadata.from_provider_capability_hint()` into
+  `ndnsf.runtime_telemetry`.
+- [x] T083 Remove duplicate DI-local definitions of generic ACK metadata,
+  provider runtime hints, admission leases, peer metrics, lease tables, and
+  provider network matrices from `runtime_v1.py`.
+- [x] T084 Preserve the existing public import names from
+  `ndnsf_distributed_inference.runtime_v1` by using the core imports directly.
+- [x] T085 Verify no NDNSF-DI pickle/mock path depends on the old local class
+  module names and rerun runtime/advisory/campaign regressions.
+
+## Phase 18: Core Envelope Experiment Visibility
+
+- [x] T086 Aggregate typed `ProviderCapabilityHint` and
+  `ServiceOperationStatus` envelopes from NativeTracer provider ACK logs into
+  `coreEnvelopeSummary` in MiniNDN `summary.json`.
+- [x] T087 Preserve the legacy `providerAckRuntimeHints` summary while adding
+  readiness, reason-code, service-payload-schema, and latest-provider views
+  from the core envelope.
+- [x] T088 Expose `coreEnvelopeSummary` and `providerAckRuntimeHints` through
+  the Qwen MiniNDN GUI/headless result path.
+- [x] T089 Document the new summary surface and add regression coverage for
+  harness aggregation and GUI/headless passthrough.
+
+## Phase 19: Qwen MiniNDN GUI Core Envelope Panel
+
+- [x] T090 Add a Qwen MiniNDN GUI formatter for provider readiness, reason
+  codes, operation states, latest providers, and legacy ACK runtime hints.
+- [x] T091 Display the formatted core envelope summary in the non-headless
+  Qwen MiniNDN tab after a run completes.
+- [x] T092 Add a `Refresh Summary` button that reloads the current output
+  directory's `summary.json` without rerunning MiniNDN.
+- [x] T093 Add regression coverage for the display formatter.

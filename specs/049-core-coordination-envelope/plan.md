@@ -131,14 +131,86 @@ providers. This keeps selection authority in the existing native path while
 allowing NDNSF-DI user/advisory logic to record live ACK queue, worker,
 runtime, lease, and network telemetry snapshots for future planning windows.
 
+## Core/App Boundary Envelopes
+
+The next boundary extension makes reusable runtime concepts explicit without
+moving application semantics into the core. NDNSF core owns provider
+capability hints, runtime hints, rejection reason vocabulary, service operation
+status, stream health, and provider-pair telemetry ranking. Repo, UAV, and DI
+own their domain payloads and policies.
+
+The Python core exposes `ProviderCapabilityHint`, `RuntimeHint`,
+`RejectionReason`, `ServiceOperationStatus`, `StreamHealth`, and
+`ProviderNetworkMatrix` candidate ranking helpers. These are intentionally
+service-neutral envelopes:
+
+- Repo may put storage capacity and catalog details in `service_payload`.
+- UAV may put camera, mission, or recording details in `service_payload`.
+- DI may put model fragment, cache, and role details in `service_payload`.
+
+Applications should migrate to these envelopes incrementally. The core must
+not absorb Repo catalog semantics, UAV MAVLink/video policy, or DI model split
+and cache policy.
+
+The first Repo/UAV/DI migration bridge keeps existing wire fields source- and
+payload-compatible while adding typed core envelopes beside them. Repo storage
+ACKs now carry `ProviderCapabilityHint`, Repo store/insert responses can expose
+`ServiceOperationStatus` and `DataProductReference`, DI provider ACKs carry
+`ProviderCapabilityHint`, DI artifact provisioning ACKs carry
+`ServiceOperationStatus`, and DI fragment inventory can produce a core
+capability hint from observed residency. The stream substrate now has a C++
+`StreamHealth` snapshot helper matching the Python helper, so UAV stream
+consumers can report generic stream condition without moving H264/FEC/ROI
+policy into NDNSF core.
+
+This is a bridge migration rather than a hard protocol replacement. Legacy
+Repo/DI payload fields remain available so existing clients and experiment
+parsers keep working. New code should prefer the typed core envelopes, and a
+later cleanup can remove local duplicate telemetry dataclasses after all app
+consumers have regression coverage.
+
+The second bridge migration moves selected consumers to core-first parsing.
+Repo Python clients now treat `ProviderCapabilityHint` as authoritative when
+it is present and use legacy storage fields only as fallback. DI
+runtime-aware candidate scoring can derive `GenericAckMetadata` from
+`ProviderCapabilityHint`, so a provider that emits only the core capability
+envelope can still participate in DI runtime-aware planning. UAV
+`VideoAdaptiveState` now maps to core `StreamHealth`, giving the ground-station
+runtime a reusable stream-health snapshot without changing video bitrate,
+decoder, FEC, or ROI policy.
+
+The DI runtime cleanup removes the local duplicate definitions of generic ACK
+metadata, runtime hints, admission leases, peer metrics, and provider network
+matrices from `runtime_v1.py`. The public names remain importable from
+`ndnsf_distributed_inference.runtime_v1`, but they now point to the reusable
+core types in `ndnsf.runtime_telemetry`. Serialization remains JSON/dict based;
+no NDNSF-DI pickle path depends on the old local class module names.
+
+The experiment visibility bridge makes those core envelopes directly visible
+in NativeTracer MiniNDN outputs. Provider ACK logs still keep the legacy
+runtime fields for old parsers, but the harness now decodes typed
+`ProviderCapabilityHint` and nested `ServiceOperationStatus` payloads into
+`coreEnvelopeSummary`. The Qwen MiniNDN GUI/headless path passes the same
+summary through unchanged, so the GUI and CLI experiment paths report the same
+provider readiness, reason-code, schema, and latest-provider evidence.
+
+The non-headless Qwen MiniNDN tab now renders that evidence directly. It keeps
+the experiment command path unchanged, reads the same `summary.json`, and shows
+provider readiness, reason codes, operation states, latest provider runtime
+view, and the legacy ACK runtime hint counters. Operators can refresh the panel
+from the current output directory without rerunning MiniNDN.
+
 ## Validation
 
 ```bash
 PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_coordination.py
+PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_boundary_envelopes.py
+PYTHONPATH=.:pythonWrapper:NDNSF-DistributedInference:NDNSF-DistributedRepo/pythonWrapper python3 tests/python/test_ndnsf_app_core_envelope_migration.py
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_advisory_coordinator.py
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_aware_planner.py
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_runtime_v1.py
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference:Experiments python3 tests/python/test_ndnsf_di_runtime_aware_campaign.py
+PYTHONPATH=pythonWrapper:NDNSF-DistributedInference python3 tests/python/test_ndnsf_di_tk_gui.py
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference:Experiments python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py --dry-run --advisory-coordinator --requests 1 --concurrency 1
 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference:Experiments python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py --dry-run --compare-advisory-coordinator --out /tmp/ndnsf-di-rps-sweep-advisory-dry-run --rps 0.2 --requests 2 --concurrency 2
 ```

@@ -179,6 +179,12 @@ that the GUI lets an operator edit fields and click Run instead of passing
 `--headless-experiment qwen-minindn`. Keep `Wrap with sudo -n env` enabled when
 starting MiniNDN from a normal desktop session.
 
+After a run, the tab displays the decoded core envelope summary from
+`summary.json`: provider readiness, reason codes, service-payload schemas,
+operation states, latest provider queue/active-work values, and the legacy ACK
+runtime hint counters. Use `Refresh Summary` to reload these fields from the
+current output directory without rerunning MiniNDN.
+
 For a small GUI-driven campaign, set `Target RPS sweep list` to a comma-separated
 list such as `0.2,0.4,0.8`, set `Sweep repeats`, then click `Run Sweep`. The GUI
 runs the same Qwen MiniNDN command sequentially for each RPS/repeat and writes
@@ -343,6 +349,14 @@ provider residency counters, edge-cost summary, and bounded replan count. In
 local-execution-only and provider-check runs, user latency is zero because the
 full user request path is intentionally gated; the local plan, manifest,
 runtime-v1 evidence, and MiniNDN provider placement are still validated.
+
+`summary.json` is the broader run record. For core/app-boundary checks, read
+`coreEnvelopeSummary`: it decodes provider ACK payloads that carry typed
+`ProviderCapabilityHint` and nested `ServiceOperationStatus` envelopes. This
+section reports provider readiness, negative/admission reason codes,
+service-payload schemas, operation states, and each provider's latest core
+runtime view. The older `providerAckRuntimeHints` section remains for legacy
+queue/worker fields.
 
 Provider fragment residency should come from `ProviderFragmentInventoryManager`
 when the provider runtime can expose local state. The manager treats GPU and CPU
