@@ -266,6 +266,9 @@ Completed bridge points:
 - NativeTracer MiniNDN summaries now add core `ServiceOperationStatus` to
   `userExecution` and `dependencyExecution` while preserving legacy fields such
   as `status`, `reason`, request counts, latency metrics, and role lists.
+- UAV ground-station display now shows a concise `StreamHealth`-derived
+  `stream_health` summary beside existing adaptive-video text, while preserving
+  UAV-specific bitrate, decoder, FEC, ROI, and pressure details.
 
 Remaining migrations:
 
@@ -274,8 +277,4 @@ Remaining migrations:
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
   `ProviderNetworkMatrix` facts. Live collection and app-specific scoring are
   still workload-specific follow-up work.
-- UAV still surfaces domain-specific adaptive-video fields in its GUI; the
-  core `StreamHealth` mapping is now available but the display migration should
-  be done separately to avoid mixing UI changes into the boundary layer.
-
 These migrations should be done one workload at a time with regression tests.
