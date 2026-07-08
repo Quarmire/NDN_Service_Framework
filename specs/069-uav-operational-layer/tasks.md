@@ -291,6 +291,21 @@ state contracts.
 - [x] T108 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-audit-query MiniNDN smoke.
 
+## Phase 25: Operator Authority Audit Query Windowing
+
+- [x] T109 [US4] Extend the audit query request fields with `offset`,
+  `limit`, `from_ms`, and `to_ms` while keeping the existing recent-entry
+  default behavior.
+- [x] T110 [US4] Return `matched_count`, `returned_count`, `offset`, `limit`,
+  and the applied time bounds in the audit response.
+- [x] T111 [US4] Extend the headless audit smoke to query a one-entry page
+  after the full query and verify it returns the expected
+  `lease-revoked-detected` alert.
+- [x] T112 [US4] Update docs for bounded audit query pagination and time-window
+  filtering.
+- [x] T113 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-audit-query MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -299,6 +314,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should decide whether the audit query service needs pagination,
-time-range filtering, and role-specific redaction for multi-ground-station
-operations.
+Future tasks should decide whether the audit query service needs role-specific
+redaction for multi-ground-station operations.

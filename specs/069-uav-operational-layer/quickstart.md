@@ -204,7 +204,10 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 Expected marker: `NDNSF_UAV_AUTHORITY_AUDIT_QUERY_MININDN_SMOKE_OK`. The
 ground station creates the same admin-override and revoked-lease-detected
 alerts, then queries `/UAV/GS/OperatorAuthority/Audit` through the NDNSF
-service path and verifies the returned audit fields contain both events.
+service path and verifies the returned audit fields contain both events. The
+same smoke also queries a one-entry window with `offset`, `limit`, and
+`from_ms` to verify bounded post-mission review can page through the audit
+trail without fetching every entry.
 
 Expected evidence:
 
