@@ -58,6 +58,17 @@ state contracts.
 - [x] T018 Run Python app-core envelope migration regression.
 - [x] T019 Run `git diff --check`.
 
+## Phase 8: Mission Plan File Persistence
+
+- [x] T020 [US1] Add `MissionPlanDocument` file save/load helpers in
+  `NDNSF-UAV-APP/shared/UavProtocol.*`.
+- [x] T021 [US1] Extend `UavProtocolState` mission-plan test with a temporary
+  file save/load round-trip.
+- [x] T022 Update Spec069 plan, quickstart, and field contract to document the
+  file format.
+- [x] T023 Re-run build, focused C++ unit test, Python envelope regression, and
+  whitespace check after the file-persistence slice.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -68,7 +79,7 @@ state contracts.
 
 Future tasks should wire these models into:
 
-- ground-station mission save/load controls;
+- ground-station mission save/load controls that call the shared file helpers;
 - repo-backed catalog browsing;
 - MAVLink parameter fetch/cache service;
 - optional command lease checks in the MAVLink execute and mission assign paths.

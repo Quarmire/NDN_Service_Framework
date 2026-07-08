@@ -17,7 +17,8 @@ PYTHONPATH=.:pythonWrapper:NDNSF-DistributedInference:NDNSF-DistributedRepo/pyth
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
-  mission plan v2 fields round-trip.
+  mission plan v2 fields round-trip plus save/load through a temporary
+  line-oriented config file.
 - `UavDataProductCatalogSummarizesQueryableProducts` passes and shows catalog
   product counts and latest object prefix round-trip.
 - `VehicleParameterSnapshotCarriesCapabilityView` passes and shows compact and

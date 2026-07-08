@@ -33,6 +33,18 @@ Optional keys:
 - `mission_plan_rally_points`
 - `mission_plan_metadata`
 
+File persistence uses the same keys in a line-oriented format:
+
+```text
+# NDNSF-UAV mission plan document
+mission_plan_schema=2
+mission_plan_id=<id>
+...
+```
+
+Values are the existing `Fields` strings. Nested maps such as metadata continue
+to use the existing encoded field format.
+
 ## UavDataProductCatalogState
 
 Keys:

@@ -19,8 +19,10 @@ NDNSF services.
 **Primary Dependencies**: Existing `NDNSF-UAV-APP/shared/UavProtocol.*`,
 `ndn-service-framework` core envelopes, Boost unit-test target.
 
-**Storage**: State round-trips through existing `Fields`; durable file/repo
-storage is a later service wiring step.
+**Storage**: State round-trips through existing `Fields`.
+`MissionPlanDocument` also has lightweight line-oriented file save/load helpers
+for ground-station workflows. Repo-backed storage remains a later service
+wiring step.
 
 **Testing**: `./waf build --targets=unit-tests` and
 `./build/unit-tests --run_test=UavProtocolState`.
@@ -97,7 +99,7 @@ git diff --check
 
 After this state-contract slice, wire the models into:
 
-1. ground-station mission save/load UI and file storage;
+1. ground-station mission save/load UI using the shared file helpers;
 2. repo-backed catalog browsing for recordings/logs/detections;
 3. MAVLink parameter fetch/cache service;
 4. command execution checks that require a control lease when multi-operator
