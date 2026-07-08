@@ -14,7 +14,11 @@
 
 An NDNSF C++ application developer can describe a live or near-live stream with a stream id, session epoch, stream prefix, monotonically increasing sequence numbers, content type, timing metadata, and optional reliability metadata without using UAV-specific video packet types.
 
-**Why this priority**: This creates the reusable boundary. UAV video, telemetry, logs, distributed inference intermediate tensors, and future multi-part service responses need the same stream/session/chunk vocabulary.
+**Why this priority**: This creates the reusable boundary. UAV video,
+telemetry, logs, and other continuous or near-live publication sequences need
+the same stream/session/chunk vocabulary. Named large objects, model artifacts,
+files, and DI tensor dependencies normally do not: they should use exact-name
+segmented Data retrieval through the existing large-data path.
 
 **Independent Test**: Create stream info and chunks, serialize them, deserialize them, and verify all generic fields and opaque app metadata survive round trip.
 
@@ -60,12 +64,15 @@ An application can use NDNSF-provided adaptive stream state to choose fetch wind
 - Missing chunks must block ordered delivery until they arrive or the application chooses to skip them.
 - FEC metadata must be optional and codec-neutral.
 - Stream Data payloads may be encrypted by the application; the core must not inspect payload bytes.
+- Large files or one-shot named objects are not streams. They should remain on
+  NDN segmented object retrieval so consumers can fetch an exact name with
+  `SegmentFetcher` semantics.
 
 ## Requirements
 
 ### Functional Requirements
 
-- **FR-001**: NDNSF C++ core MUST provide app-neutral stream info, chunk, reliability, and metrics entities that do not mention UAV, H264, camera, or distributed inference.
+- **FR-001**: NDNSF C++ core MUST provide app-neutral stream info, chunk, reliability, and metrics entities that do not mention UAV, H264, camera, distributed inference, or file-transfer semantics.
 - **FR-002**: NDNSF MUST provide stable TLV encoding for C++ stream info/chunks and JSON-compatible dictionary conversion in the Python wrapper mirror.
 - **FR-003**: NDNSF MUST provide Block or bytes encoding and decoding for stream chunks that keeps metadata separate from payload bytes.
 - **FR-004**: NDNSF MUST provide a bounded producer buffer that stores chunks by sequence and evicts old chunks deterministically.
@@ -73,6 +80,8 @@ An application can use NDNSF-provided adaptive stream state to choose fetch wind
 - **FR-006**: NDNSF MUST provide generic adaptive fetch state and decision helpers for window, lookahead, interest lifetime, and missing timeout.
 - **FR-007**: NDNSF MUST document how NDNSF-UAV-APP maps its existing video stream fields onto the core stream substrate.
 - **FR-008**: NDNSF MUST keep application-specific capture, codec, FEC recovery algorithm, decoder queue, and bitrate-control semantics outside the core substrate.
+- **FR-009**: NDNSF MUST document that exact-name large object transfer is a
+  separate large-data/SegmentFetcher path, not a streaming-substrate use case.
 
 ### Key Entities
 

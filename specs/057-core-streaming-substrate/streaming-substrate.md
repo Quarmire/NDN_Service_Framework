@@ -7,9 +7,9 @@ ndn-service-framework/Stream.hpp
 ndn-service-framework/Stream.cpp
 ```
 
-The goal is to keep reusable stream/session/chunk behavior in NDNSF while
-leaving application-specific media, inference, or workload logic in the
-application.
+The goal is to keep reusable continuous-publication stream/session/chunk
+behavior in NDNSF while leaving application-specific media, inference, or
+workload logic in the application.
 
 ## Boundary
 
@@ -34,8 +34,14 @@ Applications own:
 - GUI presentation and application-specific logs.
 
 This keeps the core reusable for UAV video, telemetry streams, log streams,
-distributed-inference intermediate streams, and future multi-part service
-responses.
+and similar continuous or near-live publication sequences.
+
+This is intentionally separate from named large-object transfer. A large file,
+model artifact, or one-shot DI tensor bundle already has an exact NDN name and
+should normally use the existing segmented object path, where the consumer
+fetches that exact name with SegmentFetcher semantics. Streaming is for a
+producer that keeps publishing a time-ordered sequence and a consumer that
+tracks freshness, gaps, reordering, and optional stream-level repair.
 
 ## UAV Mapping
 
@@ -132,11 +138,18 @@ The July 7, 2026 5% loss run under
 reached 194 decoded frames before stop, and the ground station exited with
 `GS_GUI_EXIT rc=0`.
 
-## Distributed Inference Tensor Stream Smoke
+## Distributed Inference Boundary Check
 
-The substrate is not video-specific. `Experiments/NDNSF_DI_LlmPipeline_Smoke.py`
-uses core `StreamChunk` encoding for its fake LLM hidden-state dependency
-store. Each planned dependency is published as one or more stream chunks with:
+Distributed inference dependencies are not live streams by default. A planned
+hidden-state tensor bundle has a deterministic object name, so the normal NDNSF
+DI path should publish that object and fetch it by exact name through the
+large-data/SegmentFetcher path.
+
+`Experiments/NDNSF_DI_LlmPipeline_Smoke.py` is a boundary smoke: it proves that
+core `StreamChunk` can carry a DI-shaped payload when an application explicitly
+wants stream metadata, but it is not the recommended default for DI
+large-object transfer. In that smoke, each planned dependency is published as
+one or more stream chunks with:
 
 ```text
 contentType = application/x-ndnsf-di-tensor-bundle
@@ -146,7 +159,9 @@ payload     = hidden-state bundle bytes
 
 The consumer decodes each chunk, validates the stream id, sequence number,
 content type, segment count, and object metadata, then reassembles the original
-hidden-state bundle before executing the next fake pipeline stage.
+hidden-state bundle before executing the next fake pipeline stage. This is a
+metadata-envelope experiment, not a replacement for exact-name segmented object
+retrieval.
 
 Validation:
 
@@ -162,14 +177,21 @@ python3 Experiments/NDNSF_DI_LlmPipeline_Smoke.py \
 Both runs passed on July 7, 2026. The default 64-byte chunk setting published
 5 stream chunks for 2 dependencies; the forced 17-byte setting published 19
 stream chunks. Both produced the same final output size and preserved the LLM
-pipeline execution order.
+pipeline execution order. The result only shows that such an envelope is
+possible; it does not change the recommended default for DI dependencies.
 
 ## C++ Distributed Inference Large-Data Path
 
-The real C++ DI collaboration path can also carry dependency tensors as core
-`StreamChunk` payloads. `NdnsfCollaborationDependencyIo` keeps the old raw
-payload behavior by default. When enabled, it wraps each complete tensor bundle
-before `publishLargeNamed(...)` and unwraps it after `fetchLarge(...)`:
+The real C++ DI collaboration path carries dependency tensors through exact
+planned Data names. `NdnsfCollaborationDependencyIo` therefore keeps raw
+payload behavior by default: it publishes a complete tensor bundle under the
+planned name with `publishLargeNamed(...)`, and consumers retrieve the exact
+same name with `fetchLarge(...)`, which uses the existing segmented large-data
+path.
+
+For diagnostics and metadata experiments only, the same path can wrap each
+complete tensor bundle as one core `StreamChunk` payload before
+`publishLargeNamed(...)` and unwrap it after `fetchLarge(...)`:
 
 ```text
 contentType = application/x-ndnsf-di-tensor-bundle
@@ -205,30 +227,32 @@ PYTHONPATH=pythonWrapper python3 tests/python/test_ndnsf_core_streaming.py
 ./build/unit-tests
 ```
 
-The full `unit-tests` run passed with 185 test cases. This proves the new C++
-StreamChunk tensor-bundle envelope is available without changing default raw
-DI dependency behavior.
+The full `unit-tests` run passed with 185 test cases. This proves the optional
+C++ StreamChunk tensor-bundle envelope is available without changing default
+raw DI dependency behavior. It is not evidence that DI tensor dependencies
+should be modeled as streams.
 
-## Next Design: Real DI StreamChunk Validation Campaign
+## Historical DI StreamChunk Validation Campaign
 
-The next batch moves the StreamChunk DI work from local/unit proof to the real
-NDNSF-DI network path. The design principle is conservative:
+The DI StreamChunk campaign was run as a boundary check, not as a decision to
+move large-object transfer into the streaming substrate. The design principle
+after the boundary review is:
 
 ```text
-default mode       = raw tensor bundle payload
-experimental mode  = StreamChunk tensor bundle envelope
-decision point     = enable by default only after real-network evidence
+default mode       = raw tensor bundle payload over exact-name large-data fetch
+experimental mode  = StreamChunk tensor bundle metadata envelope
+decision point     = keep StreamChunk opt-in for diagnostics/interoperability
 ```
 
-The campaign should answer four questions:
+The campaign answered four questions:
 
 1. Does `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` work end-to-end in the same
    MiniNDN Qwen/NativeTracer path used by NDNSF-DI experiments?
 2. Do the final outputs and dependency execution order match the raw baseline?
 3. How much wire-size, latency, and failure-rate overhead does the StreamChunk
    envelope add?
-4. Does the feature help future stream/counter/debug reuse enough to justify
-   turning it on by default?
+4. Does the feature help future stream/counter/debug reuse enough to keep as
+   an explicit opt-in experiment?
 
 ### Runtime Path
 
@@ -297,8 +321,9 @@ final output hash or exact output text
 
 ### Diagnostics
 
-The C++ path should produce grep-friendly counters when
-`NDNSF_DI_RUNTIME_TIMING=1` or a new stream-specific diagnostics flag is set:
+The C++ path produces grep-friendly counters when
+`NDNSF_DI_RUNTIME_TIMING=1` or the DI dependency-envelope diagnostics flag is
+set:
 
 ```text
 NDNSF_DI_STREAM_DEPENDENCY
@@ -318,7 +343,7 @@ can come later if the evidence shows the mode is worth promoting.
 
 ### Benchmark Policy
 
-The first comparison should be small but reproducible:
+The first comparison was small but reproducible:
 
 ```text
 loss: 0%
@@ -342,8 +367,9 @@ Keep StreamChunk dependency mode off by default until all of these are true:
 - at least one real MiniNDN full-network run passes in StreamChunk mode;
 - documentation explains when to use raw mode versus StreamChunk mode.
 
-If these gates pass, the next spec can decide whether to flip the default or
-keep it as an explicit debug/interoperability mode.
+Even with these gates passing, the default remains raw exact-name large-data
+transfer because DI tensor dependencies are planned named objects, not
+continuous streams.
 
 ## DI StreamChunk Validation Campaign Result
 
@@ -484,15 +510,15 @@ Keep raw dependency mode as the default.
 Use raw mode when:
 
 - the dependency payload is already an application-specific tensor bundle;
-- throughput and latency are more important than reusable stream metadata;
-- the experiment does not need stream-level diagnostics or cross-application
-  stream/FEC/reorder semantics.
+- the object has a planned name and should be fetched exactly by name;
+- throughput and latency are more important than an extra metadata envelope.
 
 Use StreamChunk dependency mode when:
 
-- the experiment needs app-neutral stream metadata on DI dependencies;
-- the same diagnostics/counter tools should work across video streams and DI
-  tensor streams;
+- the experiment explicitly needs a StreamChunk-shaped metadata envelope on DI
+  dependencies;
+- the same diagnostics/counter parser should work across video streams and this
+  DI envelope experiment;
 - the payload must carry explicit session, scope, producer, consumer,
   planned-data-name, content-type, and segment metadata;
 - the goal is interoperability or debugging, not minimum wire overhead.

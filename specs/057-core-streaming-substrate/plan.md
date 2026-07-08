@@ -30,7 +30,11 @@ wholesale into core.
 
 **Constraints**: Do not move UAV H264/camera/decoder logic into NDNSF core. Do not change NDNSF security flow or existing UAV packet names in this iteration.
 
-**Scale/Scope**: Generic API sufficient for UAV video mapping, telemetry/log streams, DI intermediate streams, and future multi-part service responses.
+**Scale/Scope**: Generic API sufficient for continuous or near-live
+publication sequences such as UAV video, telemetry streams, and log streams.
+Named large objects, files, model artifacts, and DI tensor dependencies remain
+SegmentFetcher-style exact-name transfers unless an application explicitly adds
+a stream envelope for diagnostics or metadata experiments.
 
 ## Boundary Decision
 
@@ -47,6 +51,8 @@ Applications own:
 
 - camera capture, ffmpeg, H264, ROI, YOLO, and video decoder queues;
 - model/tensor semantics and DI role scheduling;
+- large-object and file-transfer semantics that are already satisfied by
+  exact-name NDN segmented Data retrieval;
 - actual FEC codec implementation and repair policy;
 - bitrate policy that changes application encoder settings.
 
