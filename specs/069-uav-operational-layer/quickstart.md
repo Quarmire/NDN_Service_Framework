@@ -120,6 +120,20 @@ conflicting control lease for the same drone, accepts renewal by the original
 operator, accepts an admin override, and then rejects the original operator
 because the admin lease is now active.
 
+MiniNDN operator-authority persistence smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-persistence-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_PERSISTENCE_MININDN_SMOKE_OK`. The GS
+uses a configured active-lease state file and admin allowlist, rejects an
+unauthorized admin override, accepts an authorized admin override, returns
+revoked lease evidence in the response fields, and verifies that the active
+issuer table is persisted as a single admin lease.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

@@ -188,6 +188,23 @@ state contracts.
 - [x] T071 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-arbitration MiniNDN smoke.
 
+## Phase 18: Authority Persistence and Admin Policy
+
+- [x] T072 [US4] Add issuer-side active lease persistence through a configured
+  `operator-authority-state-file`.
+- [x] T073 [US4] Add an `operator-admin-ids` allowlist for admin-scope lease
+  override requests while preserving the existing permissive default when no
+  allowlist is configured.
+- [x] T074 [US4] Return admin override evidence with revoked lease IDs and
+  revoked operators in the typed lease response.
+- [x] T075 [US4] Add a headless authority persistence smoke that verifies
+  unauthorized admin rejection, authorized admin override, revoked evidence,
+  and persisted active lease state.
+- [x] T076 [US4] Add MiniNDN harness support and documentation for
+  `--auto-authority-persistence-test`.
+- [x] T077 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-persistence MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -196,6 +213,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should add lease revocation notification, persistent issuer state,
-and stronger admin-scope authorization policy on top of the current
-multi-operator issuer arbitration.
+Future tasks should turn the current response-carried revocation evidence into
+an optional fetchable revocation record service if real multi-operator clients
+need asynchronous lease invalidation.
