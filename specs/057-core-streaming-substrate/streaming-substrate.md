@@ -381,7 +381,7 @@ python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
   --out results/streamchunk_mode_raw_smoke_20260707c \
   --full-network \
   --tracer-deterministic-runner \
-  --dependency-payload-mode raw \
+  --dependency-envelope-mode raw \
   --requests 1 \
   --concurrency 1 \
   --provider-check-timeout 60
@@ -390,7 +390,7 @@ python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
 The StreamChunk mode uses the same harness and workload, changing only:
 
 ```bash
---dependency-payload-mode streamchunk
+--dependency-envelope-mode streamchunk
 ```
 
 The harness maps this to provider environment:
@@ -528,8 +528,14 @@ measures non-trivial envelope overhead on tiny NativeTracer payloads. The
 existing opt-in path is:
 
 ```bash
---dependency-payload-mode streamchunk
+--dependency-envelope-mode streamchunk
 ```
+
+The older `--dependency-payload-mode` spelling remains accepted as a legacy
+alias, but new scripts and documentation should use `dependency envelope` to
+make clear that StreamChunk is only an optional metadata envelope for DI
+dependency objects. It is not the generic mechanism for exact-name large-object
+transfer.
 
 or, for direct provider configuration:
 

@@ -110,7 +110,7 @@
 
 - [x] T053 Locate the current MiniNDN Qwen/NativeTracer full-network entrypoint in `Experiments/` and record its raw-mode command in `specs/057-core-streaming-substrate/streaming-substrate.md`.
 - [x] T054 Add or confirm a single flag/env hook in the MiniNDN harness under `Experiments/` that enables `NDNSF_DI_STREAM_CHUNK_DEPENDENCIES=1` for every provider process.
-- [x] T055 Add a run-directory marker in the MiniNDN harness summary writer under `Experiments/` that records `dependency_payload_mode=raw|streamchunk` in `config.json` or `summary.json`.
+- [x] T055 Add a run-directory marker in the MiniNDN harness summary writer under `Experiments/` that records `dependency_envelope_mode=raw|streamchunk` in `config.json` or `summary.json`, while preserving the old `dependency_payload_mode` key as a compatibility alias.
 - [x] T056 Run the existing raw-mode full-network smoke from `Experiments/` and save the result directory under `results/` as baseline evidence.
 - [x] T057 Run the same full-network smoke from `Experiments/` with StreamChunk dependencies enabled and save the result directory under `results/`.
 - [x] T058 Compare raw and StreamChunk final outputs using exact text or output hash in a script under `Experiments/` or `tools/`.
