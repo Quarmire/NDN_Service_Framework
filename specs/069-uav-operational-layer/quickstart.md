@@ -93,6 +93,19 @@ starts the GS with a configured monitor-only lease for the selected drone, then
 the GS verifies that telemetry remains allowed while control and mission
 assignment are blocked by the startup lease.
 
+MiniNDN operator-authority issuer smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-issuer-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_ISSUER_MININDN_SMOKE_OK`. The GS first
+sets its active lease to monitor-only, then requests a control lease from the
+GS authority issuer service through the normal NDNSF service path. The returned
+lease is applied locally and mission/control validation becomes allowed again.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

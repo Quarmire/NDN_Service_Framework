@@ -158,6 +158,21 @@ state contracts.
 - [x] T059 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and configured-authority MiniNDN smoke.
 
+## Phase 16: NDNSF Operator Authority Lease Issuer
+
+- [x] T060 [US4] Add an app-level `/UAV/GS/OperatorAuthority/Lease`
+  service name, runtime config field, and policy entries.
+- [x] T061 [US4] Add a typed `OperatorAuthorityLeaseRequest` contract with
+  Fields round-trip and validation coverage.
+- [x] T062 [US4] Register a GS provider service that issues an
+  `OperatorAuthorityLease` response or a typed rejection reason.
+- [x] T063 [US4] Add a headless smoke path where the GS requests and applies
+  a control lease through the NDNSF service path.
+- [x] T064 [US4] Add MiniNDN harness support and documentation for
+  `--auto-authority-issuer-test`.
+- [x] T065 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-issuer MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
