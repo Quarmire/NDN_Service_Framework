@@ -249,6 +249,19 @@ state contracts.
 - [x] T093 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-refresh-timer MiniNDN smoke.
 
+## Phase 22: Operator Authority Alert History
+
+- [x] T094 [US4] Add a bounded operator-authority alert history to ground
+  station runtime state.
+- [x] T095 [US4] Record alert entries when admin override creates a revocation
+  record and when client refresh detects a revoked active lease.
+- [x] T096 [US4] Show recent authority alerts in the Operator Authority
+  inspector.
+- [x] T097 [US4] Add MiniNDN harness support and docs for
+  `--auto-authority-alert-history-test`.
+- [x] T098 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-alert-history MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -257,5 +270,5 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should expose authority refresh in the GUI/operator panel and, if
-needed, connect lease refresh results to persistent operator alert history.
+Future tasks should decide whether authority alerts should stay process-local
+or be exported as a queryable operator audit trail for post-mission review.

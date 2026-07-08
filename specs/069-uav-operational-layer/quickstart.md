@@ -177,6 +177,20 @@ runtime detects the revoked lease without a manual refresh call. In the GUI,
 the same logic is available through the `Refresh Lease` button; an interval of
 `0` leaves periodic refresh disabled and keeps the button/manual path only.
 
+MiniNDN operator-authority alert-history smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-alert-history-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_ALERT_HISTORY_MININDN_SMOKE_OK`. The
+ground station records an `admin-override` alert when the issuer revokes an
+older exclusive lease, then records `lease-revoked-detected` when the original
+operator refreshes and detects that its active lease is no longer valid. The
+Operator Authority inspector displays the most recent alert entries.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
