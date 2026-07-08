@@ -81,6 +81,16 @@ state contracts.
 - [x] T028 Re-run build, focused C++ unit test, Python envelope regression, and
   whitespace check after ground-station wiring.
 
+## Phase 10: Upload Loaded Mission Plan
+
+- [x] T029 [US1] Add a ground-station runtime upload path for an existing
+  `MissionPlan`, preserving per-drone mission parts.
+- [x] T030 [US1] Change `Upload Mission` to prefer the current loaded or
+  preview mission plan before falling back to generated patrol inputs.
+- [x] T031 [US1] Update quickstart docs to explain loaded-plan upload behavior.
+- [x] T032 Re-run build, focused C++ unit test, Python envelope regression, and
+  whitespace check after loaded-plan upload wiring.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.

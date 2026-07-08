@@ -25,7 +25,10 @@ Ground-station GUI wiring:
 The Map / Mission controls expose a mission-plan file path plus `Save Plan`
 and `Load Plan` buttons. Saving uses the current map preview when available,
 otherwise the currently uploaded runtime mission plan. Loading updates the
-runtime mission plan snapshot and refreshes the inspector/map preview.
+runtime mission plan snapshot and refreshes the inspector/map preview. The
+`Upload Mission` button now uses the current loaded or preview mission plan
+first, preserving per-drone parts from the file; if no editable plan exists, it
+falls back to the older patrol-input generation path.
 
 Expected evidence:
 
