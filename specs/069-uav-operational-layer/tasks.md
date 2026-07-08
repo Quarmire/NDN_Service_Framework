@@ -306,6 +306,21 @@ state contracts.
 - [x] T113 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-audit-query MiniNDN smoke.
 
+## Phase 26: Operator Authority Audit Redaction
+
+- [x] T114 [US4] Add explicit `redaction=full|summary|self` and
+  `requester_operator` query fields while keeping `full` as the default for
+  backward compatibility.
+- [x] T115 [US4] Redact `revoked_operator` and `revoker_operator` in
+  `summary` and non-matching `self` responses while preserving event type,
+  reason, lease, drone, scope, and timestamp context.
+- [x] T116 [US4] Extend the headless audit smoke to verify that summary
+  redaction hides operator identities and preserves event context.
+- [x] T117 [US4] Update docs for audit redaction behavior and the remaining
+  authenticated requester-policy gap.
+- [x] T118 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-audit-query MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -314,5 +329,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should decide whether the audit query service needs role-specific
-redaction for multi-ground-station operations.
+Future tasks should bind audit redaction to authenticated requester identity
+instead of caller-supplied `requester_operator` when multi-ground-station
+security policy is needed.

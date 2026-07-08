@@ -207,7 +207,9 @@ alerts, then queries `/UAV/GS/OperatorAuthority/Audit` through the NDNSF
 service path and verifies the returned audit fields contain both events. The
 same smoke also queries a one-entry window with `offset`, `limit`, and
 `from_ms` to verify bounded post-mission review can page through the audit
-trail without fetching every entry.
+trail without fetching every entry. It also queries with `redaction=summary`
+and verifies that operator identities are hidden while the event type, lease,
+drone, scope, and reason remain available for safe review.
 
 Expected evidence:
 
