@@ -193,6 +193,19 @@ alerts are persisted in the configured authority state file, reloaded, and
 then checked again so the same evidence can support post-mission review. The
 Operator Authority inspector displays the most recent alert entries.
 
+MiniNDN operator-authority audit-query smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-audit-query-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_AUDIT_QUERY_MININDN_SMOKE_OK`. The
+ground station creates the same admin-override and revoked-lease-detected
+alerts, then queries `/UAV/GS/OperatorAuthority/Audit` through the NDNSF
+service path and verifies the returned audit fields contain both events.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

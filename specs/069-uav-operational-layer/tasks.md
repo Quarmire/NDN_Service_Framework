@@ -277,6 +277,20 @@ state contracts.
 - [x] T103 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-alert-history MiniNDN smoke.
 
+## Phase 24: Operator Authority Audit Query Service
+
+- [x] T104 [US4] Add a configurable UAV app-level
+  `/UAV/GS/OperatorAuthority/Audit` service name and policies.
+- [x] T105 [US4] Register an NDNSF provider service that returns the recent
+  bounded authority alert audit entries as key-value response fields.
+- [x] T106 [US4] Add a ground-station sync helper and headless smoke that
+  queries the audit trail through the NDNSF service path after admin override
+  and revoked-lease refresh.
+- [x] T107 [US4] Add MiniNDN harness support and docs for
+  `--auto-authority-audit-query-test`.
+- [x] T108 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-audit-query MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -285,6 +299,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should decide whether persisted authority alerts need a separate
-network query service for offboard post-mission review, or whether the
-ground-station state file remains sufficient for the current proposal demo.
+Future tasks should decide whether the audit query service needs pagination,
+time-range filtering, and role-specific redaction for multi-ground-station
+operations.
