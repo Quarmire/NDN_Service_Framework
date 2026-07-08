@@ -205,6 +205,22 @@ state contracts.
 - [x] T077 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-persistence MiniNDN smoke.
 
+## Phase 19: Fetchable Revocation Records
+
+- [x] T078 [US4] Add an app-level
+  `/UAV/GS/OperatorAuthority/Revocation` service name, runtime config field,
+  and controller policy entries.
+- [x] T079 [US4] Store admin override revocation records with revoked lease,
+  revoked operator, revoker operator, target drone, scope, and timestamp.
+- [x] T080 [US4] Persist revocation records beside active issuer leases in the
+  configured authority state file.
+- [x] T081 [US4] Register a GS revocation lookup service that returns typed
+  `found=true/false` response fields for a requested revoked lease ID.
+- [x] T082 [US4] Add a headless authority revocation smoke and MiniNDN harness
+  support for `--auto-authority-revocation-test`.
+- [x] T083 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-revocation MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -213,6 +229,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should turn the current response-carried revocation evidence into
-an optional fetchable revocation record service if real multi-operator clients
-need asynchronous lease invalidation.
+Future tasks should connect revocation lookup to real multi-operator client
+polling or notification if an operator process needs asynchronous lease
+invalidation after an admin override.

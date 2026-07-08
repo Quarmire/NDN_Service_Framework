@@ -134,6 +134,20 @@ unauthorized admin override, accepts an authorized admin override, returns
 revoked lease evidence in the response fields, and verifies that the active
 issuer table is persisted as a single admin lease.
 
+MiniNDN operator-authority revocation lookup smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-revocation-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_REVOCATION_MININDN_SMOKE_OK`. The GS
+creates a control lease, overrides it with an authorized admin lease, then
+queries `/UAV/GS/OperatorAuthority/Revocation` through the NDNSF service path
+to fetch the revoked lease record. A missing lease lookup returns a typed
+`found=false` response instead of timing out.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
