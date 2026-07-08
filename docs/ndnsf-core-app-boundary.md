@@ -270,6 +270,9 @@ Completed bridge points:
   into core `PeerNetworkMetric` and `ProviderNetworkMatrix` payloads under
   `providerPairTelemetry`, using producer-to-consumer dataflow direction for
   dependency exchange.
+- NativeTracer runtime-aware planning can now consume a raw
+  `ProviderNetworkMatrix` JSON file or a previous summary's
+  `providerPairTelemetry.matrix` as dependency edge-cost input for a later run.
 - UAV ground-station display now shows a concise `StreamHealth`-derived
   `stream_health` summary beside existing adaptive-video text, while preserving
   UAV-specific bitrate, decoder, FEC, ROI, and pressure details.
@@ -280,6 +283,7 @@ Remaining migrations:
   one-off ACK fields where practical.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
   `ProviderNetworkMatrix` facts. NativeTracer now records observed dependency
-  edge RTTs this way; app-specific scoring and richer bandwidth/loss probes are
-  still workload-specific follow-up work.
+  edge RTTs this way and can consume a prior matrix during planning;
+  app-specific scoring and richer bandwidth/loss probes are still
+  workload-specific follow-up work.
 These migrations should be done one workload at a time with regression tests.

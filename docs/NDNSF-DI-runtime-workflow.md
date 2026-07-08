@@ -312,6 +312,23 @@ NDNSF-DI interprets the service payload:
 - `ProviderNetworkMatrix`: graph-placement edge-cost view over directed peer
   metrics.
 
+Runtime-aware NativeTracer planning can consume a matrix from an earlier probe
+or run:
+
+```bash
+sudo -n python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
+  --runtime-profile examples/di-native-tracer.runtime.json \
+  --runtime-aware-user-planner \
+  --provider-network-matrix-json /path/to/previous-summary.json \
+  --out /tmp/ndnsf-di-network-aware-run
+```
+
+The input may be a raw `ProviderNetworkMatrix` JSON file or a previous
+NativeTracer `summary.json` containing `providerPairTelemetry.matrix`.
+Telemetry from the current run is written after execution, so it is evidence
+for the next planning run or campaign phase, not retroactive input to the plan
+that already started.
+
 Admission leases are opt-in. Existing non-lease services keep the current
 ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
