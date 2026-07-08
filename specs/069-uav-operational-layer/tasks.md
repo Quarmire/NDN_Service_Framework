@@ -173,6 +173,21 @@ state contracts.
 - [x] T065 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-issuer MiniNDN smoke.
 
+## Phase 17: Multi-Operator Lease Arbitration
+
+- [x] T066 [US4] Add an issuer-side active lease table for leases issued
+  through `/UAV/GS/OperatorAuthority/Lease`.
+- [x] T067 [US4] Reject conflicting exclusive control/mission/admin lease
+  requests for the same drone unless the requester is renewing its own lease.
+- [x] T068 [US4] Allow monitor leases without exclusivity and allow admin
+  requests to override existing exclusive leases.
+- [x] T069 [US4] Return typed arbitration metadata for rejection/override:
+  conflicting operator, conflicting lease id, active count, and overridden count.
+- [x] T070 [US4] Add MiniNDN harness support and documentation for
+  `--auto-authority-arbitration-test`.
+- [x] T071 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-arbitration MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -181,5 +196,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should connect operator leases to a real multi-operator lease
-issuer or controller policy path instead of the current local default lease.
+Future tasks should add lease revocation notification, persistent issuer state,
+and stronger admin-scope authorization policy on top of the current
+multi-operator issuer arbitration.

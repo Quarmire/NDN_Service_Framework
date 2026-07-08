@@ -106,6 +106,20 @@ sets its active lease to monitor-only, then requests a control lease from the
 GS authority issuer service through the normal NDNSF service path. The returned
 lease is applied locally and mission/control validation becomes allowed again.
 
+MiniNDN operator-authority arbitration smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-arbitration-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_ARBITRATION_MININDN_SMOKE_OK`. The GS
+requests a control lease for one operator, rejects a second operator's
+conflicting control lease for the same drone, accepts renewal by the original
+operator, accepts an admin override, and then rejects the original operator
+because the admin lease is now active.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
