@@ -163,6 +163,20 @@ refreshes its active lease against `/UAV/GS/OperatorAuthority/Revocation`,
 marks the local lease as revoked, and existing command/mission gates return
 `lease-revoked`.
 
+MiniNDN periodic operator-authority refresh smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-authority-refresh-timer-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_AUTHORITY_REFRESH_TIMER_MININDN_SMOKE_OK`. This
+uses `--operator-authority-refresh-interval-ms 500` so the ground-station
+runtime detects the revoked lease without a manual refresh call. In the GUI,
+the same logic is available through the `Refresh Lease` button; an interval of
+`0` leaves periodic refresh disabled and keeps the button/manual path only.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows

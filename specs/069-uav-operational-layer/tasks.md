@@ -236,6 +236,19 @@ state contracts.
 - [x] T088 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and authority-refresh MiniNDN smoke.
 
+## Phase 21: GUI and Periodic Authority Refresh
+
+- [x] T089 [US4] Add `operator-authority-refresh-interval-ms` config/CLI support
+  with `0` as the disabled default.
+- [x] T090 [US4] Add a runtime periodic refresh loop that reuses
+  `refreshOperatorAuthorityLeaseFromIssuer()` and avoids overlapping refreshes.
+- [x] T091 [US4] Add a `Refresh Lease` GUI button and show manual/periodic
+  refresh state in the Operator Authority inspector.
+- [x] T092 [US4] Add MiniNDN harness support and docs for
+  `--auto-authority-refresh-timer-test`.
+- [x] T093 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and authority-refresh-timer MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -245,4 +258,4 @@ state contracts.
 ## Next Implementation Stage
 
 Future tasks should expose authority refresh in the GUI/operator panel and, if
-needed, add a configurable periodic timer for long-running operator sessions.
+needed, connect lease refresh results to persistent operator alert history.
