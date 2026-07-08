@@ -276,6 +276,20 @@ Completed bridge points:
 - UAV ground-station display now shows a concise `StreamHealth`-derived
   `stream_health` summary beside existing adaptive-video text, while preserving
   UAV-specific bitrate, decoder, FEC, ROI, and pressure details.
+- UAV operational-layer state now includes `MissionPlanDocument`,
+  `UavDataProductCatalogState`, `VehicleParameterSnapshot`, and
+  `OperatorAuthorityLease`. These close the next QGroundControl-like workflow
+  gaps without changing the core: persistent mission-plan metadata,
+  repo/catalog-facing data-product summaries, compact vehicle parameter and
+  capability views, and explicit operator command authority.
+- The UAV parameter snapshot is an application view over MAVLink/PX4/ArduPilot
+  details. A future NDNSF core configuration envelope may provide generic
+  key/value status vocabulary, but MAVLink parameter ids, calibration policy,
+  and flight-mode meaning remain UAV-owned.
+- The UAV operator lease is currently an application authority model. If Repo,
+  DI, and UAV converge on the same multi-operator conflict pattern, the
+  reusable lease freshness/proof envelope can move to core while UAV keeps the
+  meaning of `monitor`, `control`, `mission`, and `admin` scopes.
 
 Remaining migrations:
 
