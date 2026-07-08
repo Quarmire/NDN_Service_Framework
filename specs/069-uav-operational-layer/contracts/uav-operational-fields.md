@@ -69,6 +69,13 @@ recording product. The repo object count remains available separately through
 
 ## VehicleParameterSnapshot
 
+Service:
+
+- Per-drone service suffix: `/UAV/MAVLink/Parameters`
+- Full service example: `/example/uav/drone/A/UAV/MAVLink/Parameters`
+- Request payload type: `vehicle-parameter-snapshot-request`
+- Response payload: encoded fields below.
+
 Keys:
 
 - `parameter_drone`

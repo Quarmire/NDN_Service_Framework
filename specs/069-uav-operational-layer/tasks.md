@@ -115,6 +115,20 @@ state contracts.
 - [x] T042 Run build, focused C++ unit test, Python envelope regression,
   whitespace check, and repo catalog MiniNDN smoke when practical.
 
+## Phase 13: MAVLink Parameter Cache Service
+
+- [x] T043 [US3] Add per-drone `/UAV/MAVLink/Parameters` service suffix,
+  runtime config, and controller policy entries.
+- [x] T044 [US3] Add mock and UDP flight-controller parameter snapshots using
+  the existing `VehicleParameterSnapshot` state contract.
+- [x] T045 [US3] Add ground-station request/cache methods plus a
+  vehicle-parameter inspector and `Fetch Params` GUI button.
+- [x] T046 [US3] Add MiniNDN harness support for `--auto-parameter-cache-test`.
+- [x] T047 [US3] Document the parameter-cache smoke command and validation
+  marker.
+- [x] T048 Run build, focused C++ unit test, Python envelope regression,
+  whitespace check, and parameter-cache MiniNDN smoke.
+
 ## Dependencies
 
 - T004-T005 block all user story implementation.
@@ -123,7 +137,6 @@ state contracts.
 
 ## Next Implementation Stage
 
-Future tasks should wire these models into:
+Future tasks should wire the remaining model into:
 
-- MAVLink parameter fetch/cache service;
 - optional command lease checks in the MAVLink execute and mission assign paths.

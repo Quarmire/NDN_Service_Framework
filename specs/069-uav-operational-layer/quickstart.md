@@ -53,6 +53,20 @@ camera chunks to its local in-app repo, serves `/UAV/Camera/Repo/Catalog`, and
 the ground station summarizes the repo objects as object-level UAV data
 products instead of listing every chunk as a separate recording.
 
+MiniNDN MAVLink parameter-cache smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-parameter-cache-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_PARAMETER_CACHE_MININDN_SMOKE_OK`. The drone serves
+`/UAV/MAVLink/Parameters` under its identity, and the ground station fetches
+and caches a `VehicleParameterSnapshot` for the selected drone. This is an
+operator-visible parameter/capability view, not a full QGroundControl parameter
+editor.
+
 Expected evidence:
 
 - `UavMissionPlanDocumentSupportsPersistentOperationalPlan` passes and shows
