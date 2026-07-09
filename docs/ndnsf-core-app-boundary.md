@@ -290,6 +290,22 @@ Completed bridge points:
   DI, and UAV converge on the same multi-operator conflict pattern, the
   reusable lease freshness/proof envelope can move to core while UAV keeps the
   meaning of `monitor`, `control`, `mission`, and `admin` scopes.
+- QGroundControl-like setup, fly, plan, and analyze panels remain UAV-owned
+  because their meaning is tied to MAVLink, flight modes, vehicle parameters,
+  operator safety policy, and ground-station workflow. NDNSF core should not
+  learn MAVLink parameter names, arming checks, mission item semantics, or
+  inspector message ids.
+- UAV now has first-class contracts for the next QGroundControl parity slice:
+  `VehicleParameterEditRequest`, `VehicleParameterEditResult`,
+  `PreflightCheckItem`, `MavlinkMessageSummary`, and `UavAnalyzeSnapshot`.
+  These are application payloads that can be carried by normal NDNSF
+  Request/Response or status services. Core mechanisms still provide the
+  security, service invocation, stream health, operation status, and provider
+  discovery envelopes around them.
+- A future reusable NDNSF setting/configuration helper may standardize generic
+  key/value edit lifecycle states such as requested, accepted, applied, and
+  verified. The actual MAVLink value type, target system/component,
+  parameter-name limit, and safety validation stay in NDNSF-UAV-APP.
 
 Remaining migrations:
 
