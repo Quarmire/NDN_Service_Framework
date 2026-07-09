@@ -87,3 +87,16 @@
 - [x] T061 Run dashboard snapshot MiniNDN smoke.
 - [x] T062 Run `git diff --check`.
 - [x] T063 Commit the dashboard snapshot runtime slice.
+
+## Phase 9: Ground Station Dashboard Panel Slice
+
+- [x] T064 Add a Vehicle Summary inspector panel that consumes `UavOperatorDashboardSnapshot`.
+- [x] T065 Add `OPERATOR_DASHBOARD_PANEL_STATE` logging for GUI verification.
+- [x] T066 Add GUI `--auto-dashboard-panel-test` flow.
+- [x] T067 Add MiniNDN harness flag and success marker.
+- [x] T068 Build UAV apps and unit tests.
+- [x] T069 Run focused C++ protocol tests.
+- [x] T070 Run Python envelope regression.
+- [x] T071 Run dashboard panel MiniNDN GUI smoke.
+- [x] T072 Run `git diff --check`.
+- [x] T073 Commit the dashboard panel slice.
