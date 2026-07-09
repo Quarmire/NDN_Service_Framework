@@ -93,6 +93,20 @@ serves `/UAV/Preflight/Checklist`, computes `PreflightCheckItem` rows from
 telemetry, readiness, and camera state, and the ground station verifies that
 mock heartbeat and GPS checks pass with no blocking failures.
 
+MiniNDN MAVLink analyze snapshot smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-analyze-snapshot-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_ANALYZE_SNAPSHOT_MININDN_SMOKE_OK`. The drone
+serves `/UAV/MAVLink/AnalyzeSnapshot`, returns compact
+`MavlinkMessageSummary` rows for heartbeat, position, and battery-style
+messages, and the ground station verifies that active message summaries are
+visible for QGroundControl-like Analyze/Inspector views.
+
 MiniNDN operator-authority lease smoke:
 
 ```bash

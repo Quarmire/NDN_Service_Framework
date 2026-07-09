@@ -59,3 +59,18 @@
 - [x] T039 Run preflight checklist MiniNDN smoke.
 - [x] T040 Run `git diff --check`.
 - [x] T041 Commit the preflight runtime slice.
+
+## Phase 7: MAVLink Analyze Snapshot Runtime Slice
+
+- [x] T042 Add `/UAV/MAVLink/AnalyzeSnapshot` service suffix and config plumbing.
+- [x] T043 Add drone-side analyze snapshot generation from telemetry, mission, and video state.
+- [x] T044 Register drone provider analyze snapshot service.
+- [x] T045 Add ground-station analyze snapshot request/cache/sync helpers.
+- [x] T046 Add headless `--auto-analyze-snapshot-test` flow.
+- [x] T047 Add MiniNDN harness flag and success marker.
+- [x] T048 Build UAV apps and unit tests.
+- [x] T049 Run focused C++ protocol tests.
+- [x] T050 Run Python envelope regression.
+- [x] T051 Run analyze snapshot MiniNDN smoke.
+- [x] T052 Run `git diff --check`.
+- [x] T053 Commit the analyze snapshot runtime slice.

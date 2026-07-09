@@ -18,7 +18,8 @@ services:
   wired)
 - `/UAV/Preflight/Checklist` (implemented from current telemetry, readiness,
   and camera status)
-- `/UAV/MAVLink/AnalyzeSnapshot`
+- `/UAV/MAVLink/AnalyzeSnapshot` (implemented as a compact message-rate and
+  vehicle-state summary for QGC-like Analyze/Inspector panels)
 
 MiniNDN parameter-edit smoke:
 
@@ -39,3 +40,13 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 ```
 
 Expected marker: `NDNSF_UAV_PREFLIGHT_CHECKLIST_MININDN_SMOKE_OK`.
+
+MiniNDN MAVLink analyze snapshot smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-analyze-snapshot-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_ANALYZE_SNAPSHOT_MININDN_SMOKE_OK`.
