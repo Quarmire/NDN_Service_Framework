@@ -128,3 +128,17 @@
 - [x] T093 Run dashboard refresh buttons MiniNDN GUI smoke.
 - [x] T094 Run `git diff --check`.
 - [x] T095 Commit the dashboard refresh buttons slice.
+
+## Phase 12: Ground Station Parameter Edit Panel Slice
+
+- [x] T096 Add editable parameter controls for name, expected value, requested value, and MAVLink type.
+- [x] T097 Route the Apply Param button through the same NDNSF parameter-edit service as the headless test.
+- [x] T098 Add GUI result/cache logs for parameter edit verification.
+- [x] T099 Add GUI `--auto-parameter-edit-panel-test` flow.
+- [x] T100 Add MiniNDN harness flag and success marker.
+- [x] T101 Build UAV apps and unit tests.
+- [x] T102 Run focused C++ protocol tests.
+- [x] T103 Run Python envelope regression.
+- [x] T104 Run parameter edit panel MiniNDN GUI smoke.
+- [x] T105 Run `git diff --check`.
+- [x] T106 Commit the parameter edit panel slice.

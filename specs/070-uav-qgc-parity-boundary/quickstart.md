@@ -29,6 +29,9 @@ services:
   (implemented as GUI consumers of cached checklist and Analyze rows)
 - Ground Station Preflight and Analyze refresh buttons (implemented as explicit
   operator workflow actions that refresh the detail panels)
+- Ground Station editable parameter panel (implemented as a compact
+  QGroundControl-like operator workflow for applying one MAVLink parameter
+  through NDNSF and refreshing the parameter cache)
 
 MiniNDN parameter-edit smoke:
 
@@ -99,3 +102,13 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 ```
 
 Expected marker: `NDNSF_UAV_DASHBOARD_REFRESH_BUTTONS_MININDN_SMOKE_OK`.
+
+MiniNDN parameter edit panel GUI smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-parameter-edit-panel-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_PARAMETER_EDIT_PANEL_MININDN_SMOKE_OK`.
