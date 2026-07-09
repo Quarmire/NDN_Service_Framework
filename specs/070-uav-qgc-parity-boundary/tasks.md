@@ -114,3 +114,17 @@
 - [x] T082 Run dashboard detail panel MiniNDN GUI smoke.
 - [x] T083 Run `git diff --check`.
 - [x] T084 Commit the dashboard detail panel slice.
+
+## Phase 11: Ground Station Detail Refresh Buttons Slice
+
+- [x] T085 Add explicit Preflight and Analyze refresh buttons to the Ground Station toolbar.
+- [x] T086 Route button clicks through the same NDNSF request helpers as the panels.
+- [x] T087 Add button-result logs for preflight and Analyze refreshes.
+- [x] T088 Add GUI `--auto-dashboard-refresh-buttons-test` flow.
+- [x] T089 Add MiniNDN harness flag and success marker.
+- [x] T090 Build UAV apps and unit tests.
+- [x] T091 Run focused C++ protocol tests.
+- [x] T092 Run Python envelope regression.
+- [x] T093 Run dashboard refresh buttons MiniNDN GUI smoke.
+- [x] T094 Run `git diff --check`.
+- [x] T095 Commit the dashboard refresh buttons slice.
