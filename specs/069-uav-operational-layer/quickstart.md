@@ -67,6 +67,19 @@ and caches a `VehicleParameterSnapshot` for the selected drone. This is an
 operator-visible parameter/capability view, not a full QGroundControl parameter
 editor.
 
+MiniNDN MAVLink parameter-edit smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-parameter-edit-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_PARAMETER_EDIT_MININDN_SMOKE_OK`. The mock drone
+serves `/UAV/MAVLink/ParameterEdit`, applies a `VehicleParameterEditRequest`,
+and the ground station fetches `/UAV/MAVLink/Parameters` again to verify that
+the edited value is now visible in the parameter snapshot.
+
 MiniNDN operator-authority lease smoke:
 
 ```bash

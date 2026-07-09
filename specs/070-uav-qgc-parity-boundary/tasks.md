@@ -29,3 +29,18 @@
 - [x] T015 Run Python app-core envelope migration regression.
 - [x] T016 Run `git diff --check`.
 - [x] T017 Commit the completed slice.
+
+## Phase 5: Parameter Edit Runtime Slice
+
+- [x] T018 Add `/UAV/MAVLink/ParameterEdit` service suffix and config plumbing.
+- [x] T019 Add mock flight-controller parameter write/verify support.
+- [x] T020 Register drone provider parameter-edit service.
+- [x] T021 Add ground-station parameter-edit async/sync helpers.
+- [x] T022 Add headless `--auto-parameter-edit-test` flow.
+- [x] T023 Add MiniNDN harness flag and success marker.
+- [x] T024 Build UAV apps and unit tests.
+- [x] T025 Run focused C++ protocol tests.
+- [x] T026 Run Python envelope regression.
+- [x] T027 Run parameter-edit MiniNDN smoke when practical.
+- [x] T028 Run `git diff --check`.
+- [x] T029 Commit the runtime slice.
