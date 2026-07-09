@@ -44,3 +44,18 @@
 - [x] T027 Run parameter-edit MiniNDN smoke when practical.
 - [x] T028 Run `git diff --check`.
 - [x] T029 Commit the runtime slice.
+
+## Phase 6: Preflight Checklist Runtime Slice
+
+- [x] T030 Add `/UAV/Preflight/Checklist` service suffix and config plumbing.
+- [x] T031 Add drone-side checklist generation from telemetry/readiness/camera state.
+- [x] T032 Register drone provider preflight checklist service.
+- [x] T033 Add ground-station preflight request/cache/sync helpers.
+- [x] T034 Add headless `--auto-preflight-checklist-test` flow.
+- [x] T035 Add MiniNDN harness flag and success marker.
+- [x] T036 Build UAV apps and unit tests.
+- [x] T037 Run focused C++ protocol tests.
+- [x] T038 Run Python envelope regression.
+- [x] T039 Run preflight checklist MiniNDN smoke.
+- [x] T040 Run `git diff --check`.
+- [x] T041 Commit the preflight runtime slice.

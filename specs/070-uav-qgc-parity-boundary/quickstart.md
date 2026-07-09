@@ -16,7 +16,8 @@ services:
 - `/UAV/MAVLink/ParameterEdit` (implemented for mock backend; UDP/serial
   backends conservatively return unsupported until safe MAVLink read-back is
   wired)
-- `/UAV/Preflight/Checklist`
+- `/UAV/Preflight/Checklist` (implemented from current telemetry, readiness,
+  and camera status)
 - `/UAV/MAVLink/AnalyzeSnapshot`
 
 MiniNDN parameter-edit smoke:
@@ -28,3 +29,13 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 ```
 
 Expected marker: `NDNSF_UAV_PARAMETER_EDIT_MININDN_SMOKE_OK`.
+
+MiniNDN preflight checklist smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-preflight-checklist-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_PREFLIGHT_CHECKLIST_MININDN_SMOKE_OK`.

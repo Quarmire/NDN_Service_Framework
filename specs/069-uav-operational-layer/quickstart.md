@@ -80,6 +80,19 @@ serves `/UAV/MAVLink/ParameterEdit`, applies a `VehicleParameterEditRequest`,
 and the ground station fetches `/UAV/MAVLink/Parameters` again to verify that
 the edited value is now visible in the parameter snapshot.
 
+MiniNDN preflight checklist smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-preflight-checklist-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_PREFLIGHT_CHECKLIST_MININDN_SMOKE_OK`. The drone
+serves `/UAV/Preflight/Checklist`, computes `PreflightCheckItem` rows from
+telemetry, readiness, and camera state, and the ground station verifies that
+mock heartbeat and GPS checks pass with no blocking failures.
+
 MiniNDN operator-authority lease smoke:
 
 ```bash
