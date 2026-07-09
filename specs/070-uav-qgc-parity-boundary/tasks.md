@@ -100,3 +100,17 @@
 - [x] T071 Run dashboard panel MiniNDN GUI smoke.
 - [x] T072 Run `git diff --check`.
 - [x] T073 Commit the dashboard panel slice.
+
+## Phase 10: Ground Station Detail Panels Slice
+
+- [x] T074 Add Preflight Checks inspector panel from cached preflight checklist rows.
+- [x] T075 Add MAVLink Messages inspector panel from cached Analyze snapshot rows.
+- [x] T076 Add `OPERATOR_DETAIL_PANEL_STATE` logging for GUI verification.
+- [x] T077 Add GUI `--auto-dashboard-detail-panel-test` flow.
+- [x] T078 Add MiniNDN harness flag and success marker.
+- [x] T079 Build UAV apps and unit tests.
+- [x] T080 Run focused C++ protocol tests.
+- [x] T081 Run Python envelope regression.
+- [x] T082 Run dashboard detail panel MiniNDN GUI smoke.
+- [x] T083 Run `git diff --check`.
+- [x] T084 Commit the dashboard detail panel slice.

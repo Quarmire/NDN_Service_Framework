@@ -25,6 +25,8 @@ services:
   snapshot, and action gates)
 - Ground Station Vehicle Summary inspector panel (implemented as a GUI consumer
   of the dashboard snapshot)
+- Ground Station Preflight Checks and MAVLink Messages inspector panels
+  (implemented as GUI consumers of cached checklist and Analyze rows)
 
 MiniNDN parameter-edit smoke:
 
@@ -75,3 +77,13 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 ```
 
 Expected marker: `NDNSF_UAV_DASHBOARD_PANEL_MININDN_SMOKE_OK`.
+
+MiniNDN operator dashboard detail panel GUI smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-dashboard-detail-panel-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_DASHBOARD_DETAIL_PANEL_MININDN_SMOKE_OK`.
