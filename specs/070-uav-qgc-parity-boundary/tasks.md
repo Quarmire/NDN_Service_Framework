@@ -74,3 +74,16 @@
 - [x] T051 Run analyze snapshot MiniNDN smoke.
 - [x] T052 Run `git diff --check`.
 - [x] T053 Commit the analyze snapshot runtime slice.
+
+## Phase 8: Operator Dashboard Snapshot Runtime Slice
+
+- [x] T054 Add `UavOperatorDashboardSnapshot` protocol contract.
+- [x] T055 Add ground-station dashboard aggregation from telemetry, parameters, preflight, analyze, and action gates.
+- [x] T056 Add headless `--auto-dashboard-snapshot-test` flow.
+- [x] T057 Add MiniNDN harness flag and success marker.
+- [x] T058 Build UAV apps and unit tests.
+- [x] T059 Run focused C++ protocol tests.
+- [x] T060 Run Python envelope regression.
+- [x] T061 Run dashboard snapshot MiniNDN smoke.
+- [x] T062 Run `git diff --check`.
+- [x] T063 Commit the dashboard snapshot runtime slice.

@@ -20,6 +20,9 @@ services:
   and camera status)
 - `/UAV/MAVLink/AnalyzeSnapshot` (implemented as a compact message-rate and
   vehicle-state summary for QGC-like Analyze/Inspector panels)
+- Ground Station operator dashboard snapshot (implemented as an app-owned
+  aggregation of telemetry, parameter cache, preflight checklist, Analyze
+  snapshot, and action gates)
 
 MiniNDN parameter-edit smoke:
 
@@ -50,3 +53,13 @@ xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
 ```
 
 Expected marker: `NDNSF_UAV_ANALYZE_SNAPSHOT_MININDN_SMOKE_OK`.
+
+MiniNDN operator dashboard snapshot smoke:
+
+```bash
+xvfb-run -a sudo -E python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
+  --auto-dashboard-snapshot-test \
+  --no-start-jmavsim --no-cli --no-xhost
+```
+
+Expected marker: `NDNSF_UAV_DASHBOARD_SNAPSHOT_MININDN_SMOKE_OK`.
