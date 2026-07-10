@@ -8,8 +8,8 @@ target ownership is explicit.
 ## Phase 1: Entry Gate And Frozen Tests
 
 - [x] T001 Record current branch/HEAD, target-file dirty ownership, excluded files, and rollback boundaries in `evidence/entry-baseline.md`; BLOCK if any target dirty change lacks an owner.
-- [ ] T002 Re-run parent Core/DI/Repo baseline commands and, before treatment, run at least three matched 60-second current coordinator-on multi-user campaigns with frozen topology/profile/load/seeds; link raw results and exact commands in `evidence/regression-baseline.md`.
-- [ ] T003 [US1] Add `tests/python/test_ndnsf_di_execution_lease_fallback.py` that captures the current coordinator-unavailable/missing-`ExecutionLease` failure without changing production behavior.
+- [x] T002 Re-run parent Core/DI/Repo baseline commands and, before treatment, run at least three matched 60-second current coordinator-on multi-user campaigns with frozen topology/profile/load/seeds; link raw results and exact commands in `evidence/regression-baseline.md`.
+- [x] T003 [US1] Add `tests/python/test_ndnsf_di_execution_lease_fallback.py` that captures the current coordinator-unavailable/missing-`ExecutionLease` failure without changing production behavior.
 - [x] T004 Add the external Python API decision for moved Core symbols and any temporary import adapter with owner/expiry in `evidence/python-api-decision.md`.
 - [ ] T005 [P] [US1] Add C++ state-machine tests for prepare/commit/atomic activate/abort/renew/release/validate, overlapping conflict keys, duplicate replay, idempotency conflict, ordinary expiry, execution hard-deadline, stale epoch, identity/digest/binding mismatch, and counters in `tests/unit-tests/generic-execution-lease.t.cpp`.
 - [ ] T006 [P] [US1] Add C++/Python binding parity tests in `tests/python/test_ndnsf_execution_lease_table.py`; Python must call the bound C++ table rather than a second implementation.

@@ -5,8 +5,7 @@
 **Mode**: full, pre-implementation, code-aware, ARS methodology and
 devil's-advocate stress test
 
-**Verdict**: CONDITIONAL PASS FOR DESIGN; T001/T004 CLOSED, PRODUCTION EDITS
-REMAIN BLOCKED BY T002/T003
+**Verdict**: ENTRY GATE PASSED; TEST-FIRST PHASE MAY BEGIN
 
 ## Findings
 
@@ -44,6 +43,11 @@ a matched fail-closed lease-authority campaign.
 Resolution: T002 now requires three current coordinator-on 60-second multi-user
 baseline runs before treatment; T003 freezes current authority-loss failure;
 T034-T036 run matched coordinator-off treatment under parent thresholds.
+
+Status: RESOLVED. Three matched runs completed 36/36 requests with stable
+latency and zero lease rejection; the fallback regression freezes both local
+constant and missing-symbol failures, including the currently unreachable local
+grant branch. See `regression-baseline.md`.
 
 ## Resolved During Audit
 
