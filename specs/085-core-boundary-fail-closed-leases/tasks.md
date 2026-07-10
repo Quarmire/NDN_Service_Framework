@@ -11,8 +11,8 @@ target ownership is explicit.
 - [x] T002 Re-run parent Core/DI/Repo baseline commands and, before treatment, run at least three matched 60-second current coordinator-on multi-user campaigns with frozen topology/profile/load/seeds; link raw results and exact commands in `evidence/regression-baseline.md`.
 - [x] T003 [US1] Add `tests/python/test_ndnsf_di_execution_lease_fallback.py` that captures the current coordinator-unavailable/missing-`ExecutionLease` failure without changing production behavior.
 - [x] T004 Add the external Python API decision for moved Core symbols and any temporary import adapter with owner/expiry in `evidence/python-api-decision.md`.
-- [ ] T005 [P] [US1] Add C++ state-machine tests for prepare/commit/atomic activate/abort/renew/release/validate, overlapping conflict keys, duplicate replay, idempotency conflict, ordinary expiry, execution hard-deadline, stale epoch, identity/digest/binding mismatch, and counters in `tests/unit-tests/generic-execution-lease.t.cpp`.
-- [ ] T006 [P] [US1] Add C++/Python binding parity tests in `tests/python/test_ndnsf_execution_lease_table.py`; Python must call the bound C++ table rather than a second implementation.
+- [x] T005 [P] [US1] Add C++ state-machine tests for prepare/commit/atomic activate/abort/renew/release/validate, overlapping conflict keys, duplicate replay, idempotency conflict, ordinary expiry, execution hard-deadline, stale epoch, identity/digest/binding mismatch, and counters in `tests/unit-tests/generic-execution-lease.t.cpp`.
+- [x] T006 [P] [US1] Add C++/Python binding parity tests in `tests/python/test_ndnsf_execution_lease_table.py`; Python must call the bound C++ table rather than a second implementation.
 - [ ] T007 [P] [US2] Add DI multi-provider transaction and cross-language codec tests in `tests/python/test_ndnsf_di_execution_lease_transaction.py`, `tests/python/test_ndnsf_di_execution_lease_codec.py`, and `tests/unit-tests/di-execution-lease-service.t.cpp` for identical C++/Python fixtures, malformed/unknown versions, prepare rejection, partial prepare/commit, delayed/duplicate response, cleanup, and no execution before all commits.
 - [ ] T008 [P] [US2] Add restart/eviction tests in `tests/python/test_ndnsf_di_execution_lease_restart.py` for new boot epoch, delayed old messages, active binding pin, renewal race, expiry, and release loss.
 - [ ] T009 [P] [US3] Add import-boundary tests in `tests/python/test_ndnsf_core_boundary_imports.py` for DI artifacts/deployment/retry and Repo producer target imports plus forbidden generic exports.
@@ -21,12 +21,12 @@ target ownership is explicit.
 
 ## Phase 2: Canonical Core Execution Lease State
 
-- [ ] T010 [US1] Create `ndn-service-framework/ExecutionLease.hpp` with application-neutral `GenericExecutionLease`, opaque binding proof/conflict keys, `ExecutionLeaseState`, `ExecutionLeaseResult`, reason constants, and thread-safe `ProviderExecutionLeaseTable` declarations.
-- [ ] T011 Create `ndn-service-framework/ExecutionLease.cpp` implementing boot epoch, prepare, commit, atomic validate-and-activate, abort, renew, release, validate, ordinary/hard-deadline cleanup, idempotent replay, typed rejection, counters, and active committed/executing binding queries.
-- [ ] T012 Add `ExecutionLease.cpp` and `tests/unit-tests/generic-execution-lease.t.cpp` to exact `wscript` source/test targets.
-- [ ] T013 Bind the Core types/table in `pythonWrapper/src/ndnsf/_ndnsf.cpp`, including immutable snapshots/results and no callback while holding the table mutex.
-- [ ] T014 Replace any Python execution-lease algorithm in `pythonWrapper/ndnsf/runtime_telemetry.py` with thin conversion/helpers over `_ndnsf`; export only generic names from `pythonWrapper/ndnsf/__init__.py`.
-- [ ] T015 Run T005-T006, `./waf build --targets=unit-tests -j4`, and the full C++ unit suite; record exact results in `evidence/core-lease-implementation.md`.
+- [x] T010 [US1] Create `ndn-service-framework/ExecutionLease.hpp` with application-neutral `GenericExecutionLease`, opaque binding proof/conflict keys, `ExecutionLeaseState`, `ExecutionLeaseResult`, reason constants, and thread-safe `ProviderExecutionLeaseTable` declarations.
+- [x] T011 Create `ndn-service-framework/ExecutionLease.cpp` implementing boot epoch, prepare, commit, atomic validate-and-activate, abort, renew, release, validate, ordinary/hard-deadline cleanup, idempotent replay, typed rejection, counters, and active committed/executing binding queries.
+- [x] T012 Add `ExecutionLease.cpp` and `tests/unit-tests/generic-execution-lease.t.cpp` to exact `wscript` source/test targets.
+- [x] T013 Bind the Core types/table in `pythonWrapper/src/ndnsf/_ndnsf.cpp`, including immutable snapshots/results and no callback while holding the table mutex.
+- [x] T014 Replace any Python execution-lease algorithm in `pythonWrapper/ndnsf/runtime_telemetry.py` with thin conversion/helpers over `_ndnsf`; export only generic names from `pythonWrapper/ndnsf/__init__.py`.
+- [x] T015 Run T005-T006, `./waf build --targets=unit-tests -j4`, and the full C++ unit suite; record exact results in `evidence/core-lease-implementation.md`.
 
 **Checkpoint**: One C++ provider-local lease state machine exists with Python parity.
 
