@@ -42,3 +42,6 @@ collector counted the damaged record as an ordinary event. The corrected
 collector now distinguishes total observed markers, strictly valid `ok`
 events, and bounded parse-error diagnostics without reconstructing corrupted
 fields.
+
+After both collector fixes, the focused runtime-aware campaign tests pass
+32/32 and the complete Python suite passes 344 tests with one existing skip.

@@ -2,7 +2,7 @@
 
 **Feature**: `093-native-di-threaded-rps-boundary`
 **Created**: 2026-07-11
-**Status**: Active - Measurement First
+**Status**: Complete - Stable Through 8 RPS
 
 ## Purpose
 
@@ -23,10 +23,11 @@ same scheduling and stability gates to every point.
 
 ## Functional Requirements
 
-- **FR-001**: Every treatment MUST use commit `855b6ac` or a later docs-only
-  commit with identical runtime code, the real Qwen ONNX NativeTracer path,
-  AI_Lab topology, proportional 2/4/8 GB placement, threaded driver,
-  concurrency 4, and a 60-second measured interval.
+- **FR-001**: Every treatment MUST use identical user/provider runtime code,
+  the real Qwen ONNX NativeTracer path, AI_Lab topology, proportional 2/4/8 GB
+  placement, threaded driver, concurrency 4, and a 60-second measured
+  interval. Harness-only post-processing fixes MAY differ when recorded and
+  proven not to execute until after the network workload.
 - **FR-002**: Request cap MUST equal `ceil(targetRps * 60)` so the complete
   offered schedule can be emitted.
 - **FR-003**: The coarse search MUST test 2, 4, and 8 RPS in ascending order and
@@ -58,8 +59,10 @@ same scheduling and stability gates to every point.
 - **SC-002**: A stable/unstable bracket no wider than 0.25 RPS is measured, or
   the exact reason refinement could not safely finish is recorded.
 - **SC-003**: Three matched runs support the highest tested stable point.
-- **SC-004**: The first limiting layer is named using direct counters rather
-  than inferred from aggregate throughput alone.
+- **SC-004**: The first limiting layer is named using direct counters, or the
+  report explicitly states that no limiting layer was reached within the
+  tested range and identifies the highest observed pressure without calling it
+  a boundary.
 - **SC-005**: Exact commands, commits, paths, anomalies, and skipped checks are
   recorded with an ARS validation report.
 

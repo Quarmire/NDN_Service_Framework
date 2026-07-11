@@ -469,6 +469,16 @@ scheduling gate with 4345.5 ms startup slip; it needs an explicit worker-ready
 barrier before use in comparative campaigns. These results do not establish a
 maximum stable RPS; see `specs/092-native-di-user-driver-correctness/evidence/`.
 
+Spec 093 extends the same threaded Qwen fixture through 2, 4, and 8 offered
+RPS. All points pass the scheduling and system gates. At 8 RPS, three matched
+runtime treatments complete 1440/1440 requests with mean 7.9850 RPS, mean p50
+198.5 ms, mean p95 247.6 ms, and worst schedule slip 16.24 ms. Dependency trace
+markers total 5760; one line is explicitly retained as an observability parse
+error caused by concurrent plain-text logging. The busiest stages reach about
+26% estimated utilization, so no limiting layer is reached within 1-8 RPS.
+State this as **stable through the highest tested point of 8 RPS**, never as a
+maximum stable RPS. See `specs/093-native-di-threaded-rps-boundary/evidence/`.
+
 The multi-user fixture is:
 
 ```bash

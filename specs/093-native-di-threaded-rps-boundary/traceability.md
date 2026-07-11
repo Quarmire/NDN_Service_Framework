@@ -9,7 +9,7 @@
 | FR-005 | T004-T009 | gate tables and dependency counters |
 | FR-006 | T007 | refinement table |
 | FR-007 | T008-T009 | repeated-point summaries |
-| FR-008 | T004-T010 | raw summaries and validation report |
+| FR-008 | T004-T010, T013-T014 | raw summaries, strict collectors, and validation report |
 | FR-009 | T009-T011 | conclusion wording |
 | FR-010 | T001, T012 | git and CodeGraph evidence |
 | SC-001 | T004 | first above-anchor point |
