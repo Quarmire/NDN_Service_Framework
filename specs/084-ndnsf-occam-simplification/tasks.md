@@ -61,7 +61,7 @@ used by current V2 security paths.
 - [x] T023 [US2] Require individual zero-caller proof before deleting `searchByFunctionName`, token-name decode callbacks/utilities, legacy parsers, handler overloads, or BloomFilter build targets; broad wildcard deletion is prohibited.
 - [x] T024 [US2] Require child tasks to name exact repository paths and symbols rather than `ServiceUser.*`, `planner_registry.py`, or wildcard test placeholders.
 - [x] T025 [US2] Run `speckit-audit` pre-implementation on child 086 and resolve every blocking finding.
-- [ ] T026 [US2] Accept child 086 only after full C++/Python builds, security regressions, forbidden-symbol scans, and matched normal/Targeted MiniNDN pass the frozen thresholds; link evidence in `evidence/child-086-acceptance.md`.
+- [x] T026 [US2] Accept child 086 only after full C++/Python builds, security regressions, forbidden-symbol scans, and matched normal/Targeted MiniNDN pass the frozen thresholds; link evidence in `evidence/child-086-acceptance.md`.
 
 **Checkpoint**: V2 provider/service authorization remains functional and no
 active V1 invocation implementation remains.

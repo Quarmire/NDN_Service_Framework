@@ -57,10 +57,18 @@
   replay, bootstrap, NAC-ABE, and collaboration regressions.
 - [x] T021 [US3] Run forbidden-symbol/build scans and CodeGraph sync/caller audit;
   record results in `evidence/final-structural-audit.md`.
-- [ ] T022 [US3] Run matched MiniNDN normal and Targeted smoke and record completion,
+- [x] T022 [US3] Run matched MiniNDN normal and Targeted smoke and record completion,
   p50, p95, and comparison in `evidence/minindn-acceptance.md`.
-- [ ] T023 Verify independent rollback in a detached worktree and record it.
-- [ ] T024 Run post-implementation Spec Kit audit, analyze, and converge; map
+- [x] T023 Verify independent rollback in a detached worktree and record it.
+- [x] T024 Run post-implementation Spec Kit audit, analyze, and converge; map
   FR/SC/task/evidence in `traceability.md`.
-- [ ] T025 Update Spec 084 T018-T026 and child acceptance evidence, then commit
+- [x] T025 Update Spec 084 T018-T026 and child acceptance evidence, then commit
   implementation and closure independently.
+
+## Phase 6 - Convergence
+
+- [x] T026 [SC-004] Reconstruct the missing pre-migration normal/Targeted
+  MiniNDN latency baseline at parent commit `419cd2b` using benchmark-only
+  instrumentation, then evaluate the NFR-003 15 percent p95 gate and record
+  the matched commands and results in `evidence/pre-migration-minindn-baseline.md`
+  (partial).

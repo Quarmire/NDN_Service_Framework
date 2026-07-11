@@ -15,3 +15,7 @@
 | SC-002 | data model | T005-T009 | authorization test evidence |
 | SC-003 | test matrix | T019-T020 | final core/security evidence |
 | SC-004 | MiniNDN gate | T022 | MiniNDN acceptance |
+| NFR-001, NFR-002 | build and security gates | T019-T020 | final core/security evidence |
+| NFR-003 | matched historical network gate | T022, T026 | MiniNDN acceptance and reconstructed baseline |
+| NFR-004 | authorization-table design | T005-T009 | authorization concurrency tests |
+| NFR-005 | deletion gate | T021 | final structural audit |
