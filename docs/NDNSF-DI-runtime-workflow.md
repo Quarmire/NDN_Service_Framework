@@ -448,6 +448,17 @@ For a defensible high-concurrency lease result, first use or implement a user
 driver that can keep the offered load close to the target rate without local
 backpressure, then rerun the same lease/no-lease comparison.
 
+Spec 091 screened the three existing drivers at 1 RPS for 60 seconds with
+concurrency 4. `child` completed 60/60 but achieved only 0.410 RPS with 77.96 s
+maximum schedule slip. `threaded` failed before a complete workload summary
+because worker users could not retrieve scope-key large Data while the base
+publisher was not kept running. `process-pool` completed 60/60 with no local
+backpressure and all dependency events, but its reported 0.932 RPS includes an
+intentional five-second schedule lead and lacks per-worker slip telemetry.
+Therefore this is a user-driver/instrumentation boundary, not provider-capacity
+evidence. Do not quote a maximum stable RPS from this screening; see
+`specs/091-native-di-offered-load-baseline/evidence/`.
+
 The multi-user fixture is:
 
 ```bash
