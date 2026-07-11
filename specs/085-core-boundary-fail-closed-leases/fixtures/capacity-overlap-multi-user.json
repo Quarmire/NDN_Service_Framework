@@ -1,0 +1,26 @@
+{
+  "schema": "ndnsf-di-runtime-aware-workload-v1",
+  "serviceName": "/Inference/NativeTracer",
+  "requests": [
+    {
+      "requestId": "spec085-user-a",
+      "user": "/NDNSF-DI/User/A",
+      "modelId": "qwen-tiny",
+      "contextTokens": 1024,
+      "generatedTokens": 32
+    },
+    {
+      "requestId": "spec085-user-b",
+      "user": "/NDNSF-DI/User/B",
+      "modelId": "qwen-tiny",
+      "contextTokens": 1024,
+      "generatedTokens": 32
+    }
+  ],
+  "acceptanceScenarios": {
+    "capacityOverlap": "Both users target the same capacity-pool worker slots.",
+    "authorityFailure": "Unavailable lease service must fail before collaboration.",
+    "providerRestart": "A new provider epoch rejects delayed prior-epoch operations.",
+    "partialCommit": "Any prepare or commit rejection triggers abort/release and no execution."
+  }
+}

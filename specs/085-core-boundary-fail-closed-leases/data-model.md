@@ -9,7 +9,7 @@
 | `providerName` | authoritative provider |
 | `providerEpoch` | changes on every provider-table construction |
 | `requesterName` | authenticated requester binding |
-| `requestId` | invocation identity |
+| `requestId` | logical DI transaction identity, scoped by authenticated requester |
 | `serviceName` | canonical unified service name |
 | `planDigest` | immutable plan-content digest |
 | `resourceBindingSchema` | application-neutral schema label |
@@ -19,6 +19,14 @@
 | `expiresAtMs` | bounded cleanup time |
 | `executionDeadlineMs` | hard cleanup deadline after activation |
 | `idempotencyKey` | duplicate-operation identity |
+
+Each PREPARE/COMMIT/ABORT/RENEW/RELEASE is a separate NDNSF invocation and has
+its own authenticated wire request ID. That wire ID is validated as present by
+the service path but is not reused as the logical transaction ID because doing
+so would conflict with NDNSF replay protection. The payload transaction ID is
+integrity-protected by NDNSF and is always evaluated together with the
+authenticated requester identity; Core rechecks requester ownership on every
+state-changing operation.
 
 For current one-worker providers, DI uses a key such as
 `provider:<identity>:compute-slot:0`. A provider with multiple worker/GPU slots

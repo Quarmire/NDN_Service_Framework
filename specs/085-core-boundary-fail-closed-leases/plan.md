@@ -44,7 +44,7 @@ DI ndnsf_distributed_inference/deployment.py
   DeploymentRecord (descriptive)
   Python LeaseOperationRequest/Response codec and client/adapter
   prepare all -> commit all -> provider validate+activate -> execute
-  otherwise abort/replan; completion releases in finally path
+  otherwise abort/replan; the user transaction releases in a finally path
 
 DI C++ ExecutionLeaseService.hpp/.cpp
   same versioned payload codec
@@ -54,7 +54,8 @@ DI C++ ExecutionLeaseService.hpp/.cpp
 NativeProviderHandler + Python user_driver.py
   user driver runs DistributedLeaseTransaction
   assignment carries provider lease binding
-  handler validate+activates before model work and releases afterward
+  handler validate+activates before model work; the user transaction releases
+  after the whole collaboration so one provider lease can cover multiple roles
 
 DI artifact_deployment.py
   ExecutionArtifact/Spec/Context and materialization
@@ -84,9 +85,10 @@ NONE --prepare--> PREPARED --commit--> COMMITTED --activate--> EXECUTING
 - Renewal is allowed for PREPARED, COMMITTED, or EXECUTING leases before their
   applicable deadline.
 - The provider execution handler atomically validates COMMITTED state and
-  transitions to EXECUTING before business logic, then releases in a finally
-  path. EXECUTING has a separate bounded hard deadline so a crashed handler
-  cannot pin resources forever.
+  transitions to EXECUTING before business logic. Repeated roles on that
+  provider replay the same activation. The user transaction releases after the
+  whole collaboration in a finally path. EXECUTING has a separate bounded hard
+  deadline so a crashed user cannot pin resources forever.
 - Provider-local eviction queries COMMITTED and EXECUTING bindings.
 
 ## Wire/Application Contract
@@ -94,10 +96,13 @@ NONE --prepare--> PREPARED --commit--> COMMITTED --activate--> EXECUTING
 Service name: `/Inference/Control/Lease`.
 
 Network operations: `PREPARE`, `COMMIT`, `ABORT`, `RENEW`, `RELEASE`.
-Payload encoding is versioned deterministic JSON owned by DI. Provider identity
-comes from the selected provider and authenticated NDNSF path, not a trusted
-payload field. Responses echo operation, lease ID, epoch, state, expiry, and
-typed reason.
+Payload encoding is versioned deterministic JSON owned by DI. Provider and
+requester identities and each operation's wire request ID come from the
+authenticated NDNSF path, not payload identity fields. The payload contains a
+logical DI transaction ID because every operation necessarily uses a different
+replay-protected NDNSF request ID. Core scopes that transaction ID to the
+authenticated requester and rechecks requester ownership on every transition.
+Responses echo operation, lease ID, epoch, state, expiry, and typed reason.
 
 `VALIDATE_AND_ACTIVATE` is provider-local, not a network lease operation. The
 actual DI execution handler calls it atomically using the authenticated request

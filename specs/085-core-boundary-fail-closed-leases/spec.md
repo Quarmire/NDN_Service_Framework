@@ -120,8 +120,10 @@ and after treatment, plus coordinator-off DI MiniNDN.
   providers, commits all, and starts execution only after every provider commits
   the same plan digest and epoch observations remain current.
 - **FR-017**: A provider execution handler MUST atomically transition its local
-  lease from COMMITTED to EXECUTING before business logic and MUST release it in
-  a finally-style completion path; eviction MUST pin both states.
+  lease from COMMITTED to EXECUTING before business logic; repeated roles on
+  one provider MUST reuse that activation idempotently. The user transaction
+  MUST release leases after whole-collaboration completion/error; eviction MUST
+  pin COMMITTED and EXECUTING until release or hard-deadline cleanup.
 - **FR-006**: Partial prepare/commit MUST trigger bounded abort/release and TTL
   cleanup; partial commit MUST NOT become executable.
 - **FR-007**: The current local `GRANTED_LOCAL` fallback and missing

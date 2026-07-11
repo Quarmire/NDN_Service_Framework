@@ -2,17 +2,17 @@
 
 | Current symbol | Current path | Target | Disposition |
 |---|---|---|---|
-| `ExecutionArtifact` | `pythonWrapper/ndnsf/service.py` | DI `artifact_deployment.py` | move |
-| `ExecutionArtifactSpec` | same | DI `artifact_deployment.py` | move |
-| `ExecutionContext` | same | DI `artifact_deployment.py` | move |
-| deployment publish/get/evict/wait | `pythonWrapper/ndnsf/service.py` | DI `deployment.py` | replace/move |
-| acquire/release execution lease | same | DI `deployment.py` over provider service | replace |
-| coordinator/global refCount authority | Core wrapper + DI merge provider | none | remove as correctness path |
-| `RepoDataPlaneProducer` | `pythonWrapper/ndnsf/service.py` | `py_repoclient` | move/adapter |
-| retry inferred from error text | Core wrapper | DI explicit idempotent policy | remove/replace |
+| `ExecutionArtifact` | DI `artifact_deployment.py` | DI | moved |
+| `ExecutionArtifactSpec` | DI `artifact_deployment.py` | DI | moved |
+| `ExecutionContext` | DI `artifact_deployment.py` | DI | moved |
+| deployment discovery/wait/preference | DI `deployment.py` | DI | moved |
+| acquire/release execution lease | DI `deployment.py` over provider service | DI | replaced |
+| coordinator/global refCount authority | none | none | removed as correctness path |
+| `RepoDataPlaneProducer` | `py_repoclient` | Repo | moved adapter |
+| retry inferred from error text | DI `retry.py` | DI | moved; bounded to DI caller |
 | generic segmented/exact Data helpers | Core wrapper | Core | keep |
 | generic status/runtime/network/admission envelopes | Core telemetry | Core | keep |
 | coordination envelopes | Core | unchanged until Spec 087 | defer |
 
-No old export is deleted until all repository callers use the target import and
-the external ABI decision is recorded.
+The old exports are deleted under the pre-1.0 breaking API decision recorded in
+`evidence/python-api-decision.md`.
