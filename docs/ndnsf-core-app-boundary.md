@@ -14,9 +14,8 @@ NDNSF core owns service-neutral network mechanisms:
   one-time tokens, certificate bootstrap, and negative ACK reason codes;
 - reusable data movement surfaces: exact-name large-data retrieval and the
   continuous-publication stream substrate;
-- reusable runtime coordination: provider capability hints, operation status,
-  admission leases, coordination envelopes, stream health, and network
-  telemetry.
+- reusable runtime state: provider capability hints, operation status,
+  provider-owned admission leases, stream health, and network telemetry.
 
 Applications own domain semantics:
 
@@ -191,7 +190,7 @@ DI owns:
 - model fragment identity and residency semantics;
 - exact forward cache, semantic cache, KV cache, and long-context policy;
 - ONNX/LLM runtime backends and tensor bundle codecs;
-- DI-specific advisory scheduling policy.
+- DI-specific scheduling and replanning policy.
 
 DI should use core envelopes for:
 
@@ -199,7 +198,6 @@ DI should use core envelopes for:
 - admission leases and overload fast-fail;
 - operation status for provisioning and execution;
 - provider-pair telemetry for dependency exchange;
-- coordination intents/suggestions for advisory multi-user planning.
 
 DI should not move model-specific planner logic, cache semantics, or tensor
 formats into core.
@@ -210,10 +208,28 @@ also carry core `ServiceOperationStatus` as `operationStatus`. Discovery and
 sorting should prefer the core operation-status envelope when present, then fall
 back to the legacy `status` field for older records.
 
-## Missing or Incomplete Core Surfaces
+## Accepted Boundary After Spec 084
 
-The current implementation now has the core vocabulary and the first app
-bridges, but some migrations are still incremental.
+Specs 085-090 completed the boundary migration. The accepted model is:
+
+- Core owns service-neutral invocation, authorization, typed capability and
+  operation envelopes, provider-owned leases, exact large-data transfer,
+  continuous stream state, discovery facts, and provider-pair telemetry.
+- DI, Repo, and UAV own all workload policy and domain payloads.
+- The experimental generic coordination envelope was removed after the only DI
+  advisory consumer failed its matched retention experiment. Multi-user DI now
+  plans at each user and resolves contention through provider-owned leases,
+  explicit rejection, and bounded replan.
+- Typed `ProviderCapabilityHint` is authoritative. A bounded mixed-reader mode
+  exists only until the next major release or 2026-12-31.
+- Repo's native packet producer remains an internal Repo binding; it is not a
+  public Core API.
+
+The large `ServiceUser.cpp`, `ServiceProvider.cpp`, and UAV ground-station
+container remain maintainability debt. They are not boundary violations and
+must be split, if needed, under separate behavior-preserving refactor specs.
+
+## Implemented Bridges
 
 Completed bridge points:
 
@@ -307,13 +323,14 @@ Completed bridge points:
   verified. The actual MAVLink value type, target system/component,
   parameter-name limit, and safety validation stay in NDNSF-UAV-APP.
 
-Remaining migrations:
+Follow-up work:
 
-- Repo, UAV, and DI should gradually emit `ProviderCapabilityHint` instead of
-  one-off ACK fields where practical.
+- Remove the bounded mixed ACK reader at its compatibility deadline after
+  deployment telemetry shows no legacy producers.
 - Provider-pair telemetry should keep using the core `PeerNetworkMetric` and
   `ProviderNetworkMatrix` facts. NativeTracer now records observed dependency
   edge RTTs this way and can consume a prior matrix during planning;
   app-specific scoring and richer bandwidth/loss probes are still
   workload-specific follow-up work.
-These migrations should be done one workload at a time with regression tests.
+Follow-up changes should remain workload-scoped and retain matched regression
+and MiniNDN gates.

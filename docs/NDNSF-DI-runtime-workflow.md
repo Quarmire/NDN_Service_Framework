@@ -331,13 +331,12 @@ ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
 admission-control proof; it is not a replacement for those security checks.
 
-For multi-user contention, each user plans from current ACK/runtime hints and
-then acquires provider-owned execution leases. Rejection is explicit and
-bounded; there is no DI coordinator process or cross-user assignment authority.
-The generic coordination envelopes from
-[SPEC049](../specs/049-core-coordination-envelope/quickstart.md) remain in Core
-for applications that need non-authoritative intent/suggestion exchange, but
-NDNSF-DI does not use them in its default or experimental execution path.
+For multi-user contention, each user plans from current typed ACK/runtime hints
+and then acquires provider-owned execution leases. Rejection is explicit and
+bounded; the user replans from fresh provider state. There is no DI coordinator
+process, cross-user assignment authority, or generic Core coordination
+envelope. The earlier advisory path failed its matched retention experiment and
+was removed. Provider-owned admission remains the single execution authority.
 
 ## Runtime-Aware Campaign Outputs
 

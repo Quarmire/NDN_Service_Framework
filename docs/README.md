@@ -49,6 +49,11 @@ The active validation workloads are:
 MiniNDN is the default validation surface for network/security/performance
 work until an experiment explicitly requires real hardware.
 
+The accepted post-Spec-084 boundary uses only V2 invocation, typed capability
+and operation envelopes, provider-owned fail-closed leases, C++ Core stream
+state, and one canonical Repo network adapter. Application scheduling, storage,
+mission, codec, and model policy remain outside Core.
+
 ## Paper Archive
 
 Use `docs/PAPER/` for proposal sources, survey PDFs, API-paper LaTeX, slides,

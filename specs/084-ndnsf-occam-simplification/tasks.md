@@ -149,17 +149,17 @@ lost merely to reduce field count.
 **Purpose**: Remove proven dead structure after behavior converges. File splits
 are conditional maintainability work, not automatic Occam success criteria.
 
-- [ ] T059 Re-run CodeGraph and source metrics after child acceptance; decide separately whether `service.py`, `ServiceUser/ServiceProvider`, or `GroundStationServiceContainer` still require splitting, and create dedicated refactor specs rather than mixing moves with deletion.
-- [ ] T060 Remove dead includes, build targets, compatibility tests, and obsolete examples found by the audit only after their individual removal gates are READY; archive historical specs instead of deleting evidence by string scan.
-- [ ] T061 Map every FR and SC to its child requirement, task, exact command, and evidence path in `traceability.md`; no blanket “final phase verifies all” mapping is allowed.
-- [ ] T062 [P] Run final Core build/security/normal/Targeted/collaboration acceptance and record exact commands/results in `evidence/final-core.md`.
-- [ ] T063 [P] Run final DI coordinator-off NativeTracer/Qwen/multi-user acceptance and record exact commands/results in `evidence/final-di.md`.
-- [ ] T064 [P] Run final Repo exact-packet/persistence/HA/Targeted/recovery/repair/catalog acceptance and record exact commands/results in `evidence/final-repo.md`.
-- [ ] T065 [P] Run final UAV protocol/mission/authority/stream/video acceptance and record exact commands/results in `evidence/final-uav.md`.
-- [ ] T066 Compare baseline/final public symbols, source count, schema fields, maintenance paths, completion, p50/p95, failure reasons, and resource use in `evidence/final-occam-report.md` without claiming improvement where measurements disagree.
-- [ ] T067 Run `speckit-analyze`, `speckit-converge`, GSD verification, CodeGraph boundary audit, and ARS adversarial review; append unresolved work to the owning child rather than declaring success.
-- [ ] T068 Update `docs/ndnsf-core-app-boundary.md`, architecture indexes, English/Chinese module docs, and active agent context to the accepted ownership model.
-- [ ] T069 Mark Spec 084 complete only when every child has PASS acceptance, every removal gate is READY or explicitly deferred with owner/reason/expiry, and every SC has reproducible evidence.
+- [x] T059 Re-run CodeGraph and source metrics after child acceptance; decide separately whether `service.py`, `ServiceUser/ServiceProvider`, or `GroundStationServiceContainer` still require splitting, and create dedicated refactor specs rather than mixing moves with deletion.
+- [x] T060 Remove dead includes, build targets, compatibility tests, and obsolete examples found by the audit only after their individual removal gates are READY; archive historical specs instead of deleting evidence by string scan.
+- [x] T061 Map every FR and SC to its child requirement, task, exact command, and evidence path in `traceability.md`; no blanket “final phase verifies all” mapping is allowed.
+- [x] T062 [P] Run final Core build/security/normal/Targeted/collaboration acceptance and record exact commands/results in `evidence/final-core.md`.
+- [x] T063 [P] Run final DI coordinator-off NativeTracer/Qwen/multi-user acceptance and record exact commands/results in `evidence/final-di.md`.
+- [x] T064 [P] Run final Repo exact-packet/persistence/HA/Targeted/recovery/repair/catalog acceptance and record exact commands/results in `evidence/final-repo.md`.
+- [x] T065 [P] Run final UAV protocol/mission/authority/stream/video acceptance and record exact commands/results in `evidence/final-uav.md`.
+- [x] T066 Compare baseline/final public symbols, source count, schema fields, maintenance paths, completion, p50/p95, failure reasons, and resource use in `evidence/final-occam-report.md` without claiming improvement where measurements disagree.
+- [x] T067 Run `speckit-analyze`, `speckit-converge`, GSD verification, CodeGraph boundary audit, and ARS adversarial review; append unresolved work to the owning child rather than declaring success.
+- [x] T068 Update `docs/ndnsf-core-app-boundary.md`, architecture indexes, English/Chinese module docs, and active agent context to the accepted ownership model.
+- [x] T069 Mark Spec 084 complete only when every child has PASS acceptance, every removal gate is READY or explicitly deferred with owner/reason/expiry, and every SC has reproducible evidence.
 
 ## Dependency Order
 
