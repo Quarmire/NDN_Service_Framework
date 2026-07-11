@@ -10,14 +10,14 @@ OK
 Runtime-aware campaign file after the threaded measurement addendum:
 
 ```text
-Ran 29 tests in 1.765s
+Ran 30 tests in 1.701s
 OK
 ```
 
 Complete Python suite:
 
 ```text
-Ran 341 tests in 10.339s
+Ran 342 tests in 10.234s
 OK (skipped=1)
 ```
 

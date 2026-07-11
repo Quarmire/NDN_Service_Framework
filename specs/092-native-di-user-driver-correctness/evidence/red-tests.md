@@ -31,3 +31,8 @@ maximum schedule slip, but the outer summary included about 35 seconds of
 `user.stop()` cleanup in its throughput denominator. A fifth focused test was
 added and failed with `KeyError: measurementElapsedMs`, proving the threaded
 driver did not expose its request measurement interval before cleanup.
+
+The corrected threaded run then showed that the driver log contained the new
+field while the MiniNDN top-level summary omitted it. A sixth focused test
+failed with `AttributeError: user_execution_measurement_fields`, establishing
+the missing harness projection before that helper was implemented.
