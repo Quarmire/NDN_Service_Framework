@@ -23,3 +23,7 @@
 - [ ] T010 [US1] Produce ARS Material Passport, reproducibility report, and 11/11 fallacy scan.
 - [ ] T011 [US1] Update the canonical DI runtime workflow with the bounded conclusion and raw paths.
 - [ ] T012 [US1] Run Spec Kit analyze/audit/converge, CodeGraph, GSD health, tests/diff checks, and close only when evidence is reproducible.
+
+## Phase 5: Convergence
+
+- [x] T013 [US1] Make ACK runtime-hint log collection preserve and count malformed/interleaved observability lines instead of aborting an otherwise complete experiment (FR-008 partial).
