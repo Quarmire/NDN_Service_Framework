@@ -22,12 +22,12 @@
 
 ## Phase 4: Canonical Persistent Repo
 
-- [ ] T012 [US3] Remove public `InMemoryRepoStore`, `makeMemoryRepoStore`, and default memory-backed `RepoCore`/`RepoNode` constructors.
-- [ ] T013 [US3] Convert examples/tests to explicit temporary SQLite tiered stores or test-local fakes; retain bounded hot-cache tests and restart persistence tests.
-- [ ] T014 [US4] Remove ignored `producer_retention_s` from Repo constructor, CLI, MiniNDN harness, tests, and docs.
-- [ ] T015 [US4] Remove ignored `isolated_runtime` from the private request helper and all callers.
-- [ ] T016 [US4] Remove redundant `legacyStatus` metadata and rename `legacy_fields` to `capability_fields` without changing typed payload content.
-- [ ] T017 [US3] Build and run Repo C++/Python focused tests, exact-packet tests, cache tests, restart tests, and symbol scans.
+- [x] T012 [US3] Remove public `InMemoryRepoStore`, `makeMemoryRepoStore`, and default memory-backed `RepoCore`/`RepoNode` constructors.
+- [x] T013 [US3] Convert examples/tests to explicit temporary SQLite tiered stores or test-local fakes; retain bounded hot-cache tests and restart persistence tests.
+- [x] T014 [US4] Remove ignored `producer_retention_s` from Repo constructor, CLI, MiniNDN harness, tests, and docs.
+- [x] T015 [US4] Remove ignored `isolated_runtime` from the private request helper and all callers.
+- [x] T016 [US4] Remove redundant `legacyStatus` metadata and rename `legacy_fields` to `capability_fields` without changing typed payload content.
+- [x] T017 [US3] Build and run Repo C++/Python focused tests, exact-packet tests, cache tests, restart tests, and symbol scans.
 
 ## Phase 5: Accurate Recurrence Guard
 
