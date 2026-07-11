@@ -249,24 +249,10 @@ sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
   -- --provider-check-timeout 60
 ```
 
-Pure user-side versus advisory-coordinator RPS sweep:
-
-```bash
-sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
-  python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py \
-  --compare-advisory-coordinator \
-  --out /tmp/ndnsf-di-advisory-rps-sweep \
-  --rps 0.2,0.4,0.8,1.2 \
-  --requests 10 \
-  --concurrency 2 \
-  -- --provider-check-timeout 60
-```
-
-The `pure/` result tree uses normal user-side planning. The `advisory/` result
-tree starts `/NDNSF/Coordination/Advisory` as a normal NDNSF service and makes
-each user request a non-binding suggestion before local execution. Compare
-conflict counters, p50/p95 latency, failure rate, and max stable RPS in
-`rps-sweep-summary.json`.
+The sweep uses pure user-side planning and writes points below `pure/`.
+Provider-owned execution leases are the only admission authority. The former
+advisory-coordinator comparison mode was deleted after its frozen ten-pair gate
+in Spec 087 increased conflict rate and reduced completion.
 
 Planner-only LLM proportional RPS search:
 
@@ -345,17 +331,13 @@ ACK/Selection/Response path and still rely on ProviderToken, UserToken,
 NAC-ABE, provider permissions, and replay protection. A lease is only an
 admission-control proof; it is not a replacement for those security checks.
 
-For multi-user contention, use the optional advisory coordinator contract in
-[SPEC048](../specs/048-di-advisory-coordinator/quickstart.md). The
-coordinator can suggest role/provider assignments across several user intents,
-but users still validate suggestions against their own current ACK candidates
-and providers still enforce leases. This keeps pure user-side planning as the
-default while providing a path to reduce avoidable provider conflicts.
-The generic coordination envelope behind that DI contract is documented in
-[SPEC049](../specs/049-core-coordination-envelope/quickstart.md): NDNSF core
-owns intent/suggestion freshness, proof, nonce, and opaque payload schema,
-while NDNSF-DI owns model fragments, stages, scoring, and role assignment
-payload interpretation.
+For multi-user contention, each user plans from current ACK/runtime hints and
+then acquires provider-owned execution leases. Rejection is explicit and
+bounded; there is no DI coordinator process or cross-user assignment authority.
+The generic coordination envelopes from
+[SPEC049](../specs/049-core-coordination-envelope/quickstart.md) remain in Core
+for applications that need non-authoritative intent/suggestion exchange, but
+NDNSF-DI does not use them in its default or experimental execution path.
 
 ## Runtime-Aware Campaign Outputs
 

@@ -21,3 +21,7 @@ error text. The caller must explicitly opt into retrying an idempotent action.
 The primary metric is provider lease-conflict rate. Retention requires >=10%
 paired improvement and a paired bootstrap 95% CI excluding zero, with no
 completion or p95 threshold violation over at least ten matched runs.
+
+The ten-pair campaign failed: conflict rate increased by 54.06% relative,
+completion fell from 70.0% to 52.5%, and the paired interval crossed zero.
+Therefore the advisory implementation and integration were deleted.

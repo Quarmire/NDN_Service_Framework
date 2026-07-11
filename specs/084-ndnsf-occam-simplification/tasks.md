@@ -80,7 +80,7 @@ experimental advice/cache cannot authorize or silently affect execution.
 - [x] T031 [US3] Require retry policy to stay application-owned and to accept explicit idempotency metadata rather than infer safety from error strings.
 - [x] T032 [US3] Freeze the advisory-retention experiment before running it: select one primary metric; require at least ten matched runs, a practical effect of at least 10%, a paired 95% bootstrap confidence interval excluding zero, no completion/latency threshold violation, and report conflict rate, completion, p50/p95, stable RPS, and added hop cost.
 - [x] T033 [US3] Run `speckit-audit` pre-implementation on child 087 and resolve every blocking finding.
-- [ ] T034 [US3] Accept child 087 only after NativeTracer/Qwen unit and MiniNDN workflows succeed coordinator-off; retain advisory code only if the predeclared T032 statistical and practical-effect gate passes, otherwise delete it; link `evidence/child-087-acceptance.md`.
+- [x] T034 [US3] Accept child 087 only after NativeTracer/Qwen unit and MiniNDN workflows succeed coordinator-off; retain advisory code only if the predeclared T032 statistical and practical-effect gate passes, otherwise delete it; link `evidence/child-087-acceptance.md`.
 
 **Checkpoint**: DI correctness has no coordinator dependency and experimental
 features are visibly optional.

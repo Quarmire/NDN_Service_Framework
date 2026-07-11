@@ -32,5 +32,5 @@
 - [x] T014 Run coordinator-off NativeTracer/Qwen/multi-user MiniNDN acceptance.
 - [x] T015 Run ten matched advisory campaigns and retain/delete advisory using
   the frozen statistical gate.
-- [ ] T016 Verify independent rollback, run post-audit/analyze/converge, update
+- [x] T016 Verify independent rollback, run post-audit/analyze/converge, update
   parent T027-T034 and commit implementation/closure separately.
