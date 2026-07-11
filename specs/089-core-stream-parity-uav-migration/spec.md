@@ -1,7 +1,7 @@
 # Feature Specification: Core Stream Parity And UAV Migration
 
 **Parent**: `specs/084-ndnsf-occam-simplification/`
-**Status**: In progress
+**Status**: Acceptance complete
 
 ## User Stories
 

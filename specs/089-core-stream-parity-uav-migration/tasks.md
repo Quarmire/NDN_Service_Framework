@@ -22,7 +22,7 @@
 
 ## Phase 3 - Acceptance
 
-- [ ] T012 Run full C++/Python/Core security regressions.
-- [ ] T013 Run three matched UAV MiniNDN loss campaigns.
-- [ ] T014 Verify rollback, post-audit/analyze/converge, parent T045-T051 and
+- [x] T012 Run full C++/Python/Core security regressions.
+- [x] T013 Run three matched UAV MiniNDN loss campaigns.
+- [x] T014 Verify rollback, post-audit/analyze/converge, parent T045-T051 and
   separate implementation/closure commits.

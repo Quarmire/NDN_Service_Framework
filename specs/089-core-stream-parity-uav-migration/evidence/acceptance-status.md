@@ -1,50 +1,43 @@
 # Acceptance Status
 
-## Verified Locally
+**Verdict**: PASS
+
+## Local And Security Regressions
 
 ```bash
-./waf build --targets=unit-tests -j2
-./build/unit-tests --run_test='DistributedInferenceAsyncRuntime,Stream,UavProtocolState' --log_level=message
+./waf build --targets=unit-tests,UavDroneApp,UavGroundStationApp -j2
 ./build/unit-tests --log_level=message
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=pythonWrapper \
-  python3 tests/python/test_ndnsf_core_streaming.py
-PYTHONDONTWRITEBYTECODE=1 \
-  PYTHONPATH=pythonWrapper:NDNSF-DistributedInference:Experiments:. \
-  python3 tests/python/test_ndnsf_di_tk_gui.py
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=pythonWrapper:NDNSF-DistributedInference:Experiments:. \
+  python3 -m unittest discover -s tests/python -p 'test_*.py'
+sudo -n timeout 600s examples/run_security_regressions.sh
 python3 Experiments/NDNSF_Transfer_Boundary_Documentation_Regression.py
 ```
 
-Results on 2026-07-11:
+- Build PASS.
+- Full C++: 214/214 PASS.
+- Final full Python: 332 PASS, one expected display skip.
+- All six security regressions PASS.
+- Static/finite transfer-boundary regression PASS.
 
-- build PASS;
-- focused C++ stream/UAV/DI: 47/47 PASS;
-- full C++: 214/214 PASS;
-- Python Core stream: 8/8 PASS;
-- headless GUI contract: 20/20 PASS;
-- transfer-boundary regression: PASS.
+## MiniNDN Network Gate
 
-Tk widget tests cannot initialize `Tk()` in this managed sandbox because Xvfb
-cannot accept a local display socket. All nine failures occur before application
-construction.
+Three matched 5% link-loss UAV video runs completed successfully. All runs
+decoded the required 30 frames and exited cleanly. Across the campaign:
 
-## Open Network Gate
+- completion: 3/3;
+- FEC recoveries: 7;
+- maximum pending bytes: 21,600;
+- maximum pending chunks at sampled adaptive snapshots: 0;
+- maximum decoded frame gap: 0;
+- mean run-level RTT p50: 53.5 ms;
+- mean run-level RTT p95: 120.0 ms;
+- stale-session/stream rejects: 0 unexpected stale packets.
 
-The required three matched UAV MiniNDN loss campaigns remain unexecuted in this
-session. MiniNDN and the security aggregate require root-capable network setup,
-but the managed sandbox strips the sudo setuid bit. `nfd-start` also cannot
-create `/run/nfd/nfd.sock`. Therefore T012-T014 and parent T051 remain open;
-the feature is implemented but not network-accepted.
+Raw local output is under `results/spec089-uav-stream-parity-loss5/`; the
+reproduction command and durable summary are in `uav-minindn-loss-campaign.md`.
 
-Canonical command shape retained for a root-capable session:
+## Rollback
 
-```bash
-sudo -E timeout 160s xvfb-run -a \
-  python3 Experiments/NDNSF_UAV_GUI_Minindn.py \
-  --no-cli --no-xhost --drone-headless --camera-mode file \
-  --auto-video-test --auto-stop-seconds 6 --auto-start-delay-ms 1000 \
-  --video-bitrate-kbps 1200 --video-width 320 --output-dir <out>
-```
-
-Run three matched loss seeds and retain structured completion, stale-session,
-FEC recovery, pending bytes/count, gap/drop, p50 and p95 evidence before closing
-T013 or parent T051.
+`git revert --no-commit 01466f5` applied cleanly in a detached worktree. The
+restored Python stream implementation and DI harnesses parsed successfully and
+the restored Core streaming Python regression passed 6/6.

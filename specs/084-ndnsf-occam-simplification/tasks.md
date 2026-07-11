@@ -119,7 +119,7 @@ remaining in the UAV application.
 - [x] T048 [US5] Require the child to migrate only generic sequence/reorder/gap/health/adaptive behavior; H264 framing, FEC codec, ROI, MAVLink, mission, preflight, authority, decoder backlog policy, and labels remain UAV-owned.
 - [x] T049 [US5] Require a forbidden-use test proving static files, models, catalog snapshots, and planned tensor bundles use exact-name segmented retrieval rather than StreamChunk.
 - [x] T050 [US5] Run `speckit-audit` pre-implementation on child 089 and resolve every blocking finding.
-- [ ] T051 [US5] Accept child 089 only after C++/Python parity tests and at least three matched UAV MiniNDN loss campaigns preserve stale rejection, FEC recovery, bounded buffering, gaps/drops, completion, and latency thresholds; link `evidence/child-089-acceptance.md`.
+- [x] T051 [US5] Accept child 089 only after C++/Python parity tests and at least three matched UAV MiniNDN loss campaigns preserve stale rejection, FEC recovery, bounded buffering, gaps/drops, completion, and latency thresholds; link `evidence/child-089-acceptance.md`.
 
 **Checkpoint**: One generic stream algorithm remains; UAV domain behavior and
 static-object semantics are unchanged.
