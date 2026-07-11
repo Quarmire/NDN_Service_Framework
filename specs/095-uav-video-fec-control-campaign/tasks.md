@@ -9,19 +9,19 @@
 
 ## Phase 2: FEC Treatment Control
 
-- [ ] T005 [US1] Add validated Ground Station parity configuration and video request propagation.
-- [ ] T006 [US1] Add Drone parity parsing/default/reporting and preserve data-only StreamChunk publication when parity is zero.
-- [ ] T007 [US1] Add focused C++ tests for default, zero, one, and invalid parity values.
-- [ ] T008 [US1] Build and run affected UAV/Core stream tests.
+- [x] T005 [US1] Add validated Ground Station parity configuration and video request propagation.
+- [x] T006 [US1] Add Drone parity parsing/default/reporting and preserve data-only StreamChunk publication when parity is zero.
+- [x] T007 [US1] Add focused C++ tests for default, zero, one, and invalid parity values.
+- [x] T008 [US1] Build and run affected UAV/Core stream tests.
 
 ## Phase 3: Canonical Campaign
 
-- [ ] T009 [US2] Extend the MiniNDN launcher with parity forwarding and concurrent video plus MAVLink acceptance checks.
-- [ ] T010 [US2] Refactor the parity campaign into deterministic loss/parity/repetition cells with generated matched topologies.
-- [ ] T011 [US3] Expand parsing for final decoded count, control outcomes, duration, malformed metrics, and accepted parity.
-- [ ] T012 [US3] Add treatment aggregation and stable JSON/per-run CSV/treatment CSV outputs.
-- [ ] T013 [US2] Add Python tests for commands, matrix size, parsing, aggregation, and failure gates.
-- [ ] T014 [US2] Run campaign dry-run and focused launcher/campaign tests.
+- [x] T009 [US2] Extend the MiniNDN launcher with parity forwarding and concurrent video plus MAVLink acceptance checks.
+- [x] T010 [US2] Refactor the parity campaign into deterministic loss/parity/repetition cells with generated matched topologies.
+- [x] T011 [US3] Expand parsing for final decoded count, control outcomes, duration, malformed metrics, and accepted parity.
+- [x] T012 [US3] Add treatment aggregation and stable JSON/per-run CSV/treatment CSV outputs.
+- [x] T013 [US2] Add Python tests for commands, matrix size, parsing, aggregation, and failure gates.
+- [x] T014 [US2] Run campaign dry-run and focused launcher/campaign tests.
 
 ## Phase 4: MiniNDN Evidence
 
