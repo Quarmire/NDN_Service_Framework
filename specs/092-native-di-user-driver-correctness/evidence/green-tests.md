@@ -7,17 +7,17 @@ Ran 4 tests in 0.139s
 OK
 ```
 
-Runtime-aware campaign file:
+Runtime-aware campaign file after the threaded measurement addendum:
 
 ```text
-Ran 28 tests in 1.837s
+Ran 29 tests in 1.765s
 OK
 ```
 
 Complete Python suite:
 
 ```text
-Ran 340 tests in 9.660s
+Ran 341 tests in 10.339s
 OK (skipped=1)
 ```
 

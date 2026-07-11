@@ -10,7 +10,7 @@
 
 - [x] T004 [US1] Add the base-user lifecycle helper and wire threaded open-loop execution through it.
 - [x] T005 [US1] Record per-request process-pool target/start/slip timing in worker results.
-- [x] T006 [US1] Aggregate process-pool measurement start, elapsed interval, maximum slip, and measured throughput without hiding failed/missing requests.
+- [x] T006 [US1] Aggregate open-loop measurement elapsed interval and maximum slip, record process-pool measurement start, and compute measured throughput without hiding failed/missing requests or including startup/teardown.
 - [x] T007 [US1] Run focused and full Python regression tests and record results.
 
 ## Phase 3: MiniNDN Validation

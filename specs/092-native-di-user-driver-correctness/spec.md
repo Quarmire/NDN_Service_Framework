@@ -30,11 +30,12 @@ full-network fixture used by Spec 091.
   `finally`-equivalent cleanup path.
 - **FR-002**: Process-pool workers MUST record `scheduleSlipMs` for every
   emitted request relative to its preassigned wall-clock target.
-- **FR-003**: Process-pool workload metadata MUST report measurement start,
-  measurement elapsed time, and maximum observed schedule slip.
-- **FR-004**: Process-pool achieved throughput MUST use the measured interval
-  from the scheduled measurement start through workload completion, excluding
-  the intentional worker startup lead.
+- **FR-003**: Open-loop workload metadata MUST report measurement elapsed time
+  and maximum observed schedule slip; process-pool MUST also report its
+  scheduled measurement start.
+- **FR-004**: Achieved throughput MUST use the measured interval from the
+  scheduled workload start through request completion, excluding intentional
+  worker startup lead and post-workload user teardown.
 - **FR-005**: Existing child, closed-loop, security, model, topology, placement,
   and provider execution behavior MUST remain unchanged.
 - **FR-006**: Missing worker results and failed requests MUST remain visible and

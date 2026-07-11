@@ -23,3 +23,11 @@ process_pool_measurement_metadata
 An earlier invocation through `python3 -m unittest tests.python...` failed at
 test discovery because `tests/python` is not a Python package. It is not used as
 RED evidence; the direct test-file invocation above reached all four tests.
+
+## Threaded Measurement Addendum
+
+The first post-fix MiniNDN threaded run completed 60/60 requests with 14.559 ms
+maximum schedule slip, but the outer summary included about 35 seconds of
+`user.stop()` cleanup in its throughput denominator. A fifth focused test was
+added and failed with `KeyError: measurementElapsedMs`, proving the threaded
+driver did not expose its request measurement interval before cleanup.
