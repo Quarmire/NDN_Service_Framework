@@ -1,6 +1,6 @@
 # Feature Specification: UAV Video FEC And Control Campaign
 
-**Status**: Planned
+**Status**: Complete
 
 ## Context
 
@@ -56,6 +56,9 @@ RTT, and Arm/Takeoff/Land outcomes per run and aggregates matched treatments.
   and 5% matched FEC-off/FEC-on cells. A 15% one-way-loss pair MAY be retained
   as boundary evidence but MUST be labeled exploratory unless replicated.
 - **FR-012** Proposal files MUST NOT be modified.
+- **FR-013** A 60-second video run MUST decode at least 50% of the requested
+  30 fps frame rate (900 frames); lower delivery remains measured evidence but
+  MUST NOT be classified as usable video completion.
 
 ## Success Criteria
 

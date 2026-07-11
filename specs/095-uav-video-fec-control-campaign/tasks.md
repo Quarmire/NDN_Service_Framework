@@ -25,12 +25,16 @@
 
 ## Phase 4: MiniNDN Evidence
 
-- [ ] T015 [US2] Run the 12-run primary MiniNDN campaign with 60-second streams and no automatic retry.
-- [ ] T016 [US3] Validate every run's video, control, FEC, latency, gap, stale, and bounded-buffer evidence.
-- [ ] T017 [US3] Compare matched cells descriptively and run the full affected regression suite.
+- [x] T015 [US2] Run the 12-run primary MiniNDN campaign with 60-second streams and no automatic retry.
+- [x] T016 [US3] Validate every run's video, control, FEC, latency, gap, stale, and bounded-buffer evidence.
+- [x] T017 [US3] Compare matched cells descriptively and run the full affected regression suite.
 
 ## Phase 5: Closure
 
-- [ ] T018 [US3] Write reproducibility, result, negative-result, limitation, and residual-risk evidence.
-- [ ] T019 [US3] Run post-implementation Spec Kit analyze/audit/converge and execute any appended task.
-- [ ] T020 [US3] Update GSD/agent context/CodeGraph, verify no proposal changes and clean git, then close.
+- [x] T018 [US3] Write reproducibility, result, negative-result, limitation, and residual-risk evidence.
+- [x] T019 [US3] Run post-implementation Spec Kit analyze/audit/converge and execute any appended task.
+- [x] T020 [US3] Update GSD/agent context/CodeGraph, verify no proposal changes and clean git, then close.
+
+## Phase 6: Convergence
+
+- [x] T021 [US3] Reject missing or malformed mandatory adaptive metrics and preserve field-level diagnostics per FR-009 (partial).
