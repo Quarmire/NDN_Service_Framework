@@ -1,6 +1,10 @@
 # Spec: Execution Lease + Reference-Counted Deployment Lifecycle
 
-**Branch**: `052-execution-lease-lifecycle` | **Date**: 2026-07-06 | **Status**: Draft
+**Branch**: `052-execution-lease-lifecycle` | **Date**: 2026-07-06 | **Status**: Superseded by Spec 085; do not implement
+
+> Historical design only. Spec 085 replaced Merge-Provider/global ref-count
+> authority with provider-local execution leases, atomic multi-provider
+> prepare/commit/abort, expiry, restart cleanup, and fragment pinning.
 
 ## Summary
 

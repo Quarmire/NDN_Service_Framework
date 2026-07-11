@@ -1,5 +1,9 @@
 # Tasks: Execution Lease Lifecycle
 
+> **Superseded; do not execute.** Spec 085 implements the accepted
+> provider-local lease authority. Unchecked boxes below document the rejected
+> Merge-Provider/ref-count design and are not pending work.
+
 ## Phase 1: Core Types
 
 - [ ] T001 Add `ExecutionLease` dataclass to `runtime_telemetry.py`: lease_id, deployment_id, user, acquired_at_ms, expires_at_ms, released.

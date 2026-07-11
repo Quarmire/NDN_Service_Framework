@@ -1,5 +1,8 @@
 # Implementation Plan: Distributed Deployment Lifecycle
 
+> **Superseded; do not execute.** Accepted implementation and evidence are in
+> Specs 085 and 087. This file is retained only to explain the discarded draft.
+
 **Branch**: `051-distributed-deployment-lifecycle` | **Date**: 2026-07-06 |
 **Spec**: [spec.md](spec.md)
 

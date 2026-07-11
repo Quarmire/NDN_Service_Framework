@@ -1,7 +1,12 @@
 # Spec: Distributed Deployment Lifecycle
 
 **Branch**: `051-distributed-deployment-lifecycle` | **Date**: 2026-07-06 |
-**Status**: Draft
+**Status**: Superseded by Specs 085 and 087; do not implement
+
+> Historical design only. Provider-authoritative execution leases, DI-owned
+> deployment lifecycle, pure user-side planning, and provider rejection/replan
+> were implemented and accepted by Specs 085 and 087. The coordinator and
+> Core-owned placement portions below are no longer valid requirements.
 
 ## Summary
 

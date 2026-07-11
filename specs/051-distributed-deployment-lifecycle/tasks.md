@@ -1,5 +1,9 @@
 # Tasks: Distributed Deployment Lifecycle
 
+> **Superseded; do not execute.** Specs 085 and 087 replaced this draft with a
+> DI-owned lifecycle and provider-authoritative fail-closed leases. Unchecked
+> boxes below are retained as historical design evidence, not pending work.
+
 ## Phase 1: Provisioning-Aware Negative ACK (C++)
 
 - [ ] T001 Add `setProvisioningContext(deploymentId, provisioningRole, expectedReadyMs)`
