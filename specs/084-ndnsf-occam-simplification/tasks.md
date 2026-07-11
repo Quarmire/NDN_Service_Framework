@@ -135,9 +135,9 @@ domain state that merely shares a field name with a generic envelope.
 - [x] T053 [US6] Inventory every capability, runtime, operation status, rejection, network, lease, Repo, DI, and UAV field as legacy-alias, domain-state, transport-metadata, or unknown; unknown fields block removal.
 - [x] T054 [US6] Define schema versions, typed-authority conflict rules, malformed/unknown behavior, legacy/conflict counters, stored-state migration, compatibility deadline, and exit criteria.
 - [x] T055 [P] [US6] Require typed-only, legacy-only, matching dual, conflicting dual, unknown-version, malformed, rolling-upgrade, restart, and rollback fixtures for Core, DI, Repo, and UAV.
-- [ ] T056 [US6] Remove only fields classified as legacy aliases after current producers emit typed-only and mixed-version counters remain within the frozen exit criteria; retain application-domain status such as residency.
+- [x] T056 [US6] Remove only fields classified as legacy aliases after current producers emit typed-only and mixed-version counters remain within the frozen exit criteria; retain application-domain status such as residency.
 - [x] T057 [US6] Run `speckit-audit` pre-implementation on child 090 and resolve every blocking finding.
-- [ ] T058 [US6] Accept child 090 only after mixed-version and typed-only MiniNDN smoke, full regressions, zero forbidden legacy emission, zero unexplained conflicts, stored-state migration, and independent rollback; link `evidence/child-090-acceptance.md`.
+- [x] T058 [US6] Accept child 090 only after mixed-version and typed-only MiniNDN smoke, full regressions, zero forbidden legacy emission, zero unexplained conflicts, stored-state migration, and independent rollback; link `evidence/child-090-acceptance.md`.
 
 **Checkpoint**: One representation exists per contract, with no semantic state
 lost merely to reduce field count.

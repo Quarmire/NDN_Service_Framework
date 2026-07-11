@@ -26,9 +26,9 @@
 
 ## Phase 4 - Acceptance
 
-- [ ] T012 Run focused and full Core/DI/Repo/UAV Python and C++ regressions.
-- [ ] T013 Run security and exact-wire/persistence regressions.
-- [ ] T014 [US1] [US2] Run mixed-reader and typed-only MiniNDN smokes and record counters.
-- [ ] T015 Verify independent rollback and compatibility deadline documentation.
-- [ ] T016 Run post-audit/analyze/converge, update parent T052-T058, and commit
+- [x] T012 Run focused and full Core/DI/Repo/UAV Python and C++ regressions.
+- [x] T013 Run security and exact-wire/persistence regressions.
+- [x] T014 [US1] [US2] Run mixed-reader and typed-only MiniNDN smokes and record counters.
+- [x] T015 Verify independent rollback and compatibility deadline documentation.
+- [x] T016 Run post-audit/analyze/converge, update parent T052-T058, and commit
   implementation/closure separately.
