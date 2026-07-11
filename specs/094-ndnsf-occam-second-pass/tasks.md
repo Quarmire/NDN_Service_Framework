@@ -31,9 +31,9 @@
 
 ## Phase 5: Accurate Recurrence Guard
 
-- [ ] T018 [US5] Replace broad false-positive Occam rules with ownership-aware rules for removed mechanisms.
-- [ ] T019 [US5] Expand audit fixtures for prohibited active code, allowed app-owned types, tests/docs/history, and internal binding exceptions.
-- [ ] T020 [US5] Run the audit with `--fail-on-active` and record zero active prohibited findings.
+- [x] T018 [US5] Replace broad false-positive Occam rules with ownership-aware rules for removed mechanisms.
+- [x] T019 [US5] Expand audit fixtures for prohibited active code, allowed app-owned types, tests/docs/history, and internal binding exceptions.
+- [x] T020 [US5] Run the audit with `--fail-on-active` and record zero active prohibited findings.
 
 ## Phase 6: Integrated Verification
 
