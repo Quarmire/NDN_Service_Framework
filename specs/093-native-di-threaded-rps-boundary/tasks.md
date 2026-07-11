@@ -2,9 +2,9 @@
 
 ## Phase 1: Freeze And Preflight
 
-- [ ] T001 [US1] Record the stable 1 RPS anchor, commit, controls, gates, exact command template, and resource limits.
-- [ ] T002 [US1] Dry-run 2/4/8 RPS commands and verify request caps 120/240/480 with only rate/output differences.
-- [ ] T003 [US1] Confirm clean runtime source, no stale MiniNDN process, and sufficient disk/memory.
+- [x] T001 [US1] Record the stable 1 RPS anchor, commit, controls, gates, exact command template, and resource limits.
+- [x] T002 [US1] Dry-run 2/4/8 RPS commands and verify request caps 120/240/480 with only rate/output differences.
+- [x] T003 [US1] Confirm clean runtime source, no stale MiniNDN process, and sufficient disk/memory.
 
 ## Phase 2: Coarse Search
 
