@@ -15,6 +15,8 @@
 | FR-012, SC-002-SC-004 | T008, T011, T017, T021-T023 | Focused/full/build/MiniNDN evidence |
 | FR-013 | T024 | Proposal-path diff scan |
 | SC-006 | T001, T024 | Before/after maintained-source report |
+| Convergence: persistent callers | T028-T029 | Full C++ build and Core HELLO MiniNDN |
+| Convergence: Repo locator path | T030-T031 | Repo focused tests and Repo MiniNDN |
 
 Every task is mapped to at least one user story in `tasks.md`. No task may be
 closed from a checked box alone; its verification path must exist in evidence.

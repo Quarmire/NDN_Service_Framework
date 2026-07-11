@@ -37,13 +37,20 @@
 
 ## Phase 6: Integrated Verification
 
-- [ ] T021 [US5] Run full Python tests and affected C++ Core/DI/UAV/Repo build/test suites.
-- [ ] T022 [US1] Run a 60-second threaded NativeTracer MiniNDN validation and retain scheduling/dependency/success/latency evidence.
-- [ ] T023 [US5] Run relevant Core, Repo, and UAV MiniNDN quick checks; record environmental skips as missing evidence.
-- [ ] T024 [US5] Compare before/after maintained source and public surfaces; verify no proposal file changed.
+- [x] T021 [US5] Run full Python tests and affected C++ Core/DI/UAV/Repo build/test suites.
+- [x] T022 [US1] Run a 60-second threaded NativeTracer MiniNDN validation and retain scheduling/dependency/success/latency evidence.
+- [x] T023 [US5] Run relevant Core, Repo, and UAV MiniNDN quick checks; record environmental skips as missing evidence.
+- [x] T024 [US5] Compare before/after maintained source and public surfaces; verify no proposal file changed.
 
 ## Phase 7: Closure
 
-- [ ] T025 [US5] Produce final disposition, adversarial review, traceability, commands, results, and residual-risk evidence.
-- [ ] T026 [US5] Run Spec Kit analyze, post-implementation audit, and converge; append any real gap as a new task and execute it.
-- [ ] T027 [US5] Update the agent context, GSD state/health, CodeGraph index, git diff/status, and close only after all acceptance criteria are met.
+- [x] T025 [US5] Produce final disposition, adversarial review, traceability, commands, results, and residual-risk evidence.
+- [x] T026 [US5] Run Spec Kit analyze, post-implementation audit, and converge; append any real gap as a new task and execute it.
+- [x] T027 [US5] Update the agent context, GSD state/health, CodeGraph index, git diff/status, and close only after all acceptance criteria are met.
+
+## Phase 8: Convergence Findings
+
+- [x] T028 [US3] Migrate the UAV embedded recording Repo to an explicit SQLite-authoritative tiered store and persist its recording content key beside the database.
+- [x] T029 [US5] Remove the stale HELLO permission-token display after the legacy permission token field removal and re-run the Core MiniNDN HELLO flow.
+- [x] T030 [US3] Repair Repo MiniNDN Data retrieval by advertising one stable serving locator, carrying `FETCH_PREPARE` hints/versioned names into segment fetch, and removing per-object route-propagation waits.
+- [x] T031 [US3] Add Repo locator/prepare regressions and prove the repaired path with the Repo Python suite and generic Repo MiniNDN quick check.
