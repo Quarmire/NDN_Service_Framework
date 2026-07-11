@@ -52,19 +52,19 @@ target ownership is explicit.
 - [x] T028 Move application retry-by-error-string behavior out of generic `ndnsf`; DI retry accepts explicit idempotency metadata and tested retryable operations only.
 - [x] T029 Remove migrated DI/Repo/retry exports from `pythonWrapper/ndnsf/__init__.py`; coordination exports remain untouched for Spec 087.
 - [x] T030 Run `tools/maintenance/ndnsf_occam_audit.py` plus CodeGraph/exact `rg` queries and write zero/unexplained-caller decisions to `evidence/final-caller-inventory.md`.
-- [ ] T031 Complete parent removal-gate records for each moved/deleted symbol with migration/deletion commits, exact tests, and rollback commands.
+- [x] T031 Complete parent removal-gate records for each moved/deleted symbol with migration/deletion commits, exact tests, and rollback commands.
 
 **Checkpoint**: Generic Core exports only generic mechanisms; app behavior lives with its owner.
 
 ## Phase 5: Regression And MiniNDN Acceptance
 
-- [ ] T032 [US5] Run the full Core C++ suite, Core Python baseline, and `examples/run_security_regressions.sh`; record pass/skip deltas in `evidence/final-core-security.md`.
-- [ ] T033 Run the parent DI and Repo focused tests plus NativeTracer/Qwen local execution and GUI preflight; record in `evidence/final-app-regressions.md`.
-- [ ] T034 Create a capacity-overlap multi-user fixture and exact coordinator-off MiniNDN command under `specs/085-core-boundary-fail-closed-leases/fixtures/`; include authority failure, restart, and partial-commit scenarios.
-- [ ] T035 Run at least three matched 60-second coordinator-off MiniNDN campaigns with frozen topology/profile/seed/load; record raw completion, conflict, lease reason/counter, cleanup, p50/p95, CPU/memory, and exact environment under `results/` and summarize in `evidence/minindn-acceptance.md`.
-- [ ] T036 Verify zero synthetic lease, zero conflicting commit, zero execution before all commits, completion decrease <=0.5 percentage points, and median p50/p95 <=110% of baseline.
-- [ ] T037 Run CodeGraph boundary audit, Spec Kit analyze/converge, GSD verify, and `speckit-audit` post-implementation; append real gaps before completion.
-- [ ] T038 Mark 085 complete only after every removal gate is READY, dirty-file ownership is resolved, all evidence is reproducible, and rollback is independently tested.
+- [x] T032 [US5] Run the full Core C++ suite, Core Python baseline, and `examples/run_security_regressions.sh`; record pass/skip deltas in `evidence/final-core-security.md`.
+- [x] T033 Run the parent DI and Repo focused tests plus NativeTracer/Qwen local execution and GUI preflight; record in `evidence/final-app-regressions.md`.
+- [x] T034 Create a capacity-overlap multi-user fixture and exact coordinator-off MiniNDN command under `specs/085-core-boundary-fail-closed-leases/fixtures/`; include authority failure, restart, and partial-commit scenarios.
+- [x] T035 Run at least three matched 60-second coordinator-off MiniNDN campaigns with frozen topology/profile/seed/load; record raw completion, conflict, lease reason/counter, cleanup, p50/p95, CPU/memory, and exact environment under `results/` and summarize in `evidence/minindn-acceptance.md`.
+- [x] T036 Verify zero synthetic lease, zero conflicting commit, zero execution before all commits, completion decrease <=0.5 percentage points, and median p50/p95 <=110% of baseline.
+- [x] T037 Run CodeGraph boundary audit, Spec Kit analyze/converge, GSD verify, and `speckit-audit` post-implementation; append real gaps before completion.
+- [x] T038 Mark 085 complete only after every removal gate is READY, dirty-file ownership is resolved, all evidence is reproducible, and rollback is independently tested.
 
 ## Dependency Order
 

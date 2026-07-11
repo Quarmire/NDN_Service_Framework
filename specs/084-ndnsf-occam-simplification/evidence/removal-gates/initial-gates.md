@@ -10,13 +10,13 @@ are also blocked until the baseline proves the retained surface is intentional.
 | V2 normal/Targeted invocation | Core | Core / keep | public API + wire + security | 085/086 | BLOCKED |
 | V1 split names and Bloom filter | Core | none / remove | public API + ABI + wire + security | 086 | BLOCKED |
 | Legacy ACK/local handler overloads | Core | none or packaged adapter | public ABI | 086 | BLOCKED |
-| DI deployment lifecycle methods | Python Core wrapper | DI / move | distributed authority | 085/087 | BLOCKED |
-| ExecutionArtifactSpec/materializer | Python Core wrapper | DI / move | API + large-data/security | 085 | BLOCKED |
-| RepoDataPlaneProducer | Python Core wrapper/binding | Repo / move | public API + wire | 085/088 | BLOCKED |
-| Retry by error string | Python Core wrapper | DI / replace with explicit idempotency | behavior + distributed retry | 085/087 | BLOCKED |
+| DI deployment lifecycle methods | Python Core wrapper | DI / move | distributed authority | 085/087 | READY 085: moved descriptive discovery and fail-closed authority to DI in `3918c98`; tests in `final-app-regressions.md`; rollback `git revert 3918c98` |
+| ExecutionArtifactSpec/materializer | Python Core wrapper | DI / move | API + large-data/security | 085 | READY: moved with byte/hash/path tests in `3918c98`; rollback `git revert 3918c98` |
+| RepoDataPlaneProducer | Python Core wrapper/binding | Repo / move | public API + wire | 085/088 | READY 085: export moved to `py_repoclient` without packet-name changes in `3918c98`; rollback `git revert 3918c98` |
+| Retry by error string | Python Core wrapper | DI / replace with explicit idempotency | behavior + distributed retry | 085/087 | READY 085: generic export deleted and DI retries require idempotent operations in `3918c98`; rollback `git revert 3918c98` |
 | Coordination envelope/service | Core | DI experimental or remove | public API + wire | 087 | BLOCKED |
-| Provider admission/generic lease envelope | Core | Core / keep | distributed authority + security | 085 | BLOCKED |
-| DI prepare/commit/abort and fragment residency | DI | DI / keep | distributed authority | 085/087 | BLOCKED |
+| Provider admission/generic lease envelope | Core | Core / keep | distributed authority + security | 085 | READY 085: fail-closed C++ table, bindings, FIFO conflict ordering, security and MiniNDN evidence in `3918c98`; rollback `git revert 3918c98` |
+| DI prepare/commit/abort and fragment residency | DI | DI / keep | distributed authority | 085/087 | READY 085: secured Targeted 2PC, provider-local completion, pinning and restart tests in `3918c98`; rollback `git revert 3918c98` |
 | Semantic service cache | DI public runtime | DI experimental | behavior + output correctness | 087 | BLOCKED |
 | Exact Forward Cache | DI provider | DI / keep | hot path + correctness | 087 | BLOCKED |
 | Planner placeholders without handlers | DI | none / remove | public behavior | 087 | BLOCKED |
