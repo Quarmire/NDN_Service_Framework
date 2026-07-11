@@ -16,9 +16,9 @@
 
 ## Phase 3: Canonical DI GUI And Artifact API
 
-- [ ] T009 [US2] Remove legacy runtime profile classes/loaders/writers and duplicate Script Controller/User/Provider tabs while retaining distinct supporting tools.
-- [ ] T010 [US2] Remove `repo_manifests` public keywords and the dual-name selector; rename internal artifact-loading helpers and update tests/docs.
-- [ ] T011 [US2] Run headless and Tk GUI tests plus DI artifact/deployment/runtime tests.
+- [x] T009 [US2] Remove legacy runtime profile classes/loaders/writers and duplicate Script Controller/User/Provider tabs while retaining distinct supporting tools.
+- [x] T010 [US2] Remove `repo_manifests` public keywords and the dual-name selector; rename internal artifact-loading helpers and update tests/docs.
+- [x] T011 [US2] Run headless and Tk GUI tests plus DI artifact/deployment/runtime tests.
 
 ## Phase 4: Canonical Persistent Repo
 
