@@ -17,13 +17,13 @@
 
 ## Phase 3: MiniNDN Evidence
 
-- [ ] T010 [US2] Execute the 15-run primary MiniNDN campaign once at 5% loss.
-- [ ] T011 [US3] Validate all run directories, command modes, component markers, metrics, and failure retention.
-- [ ] T012 [US3] Compare control-only, video-only, and combined cells descriptively by parity.
-- [ ] T013 [US3] Run the full Python regression suite and any affected C++ checks.
+- [x] T010 [US2] Execute the 15-run primary MiniNDN campaign once at 5% loss.
+- [x] T011 [US3] Validate all run directories, command modes, component markers, metrics, and failure retention.
+- [x] T012 [US3] Compare control-only, video-only, and combined cells descriptively by parity.
+- [x] T013 [US3] Run the full Python regression suite and any affected C++ checks.
 
 ## Phase 4: Closure
 
-- [ ] T014 [US3] Write reproducibility, result, limitations, negative-result, and residual-risk evidence.
-- [ ] T015 [US3] Run post-implementation audit/converge and execute appended tasks.
-- [ ] T016 [US3] Update GSD/agent context/CodeGraph, verify no runtime/proposal changes, commit, and close.
+- [x] T014 [US3] Write reproducibility, result, limitations, negative-result, and residual-risk evidence.
+- [x] T015 [US3] Run post-implementation audit/converge and execute appended tasks.
+- [x] T016 [US3] Update GSD/agent context/CodeGraph, verify no runtime/proposal changes, commit, and close.
