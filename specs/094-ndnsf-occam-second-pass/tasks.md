@@ -2,17 +2,17 @@
 
 ## Phase 1: Baseline And Disposition
 
-- [ ] T001 [US5] Record CodeGraph status, git state, build/test baseline, disk, and active Occam findings.
-- [ ] T002 [US5] Produce a Core/DI/UAV/Repo disposition matrix with REMOVE, CONSOLIDATE, KEEP, and DEFER decisions plus exact callers.
-- [ ] T003 [US5] Record migration, rollback, security, persistence, and deadline constraints for every removal/defer decision.
-- [ ] T004 [US5] Run Spec Kit structure/analyze and pre-implementation audit; resolve every blocking finding before edits.
+- [x] T001 [US5] Record CodeGraph status, git state, build/test baseline, disk, and active Occam findings.
+- [x] T002 [US5] Produce a Core/DI/UAV/Repo disposition matrix with REMOVE, CONSOLIDATE, KEEP, and DEFER decisions plus exact callers.
+- [x] T003 [US5] Record migration, rollback, security, persistence, and deadline constraints for every removal/defer decision.
+- [x] T004 [US5] Run Spec Kit structure/analyze and pre-implementation audit; resolve every blocking finding before edits.
 
 ## Phase 2: Canonical DI Driver And Evidence Path
 
-- [ ] T005 [US1] Remove process-pool CLI choices, runtime-profile values, GUI choices/defaults, campaign forwarding, worker-batch protocol, helpers, and tests.
-- [ ] T006 [US1] Make threaded the canonical GUI/runtime-profile open-loop default while retaining child diagnostic mode.
-- [ ] T007 [US1] Remove `Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py`, its dedicated tests, and canonical-doc references; document the strict NativeTracer harness recipe.
-- [ ] T008 [US1] Run DI parser/profile/GUI/campaign tests and prohibited-symbol scans.
+- [x] T005 [US1] Remove process-pool CLI choices, runtime-profile values, GUI choices/defaults, campaign forwarding, worker-batch protocol, helpers, and tests.
+- [x] T006 [US1] Make threaded the canonical GUI/runtime-profile open-loop default while retaining child diagnostic mode.
+- [x] T007 [US1] Remove `Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py`, its dedicated tests, and canonical-doc references; document the strict NativeTracer harness recipe.
+- [x] T008 [US1] Run DI parser/profile/GUI/campaign tests and prohibited-symbol scans.
 
 ## Phase 3: Canonical DI GUI And Artifact API
 

@@ -237,22 +237,12 @@ NativeTracer rate sweep:
 python3 tools/ndnsf_runtime.py di sweep -- --target-rps-list 0,1,2
 ```
 
-Runtime-aware multi-user MiniNDN RPS sweep:
-
-```bash
-sudo -n PYTHONPATH=NDNSF-DistributedInference:pythonWrapper:Experiments \
-  python3 Experiments/NDNSF_DI_RuntimeAware_RpsSweep.py \
-  --out /tmp/ndnsf-di-runtime-aware-rps-sweep \
-  --rps 0.2,0.4 \
-  --requests 2 \
-  --concurrency 2 \
-  -- --provider-check-timeout 60
-```
-
-The sweep uses pure user-side planning and writes points below `pure/`.
-Provider-owned execution leases are the only admission authority. The former
-advisory-coordinator comparison mode was deleted after its frozen ten-pair gate
-in Spec 087 increased conflict rate and reduced completion.
+For measured open-loop work, use the NativeTracer harness directly with a
+60-second window, a request cap of `ceil(rate * 60)`, and the `threaded` driver.
+Apply the Spec 093 scheduling, completion, throughput, dependency, and malformed
+trace gates to every point. The former runtime-aware sweep was removed because
+its deterministic runner and success-only stability check could label an
+invalid offered-load point as stable.
 
 Planner-only LLM proportional RPS search:
 
@@ -452,7 +442,8 @@ Spec 091 screened the three existing drivers at 1 RPS for 60 seconds with
 concurrency 4. `child` completed 60/60 but achieved only 0.410 RPS with 77.96 s
 maximum schedule slip. `threaded` failed before a complete workload summary
 because worker users could not retrieve scope-key large Data while the base
-publisher was not kept running. `process-pool` completed 60/60 with no local
+publisher was not kept running. The removed process-pool experiment completed
+60/60 with no local
 backpressure and all dependency events, but its reported 0.932 RPS includes an
 intentional five-second schedule lead and lacks per-worker slip telemetry.
 Therefore this is a user-driver/instrumentation boundary, not provider-capacity
@@ -464,9 +455,8 @@ instrumentation. At the same 1 RPS, 60-second, concurrency-4 Qwen point, the
 threaded driver passed three matched repetitions: 180/180 requests, 720/720
 dependency events, mean 1.0133 RPS, mean p50 211.8 ms, mean p95 1176.4 ms, and
 worst maximum schedule slip 14.8 ms. Use `threaded` for the next offered-load
-search. The process-pool driver completed 60/60 at 1.012 RPS but failed the
-scheduling gate with 4345.5 ms startup slip; it needs an explicit worker-ready
-barrier before use in comparative campaigns. These results do not establish a
+search. The removed process-pool experiment completed 60/60 at 1.012 RPS but
+failed the scheduling gate with 4345.5 ms startup slip. These results do not establish a
 maximum stable RPS; see `specs/092-native-di-user-driver-correctness/evidence/`.
 
 Spec 093 extends the same threaded Qwen fixture through 2, 4, and 8 offered
