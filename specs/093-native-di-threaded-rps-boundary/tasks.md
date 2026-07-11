@@ -27,3 +27,4 @@
 ## Phase 5: Convergence
 
 - [x] T013 [US1] Make ACK runtime-hint log collection preserve and count malformed/interleaved observability lines instead of aborting an otherwise complete experiment (FR-008 partial).
+- [x] T014 [US1] Separate valid dependency events from malformed/interleaved dependency trace lines while retaining observed-marker and bounded parse-error evidence (FR-008 partial).

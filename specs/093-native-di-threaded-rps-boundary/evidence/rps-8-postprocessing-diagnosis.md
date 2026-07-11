@@ -34,3 +34,11 @@ providers retained: llm-2gb, llm-4gb, llm-8gb
 
 The focused runtime-aware campaign tests pass 31/31. The complete Python suite
 passes 343 tests with one existing environment-dependent skip.
+
+The second 8 RPS run completed and exposed the same logging race in one
+dependency trace: `payload_bytes=65e`, a damaged planned name, and
+`status=oker`. A second RED replay test established that the old dependency
+collector counted the damaged record as an ordinary event. The corrected
+collector now distinguishes total observed markers, strictly valid `ok`
+events, and bounded parse-error diagnostics without reconstructing corrupted
+fields.
