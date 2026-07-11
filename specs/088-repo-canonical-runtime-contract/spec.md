@@ -1,7 +1,7 @@
 # Feature Specification: Repo Canonical Runtime And Contract
 
 **Parent**: `specs/084-ndnsf-occam-simplification/`
-**Status**: In progress
+**Status**: Complete
 
 ## User Stories
 

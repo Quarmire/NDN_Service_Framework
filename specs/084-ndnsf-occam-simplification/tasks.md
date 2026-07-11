@@ -43,7 +43,7 @@ application policy from the Core surface without relying on a global coordinator
 - [x] T015 [US1] Require child 085 to define the DI-owned descriptive deployment record separately from provider-authoritative lease state and to prohibit global refCount as an execution authority.
 - [x] T016 [US1] Require child 085 to inventory and relocate DI deployment/materializer/retry and Repo producer symbols currently exposed by `pythonWrapper/ndnsf/`, while retaining generic Core large-data, status, telemetry, rejection, and lease primitives.
 - [x] T017 [US1] Run `speckit-audit` pre-implementation on child 085 and resolve every blocking finding before implementation begins; save the report in the child evidence directory.
-- [ ] T018 [US1] Accept child 085 only after Core/security regressions and coordinator-off multi-user MiniNDN prove zero synthetic leases, zero conflicting committed roles, bounded abort/replan, and independent rollback; link evidence in `evidence/child-085-acceptance.md`.
+- [x] T018 [US1] Accept child 085 only after Core/security regressions and coordinator-off multi-user MiniNDN prove zero synthetic leases, zero conflicting committed roles, bounded abort/replan, and independent rollback; link evidence in `evidence/child-085-acceptance.md`.
 
 **Checkpoint**: Authority loss fails closed; Core contains no DI/Repo policy.
 
@@ -54,13 +54,13 @@ application policy from the Core surface without relying on a global coordinator
 **Goal**: Remove V1 without deleting the provider/service authorization data
 used by current V2 security paths.
 
-- [ ] T019 [US2] Create child feature 086 with a symbol-level V1 inventory and `contracts/permission-v2-migration.md`; identify exact declarations, definitions, registrations, callers, tests, docs, and build entries.
-- [ ] T020 [US2] Freeze an external ABI/release decision for `PublishRequest`, split ServiceName/FunctionName APIs, Bloom-filter naming, legacy handlers, Direct aliases, and permission callbacks in the child ADR.
-- [ ] T021 [US2] Require child 086 to introduce and test a unified service-authorization record containing providerServiceName, serviceName, permissionKind, and policyEpoch before changing `UserPermissionTable`.
-- [ ] T022 [US2] Require current encrypted PermissionResponse, user authorization, provider role authorization, NAC-ABE routing, one-time token, replay, bootstrap, normal, Targeted, and collaboration tests before and after migration.
-- [ ] T023 [US2] Require individual zero-caller proof before deleting `searchByFunctionName`, token-name decode callbacks/utilities, legacy parsers, handler overloads, or BloomFilter build targets; broad wildcard deletion is prohibited.
-- [ ] T024 [US2] Require child tasks to name exact repository paths and symbols rather than `ServiceUser.*`, `planner_registry.py`, or wildcard test placeholders.
-- [ ] T025 [US2] Run `speckit-audit` pre-implementation on child 086 and resolve every blocking finding.
+- [x] T019 [US2] Create child feature 086 with a symbol-level V1 inventory and `contracts/permission-v2-migration.md`; identify exact declarations, definitions, registrations, callers, tests, docs, and build entries.
+- [x] T020 [US2] Freeze an external ABI/release decision for `PublishRequest`, split ServiceName/FunctionName APIs, Bloom-filter naming, legacy handlers, Direct aliases, and permission callbacks in the child ADR.
+- [x] T021 [US2] Require child 086 to introduce and test a unified service-authorization record containing providerServiceName, serviceName, permissionKind, and policyEpoch before changing `UserPermissionTable`.
+- [x] T022 [US2] Require current encrypted PermissionResponse, user authorization, provider role authorization, NAC-ABE routing, one-time token, replay, bootstrap, normal, Targeted, and collaboration tests before and after migration.
+- [x] T023 [US2] Require individual zero-caller proof before deleting `searchByFunctionName`, token-name decode callbacks/utilities, legacy parsers, handler overloads, or BloomFilter build targets; broad wildcard deletion is prohibited.
+- [x] T024 [US2] Require child tasks to name exact repository paths and symbols rather than `ServiceUser.*`, `planner_registry.py`, or wildcard test placeholders.
+- [x] T025 [US2] Run `speckit-audit` pre-implementation on child 086 and resolve every blocking finding.
 - [ ] T026 [US2] Accept child 086 only after full C++/Python builds, security regressions, forbidden-symbol scans, and matched normal/Targeted MiniNDN pass the frozen thresholds; link evidence in `evidence/child-086-acceptance.md`.
 
 **Checkpoint**: V2 provider/service authorization remains functional and no
@@ -73,13 +73,13 @@ active V1 invocation implementation remains.
 **Goal**: Default DI is pure user-side planning plus provider admission;
 experimental advice/cache cannot authorize or silently affect execution.
 
-- [ ] T027 [US3] Create child feature 087 after child 085 acceptance; include exact paths under `NDNSF-DistributedInference/ndnsf_distributed_inference/` and explicitly created target modules where no current file exists.
-- [ ] T028 [US3] Require coordinator-off multi-user correctness, deployment publication without authority semantics, executable-only default planner registry, and default-off semantic-cache boundary tests.
-- [ ] T029 [US3] Require advisory coordination to move under `experimental/advisory_coordination/`, remain non-authoritative/default-off, and expose no Core or default DI imports.
-- [ ] T030 [US3] Require semantic cache to move under `experimental/semantic_cache/`; retain provider-local Exact Forward Cache as a distinct exact-match optimization.
-- [ ] T031 [US3] Require retry policy to stay application-owned and to accept explicit idempotency metadata rather than infer safety from error strings.
-- [ ] T032 [US3] Freeze the advisory-retention experiment before running it: select one primary metric; require at least ten matched runs, a practical effect of at least 10%, a paired 95% bootstrap confidence interval excluding zero, no completion/latency threshold violation, and report conflict rate, completion, p50/p95, stable RPS, and added hop cost.
-- [ ] T033 [US3] Run `speckit-audit` pre-implementation on child 087 and resolve every blocking finding.
+- [x] T027 [US3] Create child feature 087 after child 085 acceptance; include exact paths under `NDNSF-DistributedInference/ndnsf_distributed_inference/` and explicitly created target modules where no current file exists.
+- [x] T028 [US3] Require coordinator-off multi-user correctness, deployment publication without authority semantics, executable-only default planner registry, and default-off semantic-cache boundary tests.
+- [x] T029 [US3] Require advisory coordination to move under `experimental/advisory_coordination/`, remain non-authoritative/default-off, and expose no Core or default DI imports.
+- [x] T030 [US3] Require semantic cache to move under `experimental/semantic_cache/`; retain provider-local Exact Forward Cache as a distinct exact-match optimization.
+- [x] T031 [US3] Require retry policy to stay application-owned and to accept explicit idempotency metadata rather than infer safety from error strings.
+- [x] T032 [US3] Freeze the advisory-retention experiment before running it: select one primary metric; require at least ten matched runs, a practical effect of at least 10%, a paired 95% bootstrap confidence interval excluding zero, no completion/latency threshold violation, and report conflict rate, completion, p50/p95, stable RPS, and added hop cost.
+- [x] T033 [US3] Run `speckit-audit` pre-implementation on child 087 and resolve every blocking finding.
 - [ ] T034 [US3] Accept child 087 only after NativeTracer/Qwen unit and MiniNDN workflows succeed coordinator-off; retain advisory code only if the predeclared T032 statistical and practical-effect gate passes, otherwise delete it; link `evidence/child-087-acceptance.md`.
 
 **Checkpoint**: DI correctness has no coordinator dependency and experimental
@@ -92,16 +92,16 @@ features are visibly optional.
 **Goal**: Select, then converge on, one Repo contract and authoritative runtime
 without losing exact packets, persistence, HA, or repair.
 
-- [ ] T035 [US4] Create child feature 088 with `contracts/repo-decision-gate.md`; leave canonical language/runtime and shared-versus-operation-specific naming explicitly UNDECIDED at feature creation.
-- [ ] T036 [P] [US4] Freeze black-box fixtures consumable by both candidates for exact signed packets, SQLite schema/restart, cache, manifest, catalog, quorum, tombstone, idempotency, failover, repair, Targeted, malformed input, and metrics.
-- [ ] T037 [P] [US4] Inventory current C++ and Python public/internal operations, names, schemas, authorization, discovery, persistence ownership, and parity gaps in the child evidence directory.
-- [ ] T038 [US4] Produce and approve a Repo ADR evaluating semantic parity, security, public/internal boundaries, persistence migration, crash recovery, concurrency/backpressure, observability, maintainability, operational complexity, and matched performance; one timing comparison is insufficient.
-- [ ] T039 [US4] Freeze the canonical public object API and versioned private replication/repair protocol only after T038; define an enforceable internal authorization namespace/policy and ordinary-client negative tests.
-- [ ] T040 [US4] Require child implementation tasks to migrate parity in independently revertible slices: exact storage/restart, bounded hot cache, quorum/tombstone, catalog/anti-entropy, read failover, repair, binding/client, then duplicate deletion.
-- [ ] T041 [US4] Require raw-payload helpers to segment/sign client-side and call canonical exact-Data insertion; they must not create a second provider storage model.
-- [ ] T042 [US4] Require stored-state upgrade, restart, rollback-open/downgrade decision, exact wire-byte, Targeted capability epoch, and internal-operation authorization tests before deleting either candidate.
-- [ ] T043 [US4] Run `speckit-audit` pre-implementation on child 088 after the ADR and resolve every blocking finding.
-- [ ] T044 [US4] Accept child 088 only after at least three matched 60-second campaigns each retain 30/30, required W, zero invalid finalized replicas, frozen repair coverage, and performance thresholds; link `evidence/child-088-acceptance.md`.
+- [x] T035 [US4] Create child feature 088 with `contracts/repo-decision-gate.md`; leave canonical language/runtime and shared-versus-operation-specific naming explicitly UNDECIDED at feature creation.
+- [x] T036 [P] [US4] Freeze black-box fixtures consumable by both candidates for exact signed packets, SQLite schema/restart, cache, manifest, catalog, quorum, tombstone, idempotency, failover, repair, Targeted, malformed input, and metrics.
+- [x] T037 [P] [US4] Inventory current C++ and Python public/internal operations, names, schemas, authorization, discovery, persistence ownership, and parity gaps in the child evidence directory.
+- [x] T038 [US4] Produce and approve a Repo ADR evaluating semantic parity, security, public/internal boundaries, persistence migration, crash recovery, concurrency/backpressure, observability, maintainability, operational complexity, and matched performance; one timing comparison is insufficient.
+- [x] T039 [US4] Freeze the canonical public object API and versioned private replication/repair protocol only after T038; define an enforceable internal authorization namespace/policy and ordinary-client negative tests.
+- [x] T040 [US4] Require child implementation tasks to migrate parity in independently revertible slices: exact storage/restart, bounded hot cache, quorum/tombstone, catalog/anti-entropy, read failover, repair, binding/client, then duplicate deletion.
+- [x] T041 [US4] Require raw-payload helpers to segment/sign client-side and call canonical exact-Data insertion; they must not create a second provider storage model.
+- [x] T042 [US4] Require stored-state upgrade, restart, rollback-open/downgrade decision, exact wire-byte, Targeted capability epoch, and internal-operation authorization tests before deleting either candidate.
+- [x] T043 [US4] Run `speckit-audit` pre-implementation on child 088 after the ADR and resolve every blocking finding.
+- [x] T044 [US4] Accept child 088 only after at least three matched 60-second campaigns each retain 30/30, required W, zero invalid finalized replicas, frozen repair coverage, and performance thresholds; link `evidence/child-088-acceptance.md`.
 
 **Checkpoint**: Repo has one selected source of truth and ordinary clients
 cannot invoke internal HA mutation operations.
@@ -113,12 +113,12 @@ cannot invoke internal HA mutation operations.
 **Goal**: One generic C++ stream state engine, with UAV codec and safety policy
 remaining in the UAV application.
 
-- [ ] T045 [US5] Create child feature 089 using `contracts/stream-parity.md`; name exact Core C++, pybind/Python, UAV consumer, test, and experiment paths.
-- [ ] T046 [P] [US5] Freeze parity fixtures for session identity, reorder, duplicate, gap, skip/deadline input, stale session, pending count/bytes, overflow, metrics, malformed data, unknown version, and adaptive state.
-- [ ] T047 [P] [US5] Define C++ ownership/thread-safety/callback guarantees and TLV-to-Python field/default/error conversion before binding implementation.
-- [ ] T048 [US5] Require the child to migrate only generic sequence/reorder/gap/health/adaptive behavior; H264 framing, FEC codec, ROI, MAVLink, mission, preflight, authority, decoder backlog policy, and labels remain UAV-owned.
-- [ ] T049 [US5] Require a forbidden-use test proving static files, models, catalog snapshots, and planned tensor bundles use exact-name segmented retrieval rather than StreamChunk.
-- [ ] T050 [US5] Run `speckit-audit` pre-implementation on child 089 and resolve every blocking finding.
+- [x] T045 [US5] Create child feature 089 using `contracts/stream-parity.md`; name exact Core C++, pybind/Python, UAV consumer, test, and experiment paths.
+- [x] T046 [P] [US5] Freeze parity fixtures for session identity, reorder, duplicate, gap, skip/deadline input, stale session, pending count/bytes, overflow, metrics, malformed data, unknown version, and adaptive state.
+- [x] T047 [P] [US5] Define C++ ownership/thread-safety/callback guarantees and TLV-to-Python field/default/error conversion before binding implementation.
+- [x] T048 [US5] Require the child to migrate only generic sequence/reorder/gap/health/adaptive behavior; H264 framing, FEC codec, ROI, MAVLink, mission, preflight, authority, decoder backlog policy, and labels remain UAV-owned.
+- [x] T049 [US5] Require a forbidden-use test proving static files, models, catalog snapshots, and planned tensor bundles use exact-name segmented retrieval rather than StreamChunk.
+- [x] T050 [US5] Run `speckit-audit` pre-implementation on child 089 and resolve every blocking finding.
 - [ ] T051 [US5] Accept child 089 only after C++/Python parity tests and at least three matched UAV MiniNDN loss campaigns preserve stale rejection, FEC recovery, bounded buffering, gaps/drops, completion, and latency thresholds; link `evidence/child-089-acceptance.md`.
 
 **Checkpoint**: One generic stream algorithm remains; UAV domain behavior and
