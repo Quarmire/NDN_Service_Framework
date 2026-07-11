@@ -15,12 +15,12 @@
 
 ## Phase 3: MiniNDN Validation
 
-- [ ] T008 [US1] Preflight matched threaded and process-pool commands against Spec 091 controls.
-- [ ] T009 [US1] Run the 60-second threaded validation and preserve its complete or negative result.
-- [ ] T010 [US1] Run the 60-second process-pool validation and classify it with Spec 091 gates.
-- [ ] T011 [US1] If process-pool passes, run two additional matched repetitions and summarize all three without claiming maximum stable RPS.
+- [x] T008 [US1] Preflight matched threaded and process-pool commands against Spec 091 controls.
+- [x] T009 [US1] Run the 60-second threaded validation and preserve its complete or negative result.
+- [x] T010 [US1] Run the 60-second process-pool validation and classify it with Spec 091 gates.
+- [x] T011 [US1] For the selected passing driver, run three matched repetitions and summarize them without claiming maximum stable RPS.
 
 ## Phase 4: Closure
 
-- [ ] T012 [US1] Update traceability, experiment validation, and the canonical DI runtime workflow.
-- [ ] T013 [US1] Run Spec Kit analyze/audit/converge, GSD health, diff checks, and mark the feature complete only when evidence is reproducible.
+- [x] T012 [US1] Update traceability, experiment validation, and the canonical DI runtime workflow.
+- [x] T013 [US1] Run Spec Kit analyze/audit/converge, GSD health, diff checks, and mark the feature complete only when evidence is reproducible.

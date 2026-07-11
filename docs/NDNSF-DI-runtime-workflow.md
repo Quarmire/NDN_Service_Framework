@@ -459,6 +459,16 @@ Therefore this is a user-driver/instrumentation boundary, not provider-capacity
 evidence. Do not quote a maximum stable RPS from this screening; see
 `specs/091-native-di-offered-load-baseline/evidence/`.
 
+Spec 092 fixed the base scope-key publisher lifecycle and open-loop timing
+instrumentation. At the same 1 RPS, 60-second, concurrency-4 Qwen point, the
+threaded driver passed three matched repetitions: 180/180 requests, 720/720
+dependency events, mean 1.0133 RPS, mean p50 211.8 ms, mean p95 1176.4 ms, and
+worst maximum schedule slip 14.8 ms. Use `threaded` for the next offered-load
+search. The process-pool driver completed 60/60 at 1.012 RPS but failed the
+scheduling gate with 4345.5 ms startup slip; it needs an explicit worker-ready
+barrier before use in comparative campaigns. These results do not establish a
+maximum stable RPS; see `specs/092-native-di-user-driver-correctness/evidence/`.
+
 The multi-user fixture is:
 
 ```bash
