@@ -123,7 +123,7 @@ identity-mismatched or infeasible facts reject/defer; configured values remain l
 - [X] T058 [US3] Bind cached plan leases to provider membership/boot, evidence, artifact/runtime, telemetry, network-profile and cache versions in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [X] T059 [US3] Revalidate telemetry and plan predicates immediately before execution-lease commit in `NDNSF-DistributedInference/ndnsf_distributed_inference/deployment.py`.
 - [X] T060 [US3] Update MiniNDN fixtures to label static 2/4/8 GB facts `configured` and add controlled measured host-telemetry injection without presenting it as physical GPU evidence in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
-- [ ] T061 [US3] Execute fresh/stale/memory-pressure/queue-pressure/membership/device-mismatch plan cells and record every predicate decision in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-plan-validation.md`.
+- [X] T061 [US3] Execute fresh/stale/memory-pressure/queue-pressure/membership/device-mismatch plan cells and record every predicate decision in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-plan-validation.md`.
 - [ ] T062 [US3] Execute exactly one newly preregistered three-repetition real-Qwen MiniNDN acceptance campaign with the validated generation scheduler and INFO telemetry; retain the original failed runs separately and verify correctness, fixed 1 RPS thresholds, queue/progress accounting, and telemetry perturbation in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-performance-check.md`.
 
 **Checkpoint**: The planner is capacity-aware only when fresh measured facts are
