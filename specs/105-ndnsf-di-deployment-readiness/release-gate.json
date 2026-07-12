@@ -1,0 +1,61 @@
+{
+  "dimensions": {
+    "applicationSecurity": {
+      "artifacts": [
+        "evidence/integrated-regression.md",
+        "evidence/security-log-audit.md"
+      ],
+      "status": "BLOCK"
+    },
+    "correctness": {
+      "artifacts": [
+        "evidence/qwen-correctness.md",
+        "evidence/integrated-regression.md"
+      ],
+      "status": "PASS"
+    },
+    "evidenceIntegrity": {
+      "artifacts": [
+        "evidence/evidence-gate-results.md",
+        "evidence/telemetry-performance-check.md"
+      ],
+      "status": "PASS"
+    },
+    "operations": {
+      "artifacts": [
+        "evidence/systemd-staging.md",
+        "evidence/local-canary.md",
+        "evidence/local-operations.md",
+        "evidence/local-soak.md"
+      ],
+      "status": "BLOCK"
+    },
+    "performance": {
+      "artifacts": [
+        "evidence/telemetry-performance-check.md"
+      ],
+      "status": "BLOCK"
+    },
+    "recovery": {
+      "artifacts": [
+        "evidence/fault-recovery.md"
+      ],
+      "status": "BLOCK"
+    }
+  },
+  "generatedAtMs": 1783858365188,
+  "limitations": [
+    "T062 fixed 1 RPS performance gate is BLOCK",
+    "T078 has contract-level but not live MiniNDN fault injection",
+    "Historical T062 INFO evidence contains a public expected-token oracle",
+    "Canary, live operations and 24-hour soak are NOT RUN / BLOCK"
+  ],
+  "minindnCandidateOverall": "BLOCK",
+  "physicalAcceptanceSpec": "specs/106-ndnsf-di-physical-pilot",
+  "physicalProductionOverall": "DEFERRED",
+  "profileDigest": "sha256:15e4afa35c5e1896c01d09264c34127cc0cbec7ec4c42c7d1b9e488308d7f26f",
+  "releaseId": "spec105-local-minindn-candidate-r2",
+  "runnerClassification": "onnxruntime-cpu",
+  "schema": "ndnsf-di-release-gate-v1",
+  "sourceCommit": "4dc99ff5d0d925cb9dc2f16ec870773cadc6487e"
+}
