@@ -42,8 +42,8 @@
 1. deterministic provider;
 2. wiring-only provider;
 3. real CPU ONNX providers;
-4. real CUDA ONNX providers;
-5. mixed CPU/CUDA when profile disallows mixing;
+4. declared CUDA requirement on the CPU-only host (must fail closed);
+5. mixed CPU/synthetic or conflicting device evidence;
 6. missing evidence;
 7. artifact/plan digest mismatch.
 
@@ -78,7 +78,7 @@ hashes and terminal reasons. No performance comparison uses cold export/load.
 
 Primary: completion, achieved RPS, p50/p95/p99, single/distributed p95 ratio,
 TTFT, inter-token latency. Secondary: stage compute/fetch/publish/queue, bytes,
-GPU memory/utilization, cache events. Higher-rate search is a later hypothesis;
+host memory/process RSS, cache events. Higher-rate search is a later hypothesis;
 it cannot be added after observing a pass.
 
 ### S: Scheduler Stress

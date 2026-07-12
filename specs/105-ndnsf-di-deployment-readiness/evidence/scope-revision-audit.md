@@ -24,7 +24,16 @@ mechanical: Spec 105 may pass `minindnCandidateOverall` but must emit
 | R-001 | RESOLVED | Physical tasks made all-task completion impossible on the available host | T092-T094 now execute local MiniNDN canary, operations and soak; physical work moved to Spec 106 |
 | R-002 | RESOLVED | MiniNDN application security could be confused with production cryptographic evidence | FR-018 and the release contract use `application-auth-path-executed`; production stays DEFERRED |
 | R-003 | RESOLVED | Final release status conflated local candidate and physical production | T098 and the release contract expose separate candidate and production statuses |
-| R-004 | LOW | All logical providers may observe one physical GPU on the local host | Local evidence proves probe identity/freshness and planner behavior, not cross-host heterogeneity; Spec 106 owns that claim |
+| R-004 | RESOLVED | The first revision still assumed a local CUDA/GPU backend that does not exist | Spec 105 now requires real CPU ONNX and measured Linux host/process telemetry; CUDA and NVIDIA probing moved to Spec 106 |
+
+## Backend Executability Correction
+
+Live preflight on 2026-07-12 found no `nvidia-smi`; Python ONNX Runtime 1.19.2
+reported only Azure/CPU providers, and the linked C++ ONNX Runtime reported CPU
+only. Therefore the previous CUDA hard gate was a HIGH task-executability defect
+and the audit verdict before correction was `BLOCK`. The CPU-local revision
+resolves that defect without weakening evidence integrity: a CUDA request fails
+closed, and Spec 106 must later produce real CUDA/device evidence.
 
 ## Readiness Scorecard
 
@@ -33,7 +42,7 @@ mechanical: Spec 105 may pass `minindnCandidateOverall` but must emit
 | Intent and scope | Yes | Every Spec 105 task is local-host executable |
 | Architecture and ownership | Yes | Runtime remains in DI; physical acceptance has a separate feature |
 | Security/correctness | Yes | Application paths remain mandatory; cryptographic-strength claim is deferred |
-| Task executability | Yes | 102 sequential tasks, no physical execution dependency |
+| Task executability | Yes | 102 sequential tasks use real local CPU ONNX; no unavailable CUDA or physical execution dependency |
 | Validation/evidence | Yes | MiniNDN controls remain frozen; 24-hour local soak retained |
 | Migration/rollback | Yes | Local staged operations remain; physical drills migrate intact |
 | Code reality | Yes for implementation | No missing physical environment is required by Spec 105 |
@@ -46,7 +55,7 @@ mechanical: Spec 105 may pass `minindnCandidateOverall` but must emit
 - Tasks: 102
 - Placeholders: 0
 - Strict structural audit: PASS
-- Critical / High / Medium / Low open findings: 0 / 0 / 0 / 1
+- Critical / High / Medium / Low open findings: 0 / 0 / 0 / 0
 
 ## Implementation Gate
 

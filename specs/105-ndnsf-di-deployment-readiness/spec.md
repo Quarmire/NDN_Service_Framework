@@ -53,9 +53,9 @@ mixed/unknown evidence, and classifies the two runs differently.
 1. **Given** a provider launched with a deterministic runner, **When** a summary
    is produced, **Then** it reports synthetic execution and cannot pass the
    real-compute gate.
-2. **Given** every provider reports verified CUDA ONNX execution with matching
+2. **Given** every provider reports verified CPU ONNX execution with matching
    artifact hashes, **When** a summary is produced, **Then** it reports real
-   CUDA execution and retains the per-provider evidence.
+   CPU execution and retains the per-provider evidence.
 3. **Given** providers disagree about backend or artifact identity, **When** the
    run closes, **Then** the run is rejected rather than assigned an optimistic
    aggregate label.
@@ -94,21 +94,21 @@ baseline.
 
 ### User Story 3 - Plan From Fresh Measured Capacity (Priority: P2)
 
-An operator can see measured GPU memory, model residency, queue pressure, worker
+An operator can see measured host memory, model residency, queue pressure, worker
 occupancy, and stage service rate. The user planner accepts a plan only while
 the facts that justified it remain fresh and compatible.
 
 **Why this priority**: Static 2/4/8 GB labels cannot safely drive placement on
 real heterogeneous machines.
 
-**Independent Test**: Change measured free GPU memory and queue pressure in a
+**Independent Test**: Change measured free host memory and queue pressure in a
 controlled fixture, verify the typed snapshot changes, and verify reuse,
 invalidation, defer, or rejection follows the declared freshness and capacity
 rules.
 
 **Acceptance Scenarios**:
 
-1. **Given** a healthy GPU provider, **When** telemetry is sampled, **Then** the
+1. **Given** a healthy local CPU provider, **When** telemetry is sampled, **Then** the
    snapshot is measured, timestamped, bounded in age, and bound to provider,
    device, model, artifact, and runtime identities.
 2. **Given** stale or unavailable dynamic telemetry, **When** planning occurs,
@@ -169,7 +169,7 @@ restart, then roll forward and back between two compatible staged releases.
    runbook is followed, **Then** every MiniNDN role reaches ready without editing
    source files or requiring a physical node.
 2. **Given** a running deployment, **When** the operator inspects it, **Then**
-   health, backend identity, artifact identity, plan identity, queues, GPU facts,
+   health, backend identity, artifact identity, plan identity, queues, host-resource facts,
    request outcomes, and recent terminal errors are available in structured
    output.
 3. **Given** an incompatible or failed release, **When** rollback is requested,
@@ -178,7 +178,8 @@ restart, then roll forward and back between two compatible staged releases.
 
 ### Edge Cases
 
-- A provider advertises CUDA but loads CPU ONNX, or reports an artifact hash
+- A local profile requests CUDA even though the provider only supports CPU ONNX,
+  or a provider reports an artifact hash
   different from the installed plan.
 - One provider reports measured telemetry while another reports configured-only
   capacity.
@@ -190,8 +191,8 @@ restart, then roll forward and back between two compatible staged releases.
 - KV state is evicted, mismatched to model/plan/security epoch, or lost on restart.
 - Real certificate validation succeeds but materially changes the performance
   profile compared with dummy-keychain MiniNDN.
-- The target GPU lacks the required CUDA execution provider or cannot fit its
-  assigned stage.
+- The local host lacks the required CPU execution provider or cannot fit the
+  assigned stage in its measured memory budget.
 - The metrics sink is unavailable; request correctness must not depend on it.
 - Rollback sees a newer disposable cache format; the cache must be discarded.
 - Physical nodes or production identities are unavailable; candidate gates must
@@ -223,7 +224,7 @@ restart, then roll forward and back between two compatible staged releases.
 - **FR-009**: Providers MUST expose static configured capability separately from
   dynamic measured telemetry.
 - **FR-010**: Dynamic telemetry MUST include timestamp, source, freshness,
-  device identity, free/total GPU memory, model residency, queue depth, waiting
+  device identity, free/total host memory, model residency, queue depth, waiting
   dependencies, active workers, and measured stage service rate.
 - **FR-011**: Stale, missing, or unsupported measured telemetry MUST never be
   silently replaced by configured values in a production plan.
@@ -255,7 +256,7 @@ restart, then roll forward and back between two compatible staged releases.
   while treating model, activation, and KV caches as disposable unless their
   schema and identity bindings match.
 - **FR-022**: Operators MUST receive structured metrics for request outcomes,
-  latency, stage compute/fetch/publish, queueing, GPU facts, plan decisions,
+  latency, stage compute/fetch/publish, queueing, host-resource facts, plan decisions,
   retries, cache events, and terminal failures without enabling TRACE.
 - **FR-023**: All performance campaigns MUST use frozen commands, 60-second
   measured windows, prespecified repetitions and stop rules, unique output
@@ -325,8 +326,10 @@ restart, then roll forward and back between two compatible staged releases.
 - Qwen2.5-0.5B is intentionally retained as the smallest real target; larger,
   MoE, tensor-parallel, batching, and multi-tenant workloads are later features.
 - Greedy decoding is sufficient for deterministic correctness comparison.
-- ONNX Runtime CUDA is the sole optimized pilot backend because the active
-  distributed stage artifacts already use ONNX.
+- ONNX Runtime CPU is the sole Spec 105 pilot backend because it is the real
+  backend available on the local MiniNDN host. CUDA execution and GPU capacity
+  acceptance are deferred to Spec 106; requesting CUDA locally must fail rather
+  than silently fall back.
 - Systemd is the sole first-release supervisor. Containers and Kubernetes are
   out of scope except for the existing executable-artifact sandbox contract.
 - Provider-local KV caches are disposable; authoritative application/model
@@ -335,7 +338,7 @@ restart, then roll forward and back between two compatible staged releases.
 
 ## Explicit Non-Goals
 
-- Supporting arbitrary LLM families, arbitrary ONNX graphs, or arbitrary GPU
+- Supporting arbitrary LLM families, arbitrary ONNX graphs, or arbitrary device
   counts in the first pilot.
 - Production tensor parallelism, expert parallelism, dynamic batching, speculative
   decoding, or multi-tenant fairness.

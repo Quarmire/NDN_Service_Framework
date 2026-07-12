@@ -14,8 +14,8 @@ configured support only. Each value carries a `source` when ambiguity is possibl
   "providerBootId": "uuid",
   "sequence": 42,
   "measuredAtMs": 0,
-  "probe": {"source": "nvidia", "status": "measured", "durationMs": 3},
-  "gpu": {"deviceId": "GPU-uuid", "totalMb": 8192, "freeMb": 6012, "usedMb": 2180, "utilizationPct": 41},
+  "probe": {"source": "linux-proc", "status": "measured", "durationMs": 1},
+  "host": {"deviceId": "cpu0", "totalMemoryMb": 32768, "freeMemoryMb": 12000, "processRssMb": 2048},
   "runtime": {"resident": true, "evidenceEpoch": 1, "artifactDigests": {}},
   "scheduler": {"readyQueue": 0, "waitingDependencies": 1, "activeWorkers": 1, "idleWorkers": 0},
   "serviceRate": {"stageRpsEwma": 1.2, "latencyMsEwma": 35, "samples": 120},
@@ -26,7 +26,10 @@ configured support only. Each value carries a `source` when ambiguity is possibl
 Production rules:
 
 - maximum planner age: 2,000 ms;
-- failed/unsupported probes remain explicit and exclude GPU placement;
+- failed/unsupported probes remain explicit and exclude local placement;
 - profile values may fill capability but never measured fields;
 - telemetry is advisory; provider admission and leases remain authoritative;
 - snapshots are signed/protected through existing NDNSF message security.
+
+Physical GPU fields and NVIDIA probe sources are additive Spec 106 profile data;
+they are not synthesized by Spec 105.

@@ -18,7 +18,7 @@ local operations gates; physical GPU production acceptance moves to Spec 106.
 **Language/Version**: C++17; Python 3.8+
 
 **Primary Dependencies**: ndn-cxx, NFD, ndn-svs, NAC-ABE/OpenABE, Boost,
-ONNX Runtime with CUDA Execution Provider, NVIDIA driver tooling, systemd
+ONNX Runtime CPU Execution Provider, Linux host resource interfaces, systemd
 
 **Storage**: Digest-bound model/runtime artifacts and authoritative Repo SQLite;
 provider-local model/activation/KV caches are disposable
@@ -118,7 +118,9 @@ tokenize at user
 
 The existing Qwen ONNX exporter and three-stage dependency names are retained.
 The provider executable uses `OnnxRuntimeModelRunner`; the runner gains the dtype,
-dynamic-shape, CUDA-provider, and cache-tensor support required by these artifacts.
+dynamic-shape, explicit execution-provider, and cache-tensor support required by
+these artifacts. The local profile requires CPU; CUDA requests fail closed and
+are accepted only by Spec 106 on physical GPU hosts.
 The application-facing request remains an NDNSF-DI payload or standard
 LargeDataReference. Core Request/ACK/Selection/Response and large-data wire
 semantics do not change.
@@ -135,14 +137,14 @@ ProviderCapability (configured, slow-changing)
   device/backend support, total memory ceiling, stage formats
 
 ProviderTelemetrySnapshot (measured, expiring)
-  free/used GPU memory, model residency, queue/waiting/active,
+  free/used host memory, process RSS, model residency, queue/waiting/active,
   service-rate EWMA, boot id, timestamp, source and freshness
 ```
 
-A `ProviderResourceProbe` runs off the request hot path. The first backend queries
-NVIDIA device state through a fixed `nvidia-smi --query-gpu` field list with a
-bounded subprocess timeout; CPU-only or unavailable probes report their source
-and unsupported status rather than copying configured values.
+A `ProviderResourceProbe` runs off the request hot path. The Spec 105 backend
+reads bounded Linux host/process resource interfaces and records their exact
+source. Missing, malformed, stale, or unsupported samples remain explicit rather
+than copying configured values. Physical NVIDIA telemetry is owned by Spec 106.
 Readiness and admission combine measured facts with the existing worker snapshot.
 
 Plan keys and leases include provider boot/membership, runtime/artifact versions,
@@ -245,7 +247,8 @@ cache entries whose version/digest/epoch bindings do not match.
 
 See [experiment-plan.md](experiment-plan.md). The controlling sequence is:
 
-1. **Evidence cells**: synthetic, real CPU, real CUDA, mixed, missing.
+1. **Evidence cells**: synthetic, real CPU, unavailable-CUDA rejection, mixed,
+   missing.
 2. **Correctness cells**: single-node vs three-stage, fixed prompt corpus,
    token-by-token comparison, full-context and cache-hit decode.
 3. **MiniNDN performance**: 1 RPS x 3 repetitions x 60 seconds; application

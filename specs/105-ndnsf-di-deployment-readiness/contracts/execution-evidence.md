@@ -9,10 +9,10 @@ typed provider-capability envelope.
   "providerName": "/NDNSF-DI/Tracer/provider/llm-2gb",
   "providerBootId": "uuid",
   "evidenceEpoch": 1,
-  "runnerKind": "onnxruntime-cuda",
+  "runnerKind": "onnxruntime-cpu",
   "realCompute": true,
-  "device": {"kind": "cuda", "id": "GPU-uuid"},
-  "runtimeVersion": "onnxruntime=...;cuda=...",
+  "device": {"kind": "cpu", "id": "cpu0"},
+  "runtimeVersion": "onnxruntime=...",
   "modelDigest": "sha256:...",
   "planDigest": "sha256:...",
   "artifactDigests": {"/LLM/Stage/0": "sha256:..."},
@@ -28,3 +28,5 @@ Rules:
 - summary gates compare provider identity, boot, plan, model and artifact digests.
 - mixed/absent evidence yields `invalid-evidence` and release BLOCK.
 - no token, key, prompt, tensor, or payload bytes appear in evidence.
+- Spec 105 accepts real CPU ONNX evidence; Spec 106 owns real CUDA/device-UUID
+  evidence and must reject silent CPU fallback.

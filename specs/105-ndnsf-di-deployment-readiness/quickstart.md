@@ -26,13 +26,14 @@ python3 Experiments/NDNSF_DI_NativeTracer_Minindn.py \
   --out results/spec105-evidence-synthetic-<unique>
 
 python3 Experiments/NDNSF_DI_LlmPipeline_Minindn.py \
-  --runtime qwen-onnx-cuda \
-  --output-dir results/spec105-evidence-real-cuda-<unique> \
+  --runtime qwen-onnx-cpu \
+  --output-dir results/spec105-evidence-real-cpu-<unique> \
   --measured-requests 2
 ```
 
 Expected: first release gate BLOCK with `synthetic-delay`; second reports
-provider-observed CUDA evidence. Neither directory is reused.
+provider-observed CPU ONNX evidence. A separate local CUDA-request fixture must
+fail closed because this host has no CUDA provider. Neither directory is reused.
 
 ## 3. Frozen MiniNDN Acceptance
 

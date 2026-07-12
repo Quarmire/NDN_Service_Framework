@@ -16,10 +16,10 @@ GPU nodes plus a second operator are available.
 
 ## Phase 2: Physical Profile and Security Fixtures
 
-- [ ] T009 [P] Add failing physical-profile tests for host count, unique device UUIDs, stage/fallback mapping, routes and configured-only resource rejection in `tests/python/test_ndnsf_di_physical_pilot.py`.
+- [ ] T009 [P] Add failing physical-profile tests for host count, unique device UUIDs, CUDA-provider requirement/no-fallback, stage/fallback mapping, routes and configured-only resource rejection in `tests/python/test_ndnsf_di_physical_pilot.py`.
 - [ ] T010 [P] Add failing doctor tests for identity, trust, NFD route, backend/device, artifact, plan, permissions and filesystem faults in `tests/python/test_ndnsf_runtime_doctor.py`.
 - [ ] T011 [P] Add failing real-identity security campaign fixtures for forged trust, replayed tokens, wrong digest and stale attempt epoch in `tests/python/test_ndnsf_di_physical_pilot.py`.
-- [ ] T012 Extend physical profile validation and doctor output without changing runtime policy in `tools/ndnsf_runtime.py` and `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
+- [ ] T012 Extend physical profile validation and doctor output, enable/verify the CUDA Execution Provider build, and add bounded NVIDIA device telemetry probing in `tools/ndnsf_runtime.py`, `NDNSF-DistributedInference/cpp/ndnsf-di/OnnxRuntimeModelRunner.cpp`, `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.cpp`, and `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py` without changing Qwen algorithms.
 - [ ] T013 Generate protected identity/trust path references and verify release bundles contain no key material in `packaging/ndnsf-di-systemd/config/physical/`.
 - [ ] T014 Generate the frozen production-security campaign from the approved fixtures in `packaging/ndnsf-di-systemd/config/physical/campaigns/security.json`.
 - [ ] T015 Install the immutable release on the first clean three-host profile and record every command in `specs/106-ndnsf-di-physical-pilot/evidence/install-1.md`.

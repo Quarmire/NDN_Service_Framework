@@ -12,8 +12,8 @@ Immutable for one provider boot and runner installation.
 | `evidenceEpoch` | Increases on runner/artifact reinstall within a boot |
 | `runnerKind` | `synthetic-delay`, `wiring-only`, `onnxruntime-cpu`, `onnxruntime-cuda`, `transformers`, `llama-server`, or `unknown` |
 | `realCompute` | Derived from runner kind and runtime initialization, never caller supplied |
-| `deviceKind` / `deviceId` | CPU or stable GPU UUID/index |
-| `runtimeVersion` | Exact ONNX Runtime/CUDA/backend version |
+| `deviceKind` / `deviceId` | CPU for Spec 105; stable GPU UUID/index is a Spec 106 extension |
+| `runtimeVersion` | Exact ONNX Runtime/backend version; CUDA version is added by Spec 106 |
 | `artifactDigests` | Role-to-artifact SHA-256 mapping |
 | `planDigest` | Installed native-plan digest |
 | `roles` | Exact installed stage roles |
@@ -29,7 +29,7 @@ Configured, slow-changing support contract:
 
 - provider and device identity;
 - supported runner kinds and tensor dtypes;
-- total GPU/RAM ceilings;
+- total host-memory ceiling and CPU support; physical GPU ceilings are Spec 106 fields;
 - supported model families and artifact formats;
 - maximum workers, context tokens, batch, stage bytes;
 - capability version and source (`profile`, `build`, `operator`).
@@ -43,7 +43,7 @@ Measured, expiring state:
 - provider boot and evidence epoch;
 - measurement timestamp, monotonic sequence, source and probe duration;
 - supported/unsupported/error status;
-- GPU total/free/used bytes, utilization and device UUID;
+- host total/free memory and provider-process RSS; physical GPU facts are Spec 106 fields;
 - model/runner residency and installed artifact digests;
 - ready queue, dependency waits, active/idle workers;
 - stage service-rate and latency EWMA with sample count;

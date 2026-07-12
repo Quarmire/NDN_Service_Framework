@@ -15,9 +15,11 @@ would target the wrong bottleneck.
 - Delete old results: rejected because negative and misleading evidence must be
   preserved and corrected, not erased.
 
-## Decision 2: Qwen ONNX and ONNX Runtime CUDA are the sole pilot path
+## Decision 2: Qwen ONNX and ONNX Runtime CPU are the local pilot path
 
-**Decision**: Extend the active three-stage Qwen ONNX contract to CUDA execution.
+**Decision**: Extend the active three-stage Qwen ONNX contract using the real CPU
+Execution Provider available on the local MiniNDN host. CUDA is a Spec 106
+physical-profile adapter and acceptance concern.
 
 **Rationale**: Real stage artifacts, deterministic dependency names, MiniNDN
 evidence, and a native ONNX runner already exist. vLLM and llama-server are good
@@ -137,17 +139,16 @@ Spec 106 feature and cannot block completion of the candidate.
 105 task executable on the available host, and prevents local evidence from
 being relabeled as physical production proof.
 
-## Decision 11: Bounded `nvidia-smi` probe before an NVML library dependency
+## Decision 11: Bounded Linux host/process probe for the local candidate
 
-**Decision**: The first measured GPU probe uses the driver's stable query CLI
-with an exact field list, background cadence and hard timeout.
+**Decision**: Spec 105 measures host memory and provider-process RSS from bounded
+Linux interfaces with exact parsing, background cadence and freshness limits.
 
-**Rationale**: It is present with supported NVIDIA drivers, adds no new ABI/link
-dependency, and is outside the request hot path. Device UUID and numeric fields
-remain typed after parsing.
+**Rationale**: These sources exist on the available host, add no new ABI/link
+dependency, and remain outside the request hot path. They make local feasibility
+real rather than configured while avoiding a fictional GPU claim.
 
 **Alternatives considered**:
 
-- Direct NVML C API: a later optimization if probe overhead or portability
-  requires it.
-- Python GPU libraries: rejected for the native provider lifecycle.
+- `nvidia-smi` or NVML: deferred to Spec 106 where physical NVIDIA devices exist.
+- Python resource libraries: rejected for the native provider lifecycle.

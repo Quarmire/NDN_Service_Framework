@@ -61,7 +61,7 @@ evidence; mixed/missing evidence blocks; summaries never infer reality from flag
 - [X] T027 [US1] Reclassify Spec 091-093 metadata in a new immutable correction artifact at `specs/105-ndnsf-di-deployment-readiness/evidence/historical-evidence-correction.md` without editing raw results.
 - [X] T028 [US1] Update maintained profile, GUI, report, and documentation readers to consume execution evidence in `tools/ndnsf_runtime.py`, `NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py`, `docs/NDNSF-DI-runtime-workflow.md`, `NDNSF-DistributedInference/README.md`, and `README_ch.md`.
 - [X] T029 [US1] Run CodeGraph and exact zero-reader scans, then remove caller-controlled `runnerMode` only when the migration conditions in `migration-and-rollback.md` pass.
-- [ ] T030 [US1] Execute unique synthetic, real CPU, real CUDA, mixed, missing, and digest-mismatch evidence cells and record the release-gate matrix in `specs/105-ndnsf-di-deployment-readiness/evidence/evidence-gate-results.md`.
+- [X] T030 [US1] Execute unique synthetic, real CPU, unavailable-CUDA rejection, mixed, missing, and digest-mismatch evidence cells and record the release-gate matrix in `specs/105-ndnsf-di-deployment-readiness/evidence/evidence-gate-results.md`.
 
 **Checkpoint**: US1 is independently deployable. No synthetic or unknown provider
 can pass a real-compute gate, and historical throughput claims are correctly scoped.
@@ -70,17 +70,17 @@ can pass a real-compute gate, and historical throughput claims are correctly sco
 
 ## Phase 4: User Story 2 - Run a Real Bounded Qwen Service (Priority: P1)
 
-**Goal**: Deliver real three-stage CUDA ONNX prefill/decode for the fixed pilot.
+**Goal**: Deliver real three-stage CPU ONNX prefill/decode for the fixed local pilot.
 
 **Independent Test**: Three MiniNDN stages produce the same 32 greedy tokens as
 the frozen single-node baseline and close the 1 RPS acceptance gate.
 
-- [ ] T031 [P] [US2] Add failing tensor codec tests for int64 token IDs, bool/int64 attention masks, float16/float32 hidden state, named multi-output cache tensors, dynamic dimensions, and malformed shapes in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T032 [P] [US2] Add failing ONNX runner tests for required CUDA provider selection, explicit CPU fallback policy, dynamic shapes, multiple dtypes, and backend/device evidence in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T033 [P] [US2] Add failing Python correctness fixtures for 1, 2, and 32 greedy tokens, max-input/output admission, cache hit, full-context rebuild, and delta-only cache failure in `tests/python/test_ndnsf_di_deployment_readiness.py`.
-- [ ] T034 [US2] Extend `NamedTensor` and `TensorBundleCodec` with bounded dtype/shape metadata and exact byte-size validation in `NDNSF-DistributedInference/cpp/ndnsf-di/TensorBundleCodec.hpp` and `TensorBundleCodec.cpp`.
-- [ ] T035 [US2] Extend `OnnxRuntimeModelRunner` to construct typed tensors and decode typed outputs for the Qwen pilot in `NDNSF-DistributedInference/cpp/ndnsf-di/OnnxRuntimeModelRunner.cpp`.
-- [ ] T036 [US2] Add explicit ONNX Runtime CUDA Execution Provider selection, required-provider failure, device binding, runtime-version capture, and no-silent-CPU-fallback behavior in `NDNSF-DistributedInference/cpp/ndnsf-di/OnnxRuntimeModelRunner.cpp`.
+- [X] T031 [P] [US2] Add failing tensor codec tests for int64 token IDs, bool/int64 attention masks, float16/float32 hidden state, named multi-output cache tensors, dynamic dimensions, and malformed shapes in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T032 [P] [US2] Add failing ONNX runner tests for required CPU selection, unavailable-CUDA rejection, explicit CPU fallback policy, dynamic shapes, multiple dtypes, and backend/device evidence in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T033 [P] [US2] Add failing Python correctness fixtures for 1, 2, and 32 greedy tokens, max-input/output admission, cache hit, full-context rebuild, and delta-only cache failure in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [X] T034 [US2] Extend `NamedTensor` and `TensorBundleCodec` with bounded dtype/shape metadata and exact byte-size validation in `NDNSF-DistributedInference/cpp/ndnsf-di/TensorBundleCodec.hpp` and `TensorBundleCodec.cpp`.
+- [X] T035 [US2] Extend `OnnxRuntimeModelRunner` to construct typed tensors and decode typed outputs for the Qwen pilot in `NDNSF-DistributedInference/cpp/ndnsf-di/OnnxRuntimeModelRunner.cpp`.
+- [X] T036 [US2] Add explicit ONNX Runtime Execution Provider selection, required-provider failure, CPU device binding, runtime-version capture, unavailable-CUDA rejection, and no-silent-CPU-fallback behavior in `NDNSF-DistributedInference/cpp/ndnsf-di/OnnxRuntimeModelRunner.cpp`.
 - [ ] T037 [US2] Extend the Qwen exporter to expose three stage artifacts with declared token, mask, hidden, logits, and per-stage KV inputs/outputs in `examples/python/NDNSF-DistributedInference/native_di_tracer/generate_qwen_native_tracer_artifacts.py`.
 - [ ] T038 [US2] Validate exported stage artifacts against the frozen full-model baseline and write digests/shape contracts into the service manifest in `examples/python/NDNSF-DistributedInference/llm_pipeline/plan_pipeline.py`.
 - [ ] T039 [US2] Implement bounded request validation, tokenization, greedy decode orchestration, and token-by-token result comparison in new `NDNSF-DistributedInference/ndnsf_distributed_inference/qwen_pilot.py`.
@@ -88,13 +88,13 @@ the frozen single-node baseline and close the 1 RPS acceptance gate.
 - [ ] T041 [US2] Bind KV references to session, stage, context/model/plan/security epochs and reject cross-binding reuse in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp`.
 - [ ] T042 [US2] Add full-context rebuild and exact delta-only cache-miss terminal behavior in `NDNSF-DistributedInference/ndnsf_distributed_inference/qwen_pilot.py`.
 - [ ] T043 [US2] Replace Python `torch.save`/NPZ hidden-state transport in the pilot path with the typed tensor bundle while retaining the old path only as a labeled comparison fixture in `examples/python/NDNSF-DistributedInference/llm_pipeline/provider.py` and `user.py`.
-- [ ] T044 [US2] Wire the real C++ CUDA Qwen provider and bounded-generation user into `Experiments/NDNSF_DI_LlmPipeline_Minindn.py` without reusing the deterministic NativeTracer switch.
+- [ ] T044 [US2] Wire the real C++ CPU ONNX Qwen provider and bounded-generation user into `Experiments/NDNSF_DI_LlmPipeline_Minindn.py` without reusing the deterministic NativeTracer switch.
 - [ ] T045 [US2] Generate a matched single-node baseline artifact with identical model/tokenizer/prompts/generation/backend/logging in `Experiments/NDNSF_DI_QwenFull_OnnxVsTransformers_LocalBenchmark.py`.
 - [ ] T046 [US2] Execute all frozen correctness cells, including cache hit/rebuild/fail-closed cases, and record tokens/digests in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-correctness.md`.
 - [ ] T047 [US2] Execute exactly three unique 60-second 1 RPS MiniNDN repetitions plus matched single-node cells and preserve every outcome under distinct `results/spec105-qwen-pilot-*` directories.
 - [ ] T048 [US2] Validate completion, throughput, p50/p95/p99, p95 ratio, TTFT, inter-token, stage decomposition, resource metrics, and all 11 fallacies in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-minindn-performance.md`.
 
-**Checkpoint**: Stop if tokens differ, real CUDA evidence is incomplete, or the
+**Checkpoint**: Stop if tokens differ, real CPU ONNX evidence is incomplete, or the
 fixed 1 RPS gate fails. Do not compensate with higher timeout, retry or a new run.
 
 ---
@@ -107,18 +107,18 @@ reuse, placement, defer and rejection.
 **Independent Test**: Fresh measured facts admit/reuse; stale, unsupported,
 identity-mismatched or infeasible facts reject/defer; configured values remain labeled.
 
-- [ ] T049 [P] [US3] Add failing C++ resource-probe tests for measured GPU facts, timeout, unsupported device, malformed output, device mismatch, stale sample, and redaction in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [ ] T049 [P] [US3] Add failing C++ resource-probe tests for measured host/process memory facts, read failure, unsupported source, malformed input, identity mismatch, stale sample, and redaction in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
 - [ ] T050 [P] [US3] Add failing Python plan-predicate tests for provider boot, evidence epoch, artifact/runtime identity, telemetry age, memory, queue, membership, network version, and cache assumptions in `tests/python/test_ndnsf_di_runtime_aware_planner.py`.
 - [ ] T051 [P] [US3] Add failing admission tests proving configured-only or stale free memory cannot satisfy a production memory gate in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`.
 - [ ] T052 [US3] Define the background `ProviderResourceProbe` interface, snapshot status, timeout and freshness semantics in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.hpp`.
-- [ ] T053 [US3] Implement the bounded `nvidia-smi --query-gpu=uuid,memory.total,memory.free,memory.used,utilization.gpu --format=csv,noheader,nounits` backend, exact parser, subprocess timeout, and explicit unsupported/error snapshots in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.cpp`.
+- [ ] T053 [US3] Implement bounded Linux `/proc/meminfo` and provider-process RSS readers, exact unit/parser validation, and explicit unsupported/error snapshots in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.cpp`; physical NVIDIA probing remains in Spec 106.
 - [ ] T054 [US3] Merge resource snapshots with worker queue/wait/active state and stage service-rate EWMA outside the request hot path in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
 - [ ] T055 [US3] Publish configured capability and measured telemetry as distinct typed sections with source, boot, sequence and timestamp in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
 - [ ] T056 [US3] Parse, validate and retain telemetry freshness/source/identity in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py` and `deployment.py`.
 - [ ] T057 [US3] Implement mandatory plan-feasibility predicates before scoring and observable `reuse|replan|defer|reject` decisions in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T058 [US3] Bind cached plan leases to provider membership/boot, evidence, artifact/runtime, telemetry, network-profile and cache versions in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T059 [US3] Revalidate telemetry and plan predicates immediately before execution-lease commit in `NDNSF-DistributedInference/ndnsf_distributed_inference/deployment.py`.
-- [ ] T060 [US3] Update MiniNDN fixtures to label static 2/4/8 GB facts `configured` and add controlled measured-telemetry injection without presenting it as physical GPU evidence in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
+- [ ] T060 [US3] Update MiniNDN fixtures to label static 2/4/8 GB facts `configured` and add controlled measured host-telemetry injection without presenting it as physical GPU evidence in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
 - [ ] T061 [US3] Execute fresh/stale/memory-pressure/queue-pressure/membership/device-mismatch plan cells and record every predicate decision in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-plan-validation.md`.
 - [ ] T062 [US3] Rerun the frozen real-Qwen MiniNDN acceptance with telemetry enabled at INFO and verify it does not materially perturb or relabel the workload in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-performance-check.md`.
 
