@@ -199,8 +199,8 @@ the task honestly but keeps the candidate BLOCKED. Physical production remains
 - [X] T096 [P] Run sanitizers or a documented supported memory/thread analysis over execution evidence, tensor codec, bounded scheduler, cancellation and provider restart paths; record limitations in `specs/105-ndnsf-di-deployment-readiness/evidence/runtime-safety.md`.
 - [X] T097 Verify zero secret/payload leakage in evidence, INFO metrics, systemd logs and release bundles and record the negative scan in `specs/105-ndnsf-di-deployment-readiness/evidence/security-log-audit.md`.
 - [X] T098 Generate `release-gate.json` from immutable evidence with a mechanical six-dimension `minindnCandidateOverall` PASS/BLOCK and a separate `physicalProductionOverall` fixed to DEFERRED unless Spec 106 evidence exists.
-- [ ] T099 Run `speckit-analyze` and strict post-implementation `speckit-audit`; record findings and remediation status in `specs/105-ndnsf-di-deployment-readiness/evidence/post-implementation-audit.md`.
-- [ ] T100 Run `speckit-converge` to append any unbuilt or unsupported requirement as new unchecked tasks rather than weakening the spec.
+- [X] T099 Run `speckit-analyze` and strict post-implementation `speckit-audit`; record findings and remediation status in `specs/105-ndnsf-di-deployment-readiness/evidence/post-implementation-audit.md`.
+- [X] T100 Run `speckit-converge` to append any unbuilt or unsupported requirement as new unchecked tasks rather than weakening the spec.
 - [ ] T101 Synchronize English/Chinese README, runtime workflow, architecture, build/test, experiment and release documentation in `README.md`, `NDNSF-DistributedInference/README.md`, `README_ch.md`, and `docs/`.
 - [ ] T102 Synchronize CodeGraph, agent context and GSD state, verify clean ownership, commit the completed feature in logical slices, and play the completion bell.
 
@@ -259,3 +259,11 @@ measured capacity and bounded failure semantics.
 Complete T079-T102. `minindnCandidateOverall` is PASS only if local canary,
 operations drills, 24-hour soak and all earlier gates exist. Physical production
 readiness remains deferred to Spec 106 regardless of this result.
+
+## Phase 9: Convergence
+
+- [ ] T103 Implement and execute production `provider|plan|run|bench` CLI adapters that consume every documented input, add `plan --explain`, reject unsupported profile/campaign fields, and retain `contract-smoke` isolation with positive and negative tests in `runtime_v1.py` and `tests/python/test_ndnsf_di_deployment_readiness.py` per FR-019 (partial).
+- [ ] T104 Make deployment doctor, status and metrics fail closed on exact certificate/identity, release/model/plan/evidence digests, measured telemetry source/freshness, status schema/bindings and missing metrics; add stale/tampered fixtures in `tools/ndnsf_runtime.py`, `runtime_v1.py` and `tests/python/test_ndnsf_runtime_doctor.py` per FR-019 and FR-022 (partial).
+- [ ] T105 Preserve an existing rollback point on same-release activation, install/check dedicated service accounts and ownership, and make uninstall stop/disable/remove installed unit/tmpfiles/logrotate assets while always preserving authoritative Repo; extend isolated staging tests in `packaging/ndnsf-di-systemd/` per FR-019 and FR-021 (partial).
+- [ ] T106 Bind `release-gate.json` to an existence/digest-checked evidence manifest, distinguish candidate source commit from gate-generator commit, and add tampered/missing evidence tests in `release_gate.py` and `tests/python/test_ndnsf_di_deployment_readiness.py` per FR-002 and SC-010 (partial).
+- [ ] T107 Synchronize traceability and operator documentation with R2 `NOT RUN / BLOCK` canary/operations outcomes, the valid production CLI contract, package lifecycle behavior, final six-dimension gate and Spec 106 physical deferral in English and Chinese surfaces per FR-019, FR-024 and SC-007-SC-010 (partial).
