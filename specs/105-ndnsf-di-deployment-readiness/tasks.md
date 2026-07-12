@@ -138,12 +138,12 @@ present; otherwise it rejects/defer rather than pretending configuration is tele
 **Independent Test**: 1,000 waits use fixed threads and cancel cleanly; provider
 faults produce one authoritative result or one exact terminal failure.
 
-- [ ] T063 [P] [US4] Add failing C++ stress tests for 1,000 waits, bounded queue overflow, deadline expiry, cancellation, promise completion, shutdown, and thread-count ceiling in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T063 [P] [US4] Add failing C++ stress tests for 1,000 waits, bounded queue overflow, deadline expiry, cancellation, promise completion, shutdown, and thread-count ceiling in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
 - [ ] T064 [P] [US4] Add failing C++ tests for attempt epoch monotonicity, distinct dependency names, old-epoch rejection, cancellation and terminal exactly-once behavior in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
 - [ ] T065 [P] [US4] Add failing Python user recovery tests for provider loss, straggler, stale telemetry, cache miss, no replacement and deadline exhaustion in `tests/python/test_ndnsf_di_deployment_readiness.py`.
-- [ ] T066 [US4] Define fixed worker/queue/deadline/cancellation contracts in new `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.hpp`.
-- [ ] T067 [US4] Implement the bounded dependency wait scheduler, counters, cancellation and shutdown in `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.cpp`.
-- [ ] T068 [US4] Replace `m_inputWaiters` with the owned scheduler and preserve immediate-ready fast path in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderRoleWorker.hpp` and `ProviderRoleWorker.cpp`.
+- [X] T066 [US4] Define fixed worker/queue/deadline/cancellation contracts in new `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.hpp`.
+- [X] T067 [US4] Implement the bounded dependency wait scheduler, counters, cancellation and shutdown in `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.cpp`.
+- [X] T068 [US4] Replace `m_inputWaiters` with the owned scheduler and preserve immediate-ready fast path in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderRoleWorker.hpp` and `ProviderRoleWorker.cpp`.
 - [ ] T069 [US4] Add bounded wait/admission snapshots and explicit scheduler-overload reason to `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
 - [ ] T070 [US4] Add `ExecutionAttemptKey` and attempt epoch to role assignments, dependency object-name derivation and authenticated DI payload metadata in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeExecutionPlan.hpp` and `NativeExecutionPlan.cpp`.
 - [ ] T071 [US4] Validate attempt epoch, execution lease, provider boot and plan binding before provider execution in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp`.
