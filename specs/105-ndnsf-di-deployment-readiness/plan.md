@@ -31,6 +31,14 @@ therefore separates three decisions:
    Failure of that campaign blocks the candidate and causes the 24-hour soak to
    close as `NOT RUN / BLOCK` under the preregistered stop rule.
 
+Revision R2 clarifies the same stop rule for downstream candidate operations.
+T062 `BLOCK` prevents duplicate local canary compute and T078 `BLOCK` prevents
+live restart/fault claims; T092 and T093 still create their prespecified unique
+records and retain completed packaging/rollback checks as `NOT RUN / BLOCK`.
+They may execute live cells only when every controlling earlier gate is PASS.
+This avoids adaptive replacement runs and false operational evidence without
+changing a threshold or promoting the candidate.
+
 This is an experiment-validity repair, not a performance waiver. It neither
 changes the per-token collaboration protocol nor claims that corrected scheduling
 will make the CPU profile serviceable.
@@ -260,7 +268,8 @@ never changes request correctness.
 4. Add bounded dependency scheduler; stress and rerun acceptance.
 5. Add one replacement attempt; execute deterministic fault cells.
 6. Package systemd profile; validate in MiniNDN/namespace staging.
-7. Run the local MiniNDN canary, staged upgrade/rollback, and 24-hour soak.
+7. Preflight the local MiniNDN canary, staged upgrade/rollback, and 24-hour soak;
+   run live cells only when their controlling earlier gates pass.
 
 Each slice is independently revertible. New summary fields are additive until
 all maintained readers migrate. Caches are disposable. Authoritative Repo schema
