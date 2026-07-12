@@ -152,7 +152,7 @@ faults produce one authoritative result or one exact terminal failure.
 - [X] T074 [US4] Make provider boot ID invalidate old execution and KV state and expose the new boot before readiness in `examples/DI_NativeProviderExecutable.cpp`.
 - [X] T075 [US4] Instrument old-epoch data, duplicate terminal attempts, cancelled waits, replacement decisions and exact terminal reasons at INFO in `ProviderRoleWorker.cpp`, `NativeProviderHandler.cpp`, and `deployment.py`.
 - [ ] T076 [US4] Add same-three-node fallback role activation plus provider kill/restart, straggler, missing segment, hash mismatch, stale telemetry, cache eviction and late-old-output injection to `Experiments/NDNSF_DI_LlmPipeline_Minindn.py`.
-- [ ] T077 [US4] Execute the frozen 1,000-wait stress and record threads/memory/state cleanup in `specs/105-ndnsf-di-deployment-readiness/evidence/bounded-scheduler.md`.
+- [X] T077 [US4] Execute the frozen 1,000-wait stress and record threads/memory/state cleanup in `specs/105-ndnsf-di-deployment-readiness/evidence/bounded-scheduler.md`.
 - [ ] T078 [US4] Execute the frozen fault matrix with all failures retained and record recovery/terminal outcomes and 11/11 fallacy scan in `specs/105-ndnsf-di-deployment-readiness/evidence/fault-recovery.md`.
 
 **Checkpoint**: Stop if any stale attempt becomes authoritative, any security
