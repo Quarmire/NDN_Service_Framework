@@ -49,15 +49,15 @@ request behavior has changed.
 **Independent Test**: Synthetic and real providers produce different immutable
 evidence; mixed/missing evidence blocks; summaries never infer reality from flags.
 
-- [ ] T018 [P] [US1] Add failing provider-factory tests proving deterministic, wiring-only, CPU ONNX, and CUDA ONNX factories emit distinct evidence in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T019 [P] [US1] Add failing campaign parser tests proving `runnerMode=qwen-onnx-native` cannot override `tracerDeterministicRunner=1` in `tests/python/test_ndnsf_native_tracer_runtime_profile.py`.
-- [ ] T020 [P] [US1] Add failing release-gate tests for missing, mixed, contradictory, synthetic, digest-mismatched, and all-real evidence in `tests/python/test_ndnsf_di_deployment_readiness.py`.
-- [ ] T021 [US1] Make runner factories create `ExecutionEvidence` only after backend/session initialization succeeds in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeModelRunner.cpp` and `OnnxRuntimeModelRunner.cpp`.
-- [ ] T022 [US1] Bind runner evidence to provider boot ID, evidence epoch, installed roles, model/artifact digests, plan digest, runtime version, and device ID in `examples/DI_NativeProviderExecutable.cpp`.
-- [ ] T023 [US1] Publish execution evidence through the existing typed readiness service payload without token/key/payload bytes in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
-- [ ] T024 [US1] Parse and preserve per-provider execution evidence in user ACK candidates and run artifacts in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
-- [ ] T025 [US1] Replace caller-assigned aggregate `runnerMode` with derived `runnerClassification` plus a deprecated derived compatibility field in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
-- [ ] T026 [US1] Implement the six-dimension machine-readable release gate and mechanical BLOCK precedence in `NDNSF-DistributedInference/ndnsf_distributed_inference/release_gate.py`.
+- [X] T018 [P] [US1] Add failing provider-factory tests proving deterministic, wiring-only, CPU ONNX, and CUDA ONNX factories emit distinct evidence in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T019 [P] [US1] Add failing campaign parser tests proving `runnerMode=qwen-onnx-native` cannot override `tracerDeterministicRunner=1` in `tests/python/test_ndnsf_native_tracer_runtime_profile.py`.
+- [X] T020 [P] [US1] Add failing release-gate tests for missing, mixed, contradictory, synthetic, digest-mismatched, and all-real evidence in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [X] T021 [US1] Make runner factories create `ExecutionEvidence` only after backend/session initialization succeeds in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeModelRunner.cpp` and `OnnxRuntimeModelRunner.cpp`.
+- [X] T022 [US1] Bind runner evidence to provider boot ID, evidence epoch, installed roles, model/artifact digests, plan digest, runtime version, and device ID in `examples/DI_NativeProviderExecutable.cpp`.
+- [X] T023 [US1] Publish execution evidence through the existing typed readiness service payload without token/key/payload bytes in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
+- [X] T024 [US1] Parse and preserve per-provider execution evidence in user ACK candidates and run artifacts in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
+- [X] T025 [US1] Replace caller-assigned aggregate `runnerMode` with derived `runnerClassification` plus a deprecated derived compatibility field in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
+- [X] T026 [US1] Implement the six-dimension machine-readable release gate and mechanical BLOCK precedence in `NDNSF-DistributedInference/ndnsf_distributed_inference/release_gate.py`.
 - [ ] T027 [US1] Reclassify Spec 091-093 metadata in a new immutable correction artifact at `specs/105-ndnsf-di-deployment-readiness/evidence/historical-evidence-correction.md` without editing raw results.
 - [ ] T028 [US1] Update maintained profile, GUI, report, and documentation readers to consume execution evidence in `tools/ndnsf_runtime.py`, `NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py`, `docs/NDNSF-DI-runtime-workflow.md`, `NDNSF-DistributedInference/README.md`, and `README_ch.md`.
 - [ ] T029 [US1] Run CodeGraph and exact zero-reader scans, then remove caller-controlled `runnerMode` only when the migration conditions in `migration-and-rollback.md` pass.
