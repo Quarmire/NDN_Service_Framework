@@ -99,3 +99,24 @@ physical deferral remain in the correct DI/operator ownership boundary.
 
 Post-implementation gate remains **BLOCK** until those tasks converge. This is
 not a reason to move local work to Spec 106; Spec 106 remains physical-only.
+
+## Convergence remediation status
+
+Second pass after commit `c6aef7727ef34f16be353cd1e5aa0a143ef19f2e`:
+
+| Finding | Status | Evidence |
+|---|---|---|
+| H1 / L1 production CLI and `plan --explain` | REMEDIATED | T103 executes positive/negative production adapter fixtures; every run input is a required no-shell placeholder; default bench uses valid `--runtime qwen-onnx-cpu-native`. |
+| H3 package lifecycle | REMEDIATED | T105 preserves `previous` on same-release activation, records/creates dedicated accounts, removes installed supervisor assets on uninstall, and revalidates Repo preservation in isolated staging. |
+| H4 doctor bindings | REMEDIATED | T104 checks certificate name/digest, trust/release/model/plan/evidence digests and identities, and fresh measured `linux-proc` telemetry; stale/tampered fixtures fail. |
+| H5 status/metrics | REMEDIATED | T104 requires v1 schema, freshness and release/plan/evidence binding; missing metrics returns nonzero without output. |
+| M1 gate provenance | REMEDIATED | T106 binds all 10 referenced evidence files by path/SHA-256 and records separate candidate/generator commits; missing/tampered tests pass. |
+| M3 traceability | REMEDIATED | T107 records R2 canary/operations `NOT RUN / BLOCK` and links synchronized operator documentation. |
+| H2 / M2 / M4 acceptance evidence | OPEN, controlling BLOCK | Performance remains failed, live network recovery/operations remain unexecuted, and immutable historical INFO evidence retains the public token oracle. No threshold or old run was altered. |
+
+Focused convergence validation: 407 maintained Python tests PASS with one skip;
+deployment/profile JSON and shell syntax PASS; evidence manifest errors `[]`;
+release gate remains `minindnCandidateOverall=BLOCK` and
+`physicalProductionOverall=DEFERRED`. The remaining open findings are measured
+outcomes/evidence limits rather than an unbuilt local code task, so a second
+`speckit-converge` appends no replacement-run work.

@@ -1,99 +1,168 @@
 {
-  "release_id": "spec105-local-minindn-candidate-r2",
-  "source_commit": "4dc99ff5d0d925cb9dc2f16ec870773cadc6487e",
-  "profile_digest": "sha256:15e4afa35c5e1896c01d09264c34127cc0cbec7ec4c42c7d1b9e488308d7f26f",
   "dimensions": {
-    "evidenceIntegrity": {
-      "status": "PASS",
-      "artifacts": [
-        "evidence/evidence-gate-results.md",
-        "evidence/telemetry-performance-check.md"
-      ]
-    },
-    "correctness": {
-      "status": "PASS",
-      "artifacts": [
-        "evidence/qwen-correctness.md",
-        "evidence/integrated-regression.md"
-      ]
-    },
-    "performance": {
-      "status": "BLOCK",
-      "artifacts": ["evidence/telemetry-performance-check.md"]
-    },
     "applicationSecurity": {
-      "status": "BLOCK",
       "artifacts": [
         "evidence/integrated-regression.md",
         "evidence/security-log-audit.md"
-      ]
+      ],
+      "status": "BLOCK"
     },
-    "recovery": {
-      "status": "BLOCK",
-      "artifacts": ["evidence/fault-recovery.md"]
+    "correctness": {
+      "artifacts": [
+        "evidence/qwen-correctness.md",
+        "evidence/integrated-regression.md"
+      ],
+      "status": "PASS"
+    },
+    "evidenceIntegrity": {
+      "artifacts": [
+        "evidence/evidence-gate-results.md",
+        "evidence/telemetry-performance-check.md"
+      ],
+      "status": "PASS"
     },
     "operations": {
-      "status": "BLOCK",
       "artifacts": [
         "evidence/systemd-staging.md",
         "evidence/local-canary.md",
         "evidence/local-operations.md",
         "evidence/local-soak.md"
-      ]
+      ],
+      "status": "BLOCK"
+    },
+    "performance": {
+      "artifacts": [
+        "evidence/telemetry-performance-check.md"
+      ],
+      "status": "BLOCK"
+    },
+    "recovery": {
+      "artifacts": [
+        "evidence/fault-recovery.md"
+      ],
+      "status": "BLOCK"
     }
   },
-  "execution_evidence": [
+  "evidence_manifest": [
     {
-      "schema": "ndnsf-di-execution-evidence-v1",
-      "providerName": "/example/llm-pipeline/provider",
-      "providerBootId": "/example/llm-pipeline/provider@1783854777718",
-      "evidenceEpoch": 1,
-      "runnerKind": "onnxruntime-cpu",
-      "realCompute": true,
-      "device": {"kind": "cpu", "id": "cpu0"},
-      "runtimeVersion": "1.26.0",
-      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
-      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
-      "artifactDigests": {"/LLM/Pipeline/Stage/0": "sha256:8D4D8716B499F375634087F56E9011E6C65B70BD9C370FA9D0967055EFD74006"},
-      "roles": ["/LLM/Pipeline/Stage/0"],
-      "createdAtMs": 1783854777718
+      "path": "evidence/evidence-gate-results.md",
+      "sha256": "sha256:442c31edda6b3859ed903eaf7658f4aa058525085297ba447c6c19667df2df88"
     },
     {
-      "schema": "ndnsf-di-execution-evidence-v1",
-      "providerName": "/example/llm-pipeline/provider/1",
-      "providerBootId": "/example/llm-pipeline/provider/1@1783854780495",
-      "evidenceEpoch": 1,
-      "runnerKind": "onnxruntime-cpu",
-      "realCompute": true,
-      "device": {"kind": "cpu", "id": "cpu0"},
-      "runtimeVersion": "1.26.0",
-      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
-      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
-      "artifactDigests": {"/LLM/Pipeline/Stage/1": "sha256:154D56424B46F527C9FBF9ED59877CD92F42AD331A0F61E6BB026A404AB70BF0"},
-      "roles": ["/LLM/Pipeline/Stage/1"],
-      "createdAtMs": 1783854780495
+      "path": "evidence/fault-recovery.md",
+      "sha256": "sha256:2777b17ddc231b910667fb4866222359c51f8d9ceb8043a2fa873f8bee66d257"
     },
     {
-      "schema": "ndnsf-di-execution-evidence-v1",
-      "providerName": "/example/llm-pipeline/provider/2",
-      "providerBootId": "/example/llm-pipeline/provider/2@1783854783298",
-      "evidenceEpoch": 1,
-      "runnerKind": "onnxruntime-cpu",
-      "realCompute": true,
-      "device": {"kind": "cpu", "id": "cpu0"},
-      "runtimeVersion": "1.26.0",
-      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
-      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
-      "artifactDigests": {"/LLM/Pipeline/Stage/2": "sha256:9349B111492EFC55C0E6C6586C9EBE087902992BE2C85923D2F16D5A3D1EE05C"},
-      "roles": ["/LLM/Pipeline/Stage/2"],
-      "createdAtMs": 1783854783298
+      "path": "evidence/integrated-regression.md",
+      "sha256": "sha256:234873e8cd6dc7ae9dc90458fdea5c2cc2671773443973b43eaf7926d834e39c"
+    },
+    {
+      "path": "evidence/local-canary.md",
+      "sha256": "sha256:1c85594c8c860049775cc9a2d2669e52d6cb4700e87fc815eb57021d9c90eb79"
+    },
+    {
+      "path": "evidence/local-operations.md",
+      "sha256": "sha256:58f7f0b72565c6b256d7282f350928c028122839ab884dd2721f45ac5f40e5bb"
+    },
+    {
+      "path": "evidence/local-soak.md",
+      "sha256": "sha256:08f67219721737bdac5e8a917eba8e17676e80b923829f3f2aaa8df60a37786a"
+    },
+    {
+      "path": "evidence/qwen-correctness.md",
+      "sha256": "sha256:0414032799afd1f9b8d1c38011b94049ccc628b60c15090953b3349a52258f90"
+    },
+    {
+      "path": "evidence/security-log-audit.md",
+      "sha256": "sha256:951dfa0738b73f8b79fbd367e833870330f3a3d132d197f6e40c927f2ee9d6de"
+    },
+    {
+      "path": "evidence/systemd-staging.md",
+      "sha256": "sha256:0c1ff5ba025980c43be470bc38a887f59f034e5db994aba9f2ec29ce399a39f5"
+    },
+    {
+      "path": "evidence/telemetry-performance-check.md",
+      "sha256": "sha256:1090503b7fe58c127aa83187ea0a15f50053fe77dab5aa746780aaf797d39364"
     }
   ],
+  "evidence_root": "specs/105-ndnsf-di-deployment-readiness",
+  "execution_evidence": [
+    {
+      "artifactDigests": {
+        "/LLM/Pipeline/Stage/0": "sha256:8D4D8716B499F375634087F56E9011E6C65B70BD9C370FA9D0967055EFD74006"
+      },
+      "createdAtMs": 1783854777718,
+      "device": {
+        "id": "cpu0",
+        "kind": "cpu"
+      },
+      "evidenceEpoch": 1,
+      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
+      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
+      "providerBootId": "/example/llm-pipeline/provider@1783854777718",
+      "providerName": "/example/llm-pipeline/provider",
+      "realCompute": true,
+      "roles": [
+        "/LLM/Pipeline/Stage/0"
+      ],
+      "runnerKind": "onnxruntime-cpu",
+      "runtimeVersion": "1.26.0",
+      "schema": "ndnsf-di-execution-evidence-v1"
+    },
+    {
+      "artifactDigests": {
+        "/LLM/Pipeline/Stage/1": "sha256:154D56424B46F527C9FBF9ED59877CD92F42AD331A0F61E6BB026A404AB70BF0"
+      },
+      "createdAtMs": 1783854780495,
+      "device": {
+        "id": "cpu0",
+        "kind": "cpu"
+      },
+      "evidenceEpoch": 1,
+      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
+      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
+      "providerBootId": "/example/llm-pipeline/provider/1@1783854780495",
+      "providerName": "/example/llm-pipeline/provider/1",
+      "realCompute": true,
+      "roles": [
+        "/LLM/Pipeline/Stage/1"
+      ],
+      "runnerKind": "onnxruntime-cpu",
+      "runtimeVersion": "1.26.0",
+      "schema": "ndnsf-di-execution-evidence-v1"
+    },
+    {
+      "artifactDigests": {
+        "/LLM/Pipeline/Stage/2": "sha256:9349B111492EFC55C0E6C6586C9EBE087902992BE2C85923D2F16D5A3D1EE05C"
+      },
+      "createdAtMs": 1783854783298,
+      "device": {
+        "id": "cpu0",
+        "kind": "cpu"
+      },
+      "evidenceEpoch": 1,
+      "modelDigest": "sha256:68FC6D7F91CB258BC288A7D7BB2B75F9430D0FD9E12B55291D99B0736F38DAD6",
+      "planDigest": "sha256:688B46AF40300C56D206B12C3E704B62636B572F23F28D75CD824CD58C4B40C2",
+      "providerBootId": "/example/llm-pipeline/provider/2@1783854783298",
+      "providerName": "/example/llm-pipeline/provider/2",
+      "realCompute": true,
+      "roles": [
+        "/LLM/Pipeline/Stage/2"
+      ],
+      "runnerKind": "onnxruntime-cpu",
+      "runtimeVersion": "1.26.0",
+      "schema": "ndnsf-di-execution-evidence-v1"
+    }
+  ],
+  "gate_generator_commit": "c6aef7727ef34f16be353cd1e5aa0a143ef19f2e",
+  "generated_at_ms": 1783858365188,
   "limitations": [
     "T062 fixed 1 RPS performance gate is BLOCK",
     "T078 has contract-level but not live MiniNDN fault injection",
     "Historical T062 INFO evidence contains a public expected-token oracle",
     "Canary, live operations and 24-hour soak are NOT RUN / BLOCK"
   ],
-  "generated_at_ms": 1783858365188
+  "profile_digest": "sha256:15e4afa35c5e1896c01d09264c34127cc0cbec7ec4c42c7d1b9e488308d7f26f",
+  "release_id": "spec105-local-minindn-candidate-r2",
+  "source_commit": "c6aef7727ef34f16be353cd1e5aa0a143ef19f2e"
 }

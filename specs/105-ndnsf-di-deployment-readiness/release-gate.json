@@ -43,6 +43,50 @@
       "status": "BLOCK"
     }
   },
+  "evidenceManifest": [
+    {
+      "path": "evidence/evidence-gate-results.md",
+      "sha256": "sha256:442c31edda6b3859ed903eaf7658f4aa058525085297ba447c6c19667df2df88"
+    },
+    {
+      "path": "evidence/fault-recovery.md",
+      "sha256": "sha256:2777b17ddc231b910667fb4866222359c51f8d9ceb8043a2fa873f8bee66d257"
+    },
+    {
+      "path": "evidence/integrated-regression.md",
+      "sha256": "sha256:234873e8cd6dc7ae9dc90458fdea5c2cc2671773443973b43eaf7926d834e39c"
+    },
+    {
+      "path": "evidence/local-canary.md",
+      "sha256": "sha256:1c85594c8c860049775cc9a2d2669e52d6cb4700e87fc815eb57021d9c90eb79"
+    },
+    {
+      "path": "evidence/local-operations.md",
+      "sha256": "sha256:58f7f0b72565c6b256d7282f350928c028122839ab884dd2721f45ac5f40e5bb"
+    },
+    {
+      "path": "evidence/local-soak.md",
+      "sha256": "sha256:08f67219721737bdac5e8a917eba8e17676e80b923829f3f2aaa8df60a37786a"
+    },
+    {
+      "path": "evidence/qwen-correctness.md",
+      "sha256": "sha256:0414032799afd1f9b8d1c38011b94049ccc628b60c15090953b3349a52258f90"
+    },
+    {
+      "path": "evidence/security-log-audit.md",
+      "sha256": "sha256:951dfa0738b73f8b79fbd367e833870330f3a3d132d197f6e40c927f2ee9d6de"
+    },
+    {
+      "path": "evidence/systemd-staging.md",
+      "sha256": "sha256:0c1ff5ba025980c43be470bc38a887f59f034e5db994aba9f2ec29ce399a39f5"
+    },
+    {
+      "path": "evidence/telemetry-performance-check.md",
+      "sha256": "sha256:1090503b7fe58c127aa83187ea0a15f50053fe77dab5aa746780aaf797d39364"
+    }
+  ],
+  "evidenceManifestErrors": [],
+  "gateGeneratorCommit": "c6aef7727ef34f16be353cd1e5aa0a143ef19f2e",
   "generatedAtMs": 1783858365188,
   "limitations": [
     "T062 fixed 1 RPS performance gate is BLOCK",
@@ -57,5 +101,5 @@
   "releaseId": "spec105-local-minindn-candidate-r2",
   "runnerClassification": "onnxruntime-cpu",
   "schema": "ndnsf-di-release-gate-v1",
-  "sourceCommit": "4dc99ff5d0d925cb9dc2f16ec870773cadc6487e"
+  "sourceCommit": "c6aef7727ef34f16be353cd1e5aa0a143ef19f2e"
 }

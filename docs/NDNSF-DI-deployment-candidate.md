@@ -73,8 +73,8 @@ python3 tests/python/test_ndnsf_di_deployment_readiness.py
 python3 tests/python/test_ndnsf_runtime_doctor.py
 ```
 
-The final integrated run passed 242 C++ cases/45,688 assertions, 405 maintained
-Python tests with one environment skip, six security regressions and the
+The final integrated run passed 242 C++ cases/45,688 assertions, then 407 maintained
+Python tests with one environment skip after convergence, six security regressions and the
 default MiniNDN Repo/DI/UAV quick suite. A scheduler completion/counter race
 found by the full run was fixed and then passed 500/500 repetitions. The
 standalone scheduler passed ASan/UBSan with 1,000 waits.
