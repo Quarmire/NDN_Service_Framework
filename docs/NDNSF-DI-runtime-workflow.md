@@ -357,6 +357,20 @@ service-payload schemas, operation states, and each provider's latest core
 runtime view. The older `providerAckRuntimeHints` section remains for legacy
 queue/worker fields.
 
+For execution identity, read `executionEvidence` and the mechanically derived
+`runnerClassification`. Each evidence record is emitted by an initialized
+provider backend and binds provider boot/epoch, roles, model and artifact
+digests, plan digest, runtime version, and device. `runnerMode` is a deprecated
+derived compatibility field; it is never a real-compute truth source. Inspect a
+run without relying on legacy labels with:
+
+```bash
+python3 tools/ndnsf_runtime.py di evidence --summary /path/to/summary.json
+```
+
+Missing, mixed, contradictory, synthetic, or digest-mismatched evidence blocks
+the Spec 105 MiniNDN candidate release gate.
+
 For Qwen NativeTracer MiniNDN runs, the C++ native provider emits both forms:
 legacy semicolon ACK fields for old parsers and
 `providerCapabilityHint=json64:<json>` for the core envelope summary. A healthy

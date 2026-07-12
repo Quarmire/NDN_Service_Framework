@@ -47,3 +47,24 @@ Add provider-observed `executionEvidence` and derived
 `runnerClassification` first. Keep `runnerMode` only as a derived compatibility
 field for one slice. T029 may remove it only after CodeGraph plus exact text
 search finds no maintained caller-controlled reader.
+
+## T029 Migration Audit — 2026-07-12
+
+CodeGraph was synchronized and queried for current `runnerMode` summary readers.
+Exact scans then found and migrated the remaining maintained readers in the GUI,
+layout comparison, and layout campaign. The proportional bundle no longer
+asserts a configured `runnerMode`; it emits the explicitly non-evidentiary
+`configuredRunnerProfile=deterministic-fixture` instead.
+
+Post-migration fixed-string scan (excluding raw results, historical specs,
+third-party, build output, and proposal artifacts) leaves only:
+
+- `Experiments/NDNSF_DI_NativeTracer_Minindn.py`: initialization and assignment
+  of the deprecated field from the already-derived `runnerClassification`;
+- `tests/python/test_ndnsf_runtime_doctor.py`: an adversarial legacy input and
+  assertion that the evidence reader ignores it.
+
+There are zero maintained readers and zero caller/configuration assignments.
+The derived compatibility output remains for the one-slice compatibility
+period required by `migration-and-rollback.md`; it is not accepted by the
+release gate or any maintained report reader.

@@ -58,9 +58,9 @@ evidence; mixed/missing evidence blocks; summaries never infer reality from flag
 - [X] T024 [US1] Parse and preserve per-provider execution evidence in user ACK candidates and run artifacts in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
 - [X] T025 [US1] Replace caller-assigned aggregate `runnerMode` with derived `runnerClassification` plus a deprecated derived compatibility field in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
 - [X] T026 [US1] Implement the six-dimension machine-readable release gate and mechanical BLOCK precedence in `NDNSF-DistributedInference/ndnsf_distributed_inference/release_gate.py`.
-- [ ] T027 [US1] Reclassify Spec 091-093 metadata in a new immutable correction artifact at `specs/105-ndnsf-di-deployment-readiness/evidence/historical-evidence-correction.md` without editing raw results.
-- [ ] T028 [US1] Update maintained profile, GUI, report, and documentation readers to consume execution evidence in `tools/ndnsf_runtime.py`, `NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py`, `docs/NDNSF-DI-runtime-workflow.md`, `NDNSF-DistributedInference/README.md`, and `README_ch.md`.
-- [ ] T029 [US1] Run CodeGraph and exact zero-reader scans, then remove caller-controlled `runnerMode` only when the migration conditions in `migration-and-rollback.md` pass.
+- [X] T027 [US1] Reclassify Spec 091-093 metadata in a new immutable correction artifact at `specs/105-ndnsf-di-deployment-readiness/evidence/historical-evidence-correction.md` without editing raw results.
+- [X] T028 [US1] Update maintained profile, GUI, report, and documentation readers to consume execution evidence in `tools/ndnsf_runtime.py`, `NDNSF-DistributedInference/ndnsf_distributed_inference/gui.py`, `docs/NDNSF-DI-runtime-workflow.md`, `NDNSF-DistributedInference/README.md`, and `README_ch.md`.
+- [X] T029 [US1] Run CodeGraph and exact zero-reader scans, then remove caller-controlled `runnerMode` only when the migration conditions in `migration-and-rollback.md` pass.
 - [ ] T030 [US1] Execute unique synthetic, real CPU, real CUDA, mixed, missing, and digest-mismatch evidence cells and record the release-gate matrix in `specs/105-ndnsf-di-deployment-readiness/evidence/evidence-gate-results.md`.
 
 **Checkpoint**: US1 is independently deployable. No synthetic or unknown provider
