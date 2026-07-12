@@ -139,14 +139,14 @@ present; otherwise it rejects/defer rather than pretending configuration is tele
 faults produce one authoritative result or one exact terminal failure.
 
 - [X] T063 [P] [US4] Add failing C++ stress tests for 1,000 waits, bounded queue overflow, deadline expiry, cancellation, promise completion, shutdown, and thread-count ceiling in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T064 [P] [US4] Add failing C++ tests for attempt epoch monotonicity, distinct dependency names, old-epoch rejection, cancellation and terminal exactly-once behavior in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T064 [P] [US4] Add failing C++ tests for attempt epoch monotonicity, distinct dependency names, old-epoch rejection, cancellation and terminal exactly-once behavior in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
 - [ ] T065 [P] [US4] Add failing Python user recovery tests for provider loss, straggler, stale telemetry, cache miss, no replacement and deadline exhaustion in `tests/python/test_ndnsf_di_deployment_readiness.py`.
 - [X] T066 [US4] Define fixed worker/queue/deadline/cancellation contracts in new `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.hpp`.
 - [X] T067 [US4] Implement the bounded dependency wait scheduler, counters, cancellation and shutdown in `NDNSF-DistributedInference/cpp/ndnsf-di/DependencyWaitScheduler.cpp`.
 - [X] T068 [US4] Replace `m_inputWaiters` with the owned scheduler and preserve immediate-ready fast path in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderRoleWorker.hpp` and `ProviderRoleWorker.cpp`.
 - [ ] T069 [US4] Add bounded wait/admission snapshots and explicit scheduler-overload reason to `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
-- [ ] T070 [US4] Add `ExecutionAttemptKey` and attempt epoch to role assignments, dependency object-name derivation and authenticated DI payload metadata in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeExecutionPlan.hpp` and `NativeExecutionPlan.cpp`.
-- [ ] T071 [US4] Validate attempt epoch, execution lease, provider boot and plan binding before provider execution in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp`.
+- [X] T070 [US4] Add `ExecutionAttemptKey` and attempt epoch to role assignments, dependency object-name derivation and authenticated DI payload metadata in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeExecutionPlan.hpp` and `NativeExecutionPlan.cpp`.
+- [X] T071 [US4] Validate attempt epoch, execution lease, provider boot and plan binding before provider execution in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp`.
 - [ ] T072 [US4] Add user-side attempt state machine, one bounded replacement, remaining-deadline calculation and final-result authority in `NDNSF-DistributedInference/ndnsf_distributed_inference/deployment.py`.
 - [ ] T073 [US4] Implement cancel/supersede messages through existing DI service payloads without a new Core wire name in `NDNSF-DistributedInference/ndnsf_distributed_inference/deployment.py` and `NativeProviderHandler.cpp`.
 - [ ] T074 [US4] Make provider boot ID invalidate old execution and KV state and expose the new boot before readiness in `examples/DI_NativeProviderExecutable.cpp`.
