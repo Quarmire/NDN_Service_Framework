@@ -88,7 +88,7 @@ the frozen single-node baseline and close the 1 RPS acceptance gate.
 - [X] T041 [US2] Bind KV references to session, stage, context/model/plan/security epochs and reject cross-binding reuse in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderHandler.cpp`.
 - [X] T042 [US2] Add full-context rebuild and exact delta-only cache-miss terminal behavior in `NDNSF-DistributedInference/ndnsf_distributed_inference/qwen_pilot.py`.
 - [X] T043 [US2] Replace Python `torch.save`/NPZ hidden-state transport in the pilot path with the typed tensor bundle while retaining the old path only as a labeled comparison fixture in `examples/python/NDNSF-DistributedInference/llm_pipeline/provider.py` and `user.py`.
-- [ ] T044 [US2] Wire the real C++ CPU ONNX Qwen provider and bounded-generation user into `Experiments/NDNSF_DI_LlmPipeline_Minindn.py` without reusing the deterministic NativeTracer switch.
+- [X] T044 [US2] Wire the real C++ CPU ONNX Qwen provider and bounded-generation user into `Experiments/NDNSF_DI_LlmPipeline_Minindn.py` without reusing the deterministic NativeTracer switch.
 - [ ] T045 [US2] Generate a matched single-node baseline artifact with identical model/tokenizer/prompts/generation/backend/logging in `Experiments/NDNSF_DI_QwenFull_OnnxVsTransformers_LocalBenchmark.py`.
 - [ ] T046 [US2] Execute all frozen correctness cells, including cache hit/rebuild/fail-closed cases, and record tokens/digests in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-correctness.md`.
 - [ ] T047 [US2] Execute exactly three unique 60-second 1 RPS MiniNDN repetitions plus matched single-node cells and preserve every outcome under distinct `results/spec105-qwen-pilot-*` directories.
