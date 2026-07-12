@@ -1,6 +1,6 @@
 # Feature Specification: UAV Targeted Lifecycle Diagnostics
 
-**Status**: Planned
+**Status**: Complete
 
 ## Context
 
@@ -59,7 +59,9 @@ reports lifecycle aborts, process exit, and command completion.
 
 - **SC-001** Affected C++ targets, focused tests, and full Python regressions pass.
 - **SC-002** Ten unique control-only MiniNDN runs execute once and remain recorded.
-- **SC-003** No run contains `terminate called without an active exception`.
+- **SC-003** No run contains either observed lifecycle-abort signature:
+  `terminate called without an active exception` or
+  `__pthread_tpp_change_priority`.
 - **SC-004** Every attempted UAV command has an observable terminal or blocked stage.
 - **SC-005** 0% and 5% command completion are reported separately without tuning.
 - **SC-006** Post-implementation audit distinguishes fixed lifecycle correctness

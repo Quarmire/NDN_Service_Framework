@@ -10,22 +10,30 @@
 
 ## Root-Cause Hypotheses
 
-1. Most likely: shutdown joins workers before joining the face thread, which can
-   create a worker after its join check; prediction: face-first quiescence
-   removes the post-GUI SIGABRT.
-2. Detached window automation accesses destroyed state; prediction: aborts
-   persist after face-first shutdown or sanitizers reveal use-after-free.
-3. Decoder/YOLO shutdown races independently; prediction: aborts correlate only
-   with video/YOLO-active runs.
+1. Confirmed shutdown defect: shutdown joined workers before the face thread,
+   which could create a worker after its join check. Face-first quiescence
+   removed the original post-`GS_GUI_EXIT` terminate signature.
+2. Disproved as a complete fix: making the auto-MAVLink worker owned and moving
+   its commands onto the GTK thread did not remove the 5% pre-shutdown abort.
+3. Current controlling hypothesis: two `ServiceUser` response workers execute
+   lightweight telemetry and command callbacks concurrently against shared
+   Ground Station runtime/UI state. Serialize this control plane on the Face
+   thread; keep compute-heavy object-detection provider workers unchanged.
+4. Sanitizer diagnosis was attempted, but parallel debug compilation exceeded
+   local memory. Do not repeat it unless using a separate low-parallel build
+   environment with enough time and disk.
 
 ## Design
 
-1. Set `m_done`, stop Core/io work, join authority refresh and face threads,
+1. Set `m_done`, join authority refresh and face threads, stop Core/io work,
    then join/stop workers that those producers can create.
-2. Add payload-free Targeted phase logs around queue, dispatch, response, and
+2. Own and join the auto-MAVLink worker, route its GUI actions through the GTK
+   main context, and serialize Ground Station user callbacks on the Face thread.
+3. Add payload-free Targeted phase logs around queue, dispatch, response, and
    timeout; add UAV command phase logs around local admission and callbacks.
-3. Extend the isolation parser with `lifecycleAbort` and command-stage summary.
-4. Build and run focused tests, then execute control-only 0% and 5% campaigns,
+4. Extend the isolation parser with both observed abort signatures and a
+   command-stage summary.
+5. Build and run focused tests, then execute control-only 0% and 5% campaigns,
    five runs each, no retries.
 
 ## Validation
