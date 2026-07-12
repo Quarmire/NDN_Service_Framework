@@ -12,10 +12,10 @@
 | FR-006 | typed tensor contract | T031-T036 | focused C++ tests and Qwen correctness |
 | FR-007 | `KvStateBinding` | T033, T040-T042 | cache correctness/fault cells |
 | FR-008 | fixed workload boundary | T005, T033, T039, T044 | admission negative results |
-| FR-009 | capability/telemetry split | T011, T049-T055 | telemetry validation |
-| FR-010 | telemetry snapshot contract | T049, T052-T056 | telemetry validation/metrics |
-| FR-011 | freshness fail-closed | T050-T051, T056-T061 | stale/configured-only cells |
-| FR-012 | `PlanLease` predicates | T050, T057-T059 | plan decision matrix |
+| FR-009 | capability/telemetry split | T011, T052-T055 | telemetry validation |
+| FR-010 | telemetry snapshot contract | T052-T056 | telemetry validation/metrics |
+| FR-011 | freshness fail-closed | T056-T061 | stale/configured-only cells |
+| FR-012 | `PlanLease` predicates | T056-T059 | plan decision matrix |
 | FR-013 | bounded scheduler | T063, T066-T069, T077 | 1,000-wait stress |
 | FR-014 | `ExecutionAttempt` | T012, T064, T070-T075 | attempt/fault evidence |
 | FR-015 | one replacement | T065, T071-T073, T076-T078 | provider-loss matrix |
@@ -28,27 +28,31 @@
 | FR-022 | observability design | T075, T085, T092-T095 | metrics, local soak, integrated regression |
 | FR-023 | experiment plan | T006, T030, T045-T048, T061-T062, T077-T078, T092-T094 | all local acceptance records |
 | FR-024 | MiniNDN-only scope and Spec 106 handoff | T006, T090, T092-T094, T098 | candidate gate and physical deferral |
+| FR-025 | generation-level load scheduling | T049-T051, T062 | driver validity and revised campaign |
+| FR-026 | immutable failed/revised campaign identities | T048-T051, T062, T094, T098 | retained failure and release gate |
 
 ## Success Criteria to Tasks
 
 | Criterion | Tasks | Verdict source |
 |---|---|---|
 | SC-001 | T018-T030 | evidence gate results |
-| SC-002 | T033-T048 | Qwen MiniNDN performance |
-| SC-003 | T045-T048 | matched latency/decomposition report |
-| SC-004 | T049-T062 | telemetry/plan validation |
+| SC-002 | T033-T048, T049-T051, T062 | initial and revised Qwen MiniNDN performance |
+| SC-003 | T045-T048, T062 | matched latency/decomposition report |
+| SC-004 | T052-T062 | telemetry/plan validation |
 | SC-005 | T063-T069, T077 | bounded scheduler report |
 | SC-006 | T064-T078 | fault recovery report |
 | SC-007 | T079-T092 | two clean local staging runs |
 | SC-008 | T092-T094 | 24-hour local MiniNDN soak |
 | SC-009 | T088-T093 | local staged upgrade/rollback drill |
 | SC-010 | T026, T098-T100 | final release gate and audits |
+| SC-011 | T049-T051, T062 | driver validity and queue/progress evidence |
 
 ## User Story Independence
 
 - **US1** closes evidence truth without requiring compute/runtime changes.
 - **US2** closes real bounded Qwen correctness/performance after US1 truth.
-- **US3** closes measured placement on the accepted real runtime.
+- **US3** first repairs generation-load measurement validity, then closes measured
+  placement on the real runtime without erasing the original failed campaign.
 - **US4** closes bounded scheduling/recovery on the accepted plan semantics.
 - **US5** packages and locally operates only capabilities already accepted by
   US1-US4; Spec 106 owns physical acceptance.

@@ -5,7 +5,7 @@
 - Origin Skill: experiment-agent
 - Origin Mode: plan
 - Origin Date: 2026-07-12
-- Verification Status: UNVERIFIED
+- Verification Status: REVISION R1 AFTER RETAINED FAILED CAMPAIGN
 - Primary Question: Can the fixed NDNSF-DI Qwen pilot execute real bounded
   generation correctly, predictably, securely, and recoverably under the
   declared deployment profile?
@@ -65,6 +65,15 @@ hashes and terminal reasons. No performance comparison uses cold export/load.
 
 ### P: MiniNDN Performance
 
+- The initial three-run candidate is immutable failed evidence. Its driver used
+  four FIFO workers and callback-submitted token steps, so the zero-complete
+  application result characterizes that full tested system but cannot isolate
+  CPU capacity from client queue discipline.
+- Before a revised campaign, deterministic fixtures must show generation-level
+  ownership, bounded admission, no cross-session token-step starvation, and exact
+  reporting of per-session token progress plus worker/queue occupancy.
+- A revised campaign uses a new candidate/campaign ID registered before execution;
+  it does not replace the initial runs in aggregate evidence.
 - Warmup outside measurement.
 - Three prespecified repetitions.
 - 60-second measured window.
@@ -72,7 +81,7 @@ hashes and terminal reasons. No performance comparison uses cold export/load.
 - Concurrency fixed by preflight and identical across single/distributed matched
   cells.
 - INFO metrics only; TRACE disabled.
-- No automatic replacement run.
+- No automatic replacement run within either immutable campaign.
 - MiniNDN application permission/token/bootstrap evidence is retained, but its
   dummy-keychain environment is explicitly not cryptographic-strength evidence.
 
@@ -125,6 +134,9 @@ All failures are retained.
 - retain the run and diagnose; do not silently retry;
 - capacity/service failure in tools preserves the last verified checkpoint and
   retries the tool operation only, never the measured campaign.
+- a failed revised short performance gate closes the 24-hour soak as
+  `NOT RUN / BLOCK`; it does not authorize a longer timeout, retry, lower rate,
+  or another campaign;
 
 ## Statistical and Evidence Rules
 

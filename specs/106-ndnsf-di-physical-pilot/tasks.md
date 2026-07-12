@@ -1,7 +1,9 @@
 # Tasks: NDNSF-DI Physical Production Pilot
 
 **Entry gate**: All tasks are deferred until Spec 105 passes and three physical
-GPU nodes plus a second operator are available.
+GPU nodes plus a second operator are available. The completed scope transfer is
+recorded in `evidence/spec105-hardware-migration.md`; it is not an authorization
+to execute any physical task.
 
 ## Phase 1: Immutable Candidate and Hardware Preflight
 

@@ -89,13 +89,14 @@ hard cutoff. This result must not be presented as deployable 1 RPS capacity.
 
 ## Decision
 
-H3 and SC-002 are falsified. SC-003 and the requested latency/resource evidence
-also fail or remain undefined. The Phase 4 checkpoint therefore stops Spec 105
-implementation before T049. Increasing timeout, reducing offered load, raising
-concurrency, changing worker counts, or adding a fourth campaign would be a
-post-result compensation and is prohibited by the frozen plan.
+H3 and SC-002 are falsified for this immutable candidate. SC-003 and the requested
+latency/resource evidence also fail or remain undefined. The original Phase 4
+checkpoint stopped the unchanged campaign before T049. Increasing timeout,
+reducing offered load, changing worker counts in place, or adding a fourth run to
+this campaign remains prohibited.
 
-The shortest honest next action is a new formally scoped revision or successor
-spec that changes the service-level generation architecture or declares a lower
-capacity class before collecting new acceptance data. Spec 106 remains deferred
-and must not be used to bypass this local algorithm/runtime gate.
+Revision R1 now permits independent implementation and a separately identified,
+preregistered campaign only after deterministic generation-scheduler validity
+tasks T049-T051 pass. The new campaign cannot replace or be pooled with these
+runs, and all original thresholds remain fixed. Spec 106 remains deferred and
+must not be used to bypass this local algorithm/runtime gate.

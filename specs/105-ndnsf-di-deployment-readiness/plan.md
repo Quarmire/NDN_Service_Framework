@@ -13,6 +13,28 @@ attempt-epoch-based recovery path, and packages the same binaries and profiles a
 systemd-compatible services. MiniNDN closes algorithm, failure, packaging, and
 local operations gates; physical GPU production acceptance moves to Spec 106.
 
+## Revision R1 Control Decision
+
+The original three-run 1 RPS campaign is retained as a failed candidate, not
+rerun. Its zero-complete outcome is confounded by a verified four-worker FIFO
+execution pattern: every token completion enqueues the same generation's next
+token after already queued work from later generation sessions. Revision R1
+therefore separates three decisions:
+
+1. SC-002 and H3 remain failed for the original candidate and all thresholds stay
+   frozen.
+2. Independent telemetry, recovery, packaging, and local-operations implementation
+   may continue; the failure does not justify skipping their tests or moving them
+   to the physical pilot.
+3. A corrected generation-level load driver must pass deterministic scheduling
+   validity tests before one newly registered three-run campaign may execute.
+   Failure of that campaign blocks the candidate and causes the 24-hour soak to
+   close as `NOT RUN / BLOCK` under the preregistered stop rule.
+
+This is an experiment-validity repair, not a performance waiver. It neither
+changes the per-token collaboration protocol nor claims that corrected scheduling
+will make the CPU profile serviceable.
+
 ## Technical Context
 
 **Language/Version**: C++17; Python 3.8+
@@ -231,8 +253,10 @@ never changes request correctness.
 ### 8. Rollout and Rollback
 
 1. Correct evidence labels with no runtime behavior change.
-2. Run real Qwen MiniNDN correctness and 1 RPS acceptance.
-3. Add measured telemetry and plan invalidation; rerun acceptance.
+2. Run real Qwen MiniNDN correctness and the initial 1 RPS acceptance; retain a
+   failed campaign without replacement.
+3. Repair and validate generation-level load scheduling, add measured telemetry
+   and plan invalidation, then run one newly registered acceptance campaign.
 4. Add bounded dependency scheduler; stress and rerun acceptance.
 5. Add one replacement attempt; execute deterministic fault cells.
 6. Package systemd profile; validate in MiniNDN/namespace staging.
@@ -251,7 +275,8 @@ See [experiment-plan.md](experiment-plan.md). The controlling sequence is:
    missing.
 2. **Correctness cells**: single-node vs three-stage, fixed prompt corpus,
    token-by-token comparison, full-context and cache-hit decode.
-3. **MiniNDN performance**: 1 RPS x 3 repetitions x 60 seconds; application
+3. **MiniNDN performance**: 1 RPS x 3 repetitions x 60 seconds per immutable
+   candidate campaign; application
    permission/token paths execute, but the MiniNDN dummy-keychain environment is
    not cryptographic-strength evidence. Higher rates are
    discovery only until frozen in a later spec.
@@ -262,7 +287,8 @@ See [experiment-plan.md](experiment-plan.md). The controlling sequence is:
    token, replay, and provider-permission paths, explicitly non-cryptographic-
    strength because of the dummy keychain.
 7. **Local operations**: matched single-node/distributed canary, provider-process
-   restart, staged upgrade/rollback, then 24-hour MiniNDN soak.
+   restart, staged upgrade/rollback, then a 24-hour MiniNDN soak only after its
+   performance preflight passes; otherwise preserve `NOT RUN / BLOCK` evidence.
 
 ## Project Structure
 

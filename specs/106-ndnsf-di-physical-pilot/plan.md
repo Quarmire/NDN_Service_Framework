@@ -20,6 +20,10 @@ change returns to Spec 105 and creates a new candidate release.
 
 ## Entry Gate
 
+The formal ownership transfer is recorded in
+`evidence/spec105-hardware-migration.md`; its `DEFERRED` status is controlling
+while any prerequisite below is absent.
+
 Implementation cannot begin until:
 
 1. Spec 105 has no unchecked tasks;

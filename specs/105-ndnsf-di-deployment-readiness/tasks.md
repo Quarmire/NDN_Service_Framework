@@ -94,8 +94,12 @@ the frozen single-node baseline and close the 1 RPS acceptance gate.
 - [X] T047 [US2] Execute exactly three unique 60-second 1 RPS MiniNDN repetitions plus matched single-node cells and preserve every outcome under distinct `results/spec105-qwen-pilot-*` directories.
 - [X] T048 [US2] Validate completion, throughput, p50/p95/p99, p95 ratio, TTFT, inter-token, stage decomposition, resource metrics, and all 11 fallacies in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-minindn-performance.md`.
 
-**Checkpoint**: Stop if tokens differ, real CPU ONNX evidence is incomplete, or the
-fixed 1 RPS gate fails. Do not compensate with higher timeout, retry or a new run.
+**Checkpoint (initial candidate)**: Stop the unchanged campaign if tokens differ,
+real CPU ONNX evidence is incomplete, or the fixed 1 RPS gate fails. Preserve the
+three failed runs and do not compensate with higher timeout, retry, lower load, or
+an unregistered replacement. Revision R1 permits independent implementation to
+continue, but a new acceptance campaign is forbidden until T049-T051 close the
+verified generation-scheduling validity defect with a new preregistered identity.
 
 ---
 
@@ -107,20 +111,20 @@ reuse, placement, defer and rejection.
 **Independent Test**: Fresh measured facts admit/reuse; stale, unsupported,
 identity-mismatched or infeasible facts reject/defer; configured values remain labeled.
 
-- [ ] T049 [P] [US3] Add failing C++ resource-probe tests for measured host/process memory facts, read failure, unsupported source, malformed input, identity mismatch, stale sample, and redaction in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T050 [P] [US3] Add failing Python plan-predicate tests for provider boot, evidence epoch, artifact/runtime identity, telemetry age, memory, queue, membership, network version, and cache assumptions in `tests/python/test_ndnsf_di_runtime_aware_planner.py`.
-- [ ] T051 [P] [US3] Add failing admission tests proving configured-only or stale free memory cannot satisfy a production memory gate in `tests/python/test_ndnsf_di_runtime_aware_campaign.py`.
-- [ ] T052 [US3] Define the background `ProviderResourceProbe` interface, snapshot status, timeout and freshness semantics in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.hpp`.
+- [ ] T049 [P] [US3] Add deterministic Python tests proving the generation load driver owns one bounded generation per admitted job, preserves per-session token order, bounds active/queued generations, prevents FIFO breadth-first token-step starvation, and reports per-session progress plus worker/queue occupancy in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [ ] T050 [US3] Replace callback-resubmitted token-step scheduling with a bounded generation-level scheduler in `examples/python/NDNSF-DistributedInference/llm_pipeline/user.py`; retain fixed offered times, four-worker default, zero retry, original timeout, cancellation, and all offered/failed/unfinished accounting.
+- [ ] T051 [US3] Execute the deterministic driver-validity fixtures, freeze a new candidate/campaign ID and exact command before measurement, and record why the original three runs remain immutable and non-combinable in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-scheduler-revision.md`.
+- [ ] T052 [US3] Add failing C++ resource-probe tests for measured host/process memory facts, read failure, unsupported source, malformed input, identity mismatch, stale sample, and redaction, then define the background `ProviderResourceProbe` interface, snapshot status, timeout and freshness semantics in `tests/unit-tests/distributed-inference-async-runtime.t.cpp` and `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.hpp`.
 - [ ] T053 [US3] Implement bounded Linux `/proc/meminfo` and provider-process RSS readers, exact unit/parser validation, and explicit unsupported/error snapshots in `NDNSF-DistributedInference/cpp/ndnsf-di/ProviderResourceProbe.cpp`; physical NVIDIA probing remains in Spec 106.
 - [ ] T054 [US3] Merge resource snapshots with worker queue/wait/active state and stage service-rate EWMA outside the request hot path in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
 - [ ] T055 [US3] Publish configured capability and measured telemetry as distinct typed sections with source, boot, sequence and timestamp in `NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderReadiness.cpp`.
-- [ ] T056 [US3] Parse, validate and retain telemetry freshness/source/identity in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py` and `deployment.py`.
-- [ ] T057 [US3] Implement mandatory plan-feasibility predicates before scoring and observable `reuse|replan|defer|reject` decisions in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
+- [ ] T056 [US3] Add failing Python telemetry tests for provider boot, evidence epoch, artifact/runtime identity, source, age, memory, queue, membership, network version and cache assumptions, then parse, validate and retain those fields in `tests/python/test_ndnsf_di_runtime_aware_planner.py`, `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`, and `deployment.py`.
+- [ ] T057 [US3] Add failing admission tests proving configured-only or stale free memory cannot satisfy a candidate memory gate, then implement mandatory plan-feasibility predicates before scoring and observable `reuse|replan|defer|reject` decisions in `tests/python/test_ndnsf_di_runtime_aware_campaign.py` and `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T058 [US3] Bind cached plan leases to provider membership/boot, evidence, artifact/runtime, telemetry, network-profile and cache versions in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T059 [US3] Revalidate telemetry and plan predicates immediately before execution-lease commit in `NDNSF-DistributedInference/ndnsf_distributed_inference/deployment.py`.
 - [ ] T060 [US3] Update MiniNDN fixtures to label static 2/4/8 GB facts `configured` and add controlled measured host-telemetry injection without presenting it as physical GPU evidence in `Experiments/NDNSF_DI_NativeTracer_Minindn.py`.
 - [ ] T061 [US3] Execute fresh/stale/memory-pressure/queue-pressure/membership/device-mismatch plan cells and record every predicate decision in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-plan-validation.md`.
-- [ ] T062 [US3] Rerun the frozen real-Qwen MiniNDN acceptance with telemetry enabled at INFO and verify it does not materially perturb or relabel the workload in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-performance-check.md`.
+- [ ] T062 [US3] Execute exactly one newly preregistered three-repetition real-Qwen MiniNDN acceptance campaign with the validated generation scheduler and INFO telemetry; retain the original failed runs separately and verify correctness, fixed 1 RPS thresholds, queue/progress accounting, and telemetry perturbation in `specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-performance-check.md`.
 
 **Checkpoint**: The planner is capacity-aware only when fresh measured facts are
 present; otherwise it rejects/defer rather than pretending configuration is telemetry.
@@ -180,11 +184,12 @@ close the MiniNDN candidate gate, perform restart/upgrade/rollback and a 24h soa
 - [ ] T091 [US5] Validate the systemd release in an isolated local/namespace staging profile and record unit/security/rollback evidence in `specs/105-ndnsf-di-deployment-readiness/evidence/systemd-staging.md`.
 - [ ] T092 [US5] Run the local MiniNDN canary twice from clean staging directories with matched single/distributed Qwen cells, recording host/backend/profile facts in unique `results/spec105-local-canary-*` directories.
 - [ ] T093 [US5] Execute scheduled MiniNDN provider-process restart, staged N->N+1 upgrade, N+1->N rollback, cache incompatibility and Repo preservation drills and record them in `specs/105-ndnsf-di-deployment-readiness/evidence/local-operations.md`.
-- [ ] T094 [US5] Execute the frozen 24-hour local MiniNDN 1 RPS soak without replacement runs and record correctness, completion, latency, resource growth, restart interruption, application-security-path evidence and all failures in `specs/105-ndnsf-di-deployment-readiness/evidence/local-soak.md`.
+- [ ] T094 [US5] Preflight the frozen 24-hour local MiniNDN 1 RPS soak against the T062 gate; if PASS, execute it once without replacement and record correctness, completion, latency, resource growth, restart interruption, application-security-path evidence and all failures, otherwise record `NOT RUN / BLOCK` with the controlling immutable evidence in `specs/105-ndnsf-di-deployment-readiness/evidence/local-soak.md`.
 
 **Checkpoint**: A MiniNDN candidate PASS requires every earlier dimension plus
-local staging and soak. Physical production remains `DEFERRED` and is governed
-only by Spec 106.
+local staging and a completed passing soak. A preregistered stop-rule skip closes
+the task honestly but keeps the candidate BLOCKED. Physical production remains
+`DEFERRED` and is governed only by Spec 106.
 
 ---
 

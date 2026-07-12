@@ -4,7 +4,7 @@
 
 **Created**: 2026-07-12
 
-**Status**: Revised for Local MiniNDN Implementation
+**Status**: Revision R1 — Local MiniNDN Implementation After Retained Gate Failure
 
 **Input**: Convert the shortest audited NDNSF-DI deployment route into a complete design, detailed executable task list, and adversarial pre-implementation audit.
 
@@ -32,6 +32,26 @@ The replicated llama-server path remains a supported comparison baseline, not
 the distributed-model implementation delivered by this feature. Physical-node
 security and operations acceptance is owned by Spec 106 and cannot be inferred
 from Spec 105.
+
+### Revision R1: Retained Capacity Failure
+
+The first candidate campaign executed exactly three prespecified 60-second runs
+and failed SC-002 with zero complete 32-token generations at the measurement
+cutoff. Those runs are immutable negative evidence; Revision R1 does not replace,
+average away, or relabel them. Code inspection established that the campaign also
+used a four-worker FIFO client executor while each token callback submitted the
+next token behind work from other generation sessions. The observed zero-complete
+result therefore applies to the tested combination of CPU runtime, per-token
+collaboration protocol, and breadth-first client scheduling. It is not sufficient
+evidence to attribute the failure solely to CPU compute capacity.
+
+Revision R1 permits implementation work that is independent of the failed gate
+to continue. Before any new acceptance campaign, the generation driver must be
+tested as a bounded generation-level scheduler, expose its queue discipline and
+per-session progress, and receive a new immutable candidate/campaign identity.
+The 1 RPS, completion, correctness, and latency thresholds remain unchanged. A
+new failure remains BLOCK; it is not compensated by a higher timeout, retry, a
+lower offered rate, or an unregistered replacement run.
 
 ## User Scenarios & Testing
 
@@ -264,6 +284,14 @@ restart, then roll forward and back between two compatible staged releases.
 - **FR-024**: Spec 105 validation MUST remain on the local MiniNDN host. Physical
   nodes, real-identity production security, cross-host GPU telemetry, and
   production release authority MUST remain deferred to Spec 106.
+- **FR-025**: A generation-load driver MUST schedule and account for one bounded
+  generation as the application request unit, expose worker/queue discipline and
+  per-session token progress, and MUST NOT convert a generation-level campaign
+  into unreported breadth-first token-subrequest queueing.
+- **FR-026**: The failed initial campaign MUST remain immutable negative evidence.
+  Any corrected campaign MUST use a new preregistered candidate/campaign identity,
+  retain the original threshold, and report `BLOCK` rather than silently rerun,
+  extend, retry, or reduce load after failure.
 
 ### Key Entities
 
@@ -316,6 +344,11 @@ restart, then roll forward and back between two compatible staged releases.
 - **SC-010**: The release gate produces a machine-readable MiniNDN-candidate
   PASS/BLOCK plus a separate physical-production `DEFERRED|PASS|BLOCK` status;
   missing physical evidence can never be reported as production PASS.
+- **SC-011**: Every generation acceptance record reports offered generations,
+  completed/failed/unfinished generations, token progress per session, client
+  worker/queue occupancy, and the exact immutable campaign identity; a driver
+  fixture proves that a runnable generation cannot be starved behind later-token
+  work from unrelated sessions.
 
 ## Assumptions
 

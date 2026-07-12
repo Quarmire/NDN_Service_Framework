@@ -1,5 +1,9 @@
 # Spec 105 Pre-Implementation Audit
 
+> Historical audit of the original CUDA/physical draft. Its environment and
+> readiness conclusions are superseded by `scope-revision-audit.md` and
+> `revision-r1-audit.md`; retained findings are not current execution authority.
+
 **Date**: 2026-07-12  
 **Scope**: `spec.md`, `plan.md`, `tasks.md`, supporting contracts and the current
 NDNSF-DI code/results  
