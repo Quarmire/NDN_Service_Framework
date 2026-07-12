@@ -4,6 +4,14 @@ Use this document as the normal entry point for NDNSF-DI experiments. The
 canonical source of runtime configuration is the runtime profile; avoid calling
 individual experiment scripts directly unless you are debugging one script.
 
+For the Spec 105 systemd/operator surface, use
+[`NDNSF-DI-deployment-candidate.md`](NDNSF-DI-deployment-candidate.md) and the
+packaging runbook. Production `provider|run|bench` execute explicit no-shell
+adapters; the old simulated run/bench/context sweep lives only under
+`ndnsf-di contract-smoke`. Doctor/status/metrics require digest-bound identity
+and fresh release/plan/evidence telemetry. The current candidate is BLOCK and
+Spec 106 remains physical-only.
+
 ## Canonical Profile
 
 The default DI profile is:

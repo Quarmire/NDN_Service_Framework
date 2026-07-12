@@ -41,10 +41,10 @@
 | SC-004 | T052-T062 | telemetry/plan validation |
 | SC-005 | T063-T069, T077 | bounded scheduler report |
 | SC-006 | T064-T078 | fault recovery report |
-| SC-007 | T079-T092 | two clean local staging runs |
+| SC-007 | T079-T092, T103-T105 | isolated staging PASS; two clean live canaries `NOT RUN / BLOCK` after T062 gate |
 | SC-008 | T092-T094 | 24-hour local MiniNDN soak |
-| SC-009 | T088-T093 | local staged upgrade/rollback drill |
-| SC-010 | T026, T098-T100 | final release gate and audits |
+| SC-009 | T088-T093, T105 | isolated N->N+1->N and Repo preservation PASS; live provider/cache drill `NOT RUN / BLOCK` |
+| SC-010 | T026, T098-T100, T106 | digest-bound final release gate and audits |
 | SC-011 | T049-T051, T062 | driver validity and queue/progress evidence |
 
 ## User Story Independence
