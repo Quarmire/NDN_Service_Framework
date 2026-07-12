@@ -27,15 +27,15 @@ pilot inputs, comparison rules and audit verdict are immutable.
 
 **Purpose**: Establish shared types and negative fixtures required by every story.
 
-- [ ] T009 Add failing C++ round-trip, required-field, unknown-major-version, and secret-exclusion tests for `ExecutionEvidence` in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T010 [P] Add failing Python fixtures for synthetic, wiring-only, CPU, CUDA, mixed, missing, artifact-mismatch, and plan-mismatch evidence in `tests/python/test_ndnsf_di_deployment_readiness.py`.
-- [ ] T011 [P] Add failing Python serialization/freshness tests for configured capability versus measured telemetry in `tests/python/test_ndnsf_di_runtime_v1.py`.
-- [ ] T012 [P] Add failing C++ attempt-epoch and terminal-reason codec tests in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
-- [ ] T013 Define `ExecutionEvidence` and stable runner-kind enums without wire or policy logic in `NDNSF-DistributedInference/cpp/ndnsf-di/ExecutionEvidence.hpp` and `ExecutionEvidence.cpp`.
-- [ ] T014 Add execution-evidence JSON encode/decode, validation, digest normalization, and redaction implementation in `NDNSF-DistributedInference/cpp/ndnsf-di/ExecutionEvidence.cpp`.
-- [ ] T015 Extend the DI Python typed models with provider capability, measured telemetry, execution evidence, plan predicates, attempt epoch, and terminal reason in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
-- [ ] T016 Add schema samples and version compatibility fixtures under `examples/python/NDNSF-DistributedInference/runtime_v1_schemas/` matching every contract in `specs/105-ndnsf-di-deployment-readiness/contracts/`.
-- [ ] T017 Update `wscript` to compile the new DI C++ translation units and prove a no-ONNX/no-CUDA build fails clearly only when a requested backend is unavailable.
+- [X] T009 Add failing C++ round-trip, required-field, unknown-major-version, and secret-exclusion tests for `ExecutionEvidence` in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T010 [P] Add failing Python fixtures for synthetic, wiring-only, CPU, CUDA, mixed, missing, artifact-mismatch, and plan-mismatch evidence in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [X] T011 [P] Add failing Python serialization/freshness tests for configured capability versus measured telemetry in `tests/python/test_ndnsf_di_runtime_v1.py`.
+- [X] T012 [P] Add failing C++ attempt-epoch and terminal-reason codec tests in `tests/unit-tests/distributed-inference-async-runtime.t.cpp`.
+- [X] T013 Define `ExecutionEvidence` and stable runner-kind enums without wire or policy logic in `NDNSF-DistributedInference/cpp/ndnsf-di/ExecutionEvidence.hpp` and `ExecutionEvidence.cpp`.
+- [X] T014 Add execution-evidence JSON encode/decode, validation, digest normalization, and redaction implementation in `NDNSF-DistributedInference/cpp/ndnsf-di/ExecutionEvidence.cpp`.
+- [X] T015 Extend the DI Python typed models with provider capability, measured telemetry, execution evidence, plan predicates, attempt epoch, and terminal reason in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
+- [X] T016 Add schema samples and version compatibility fixtures under `examples/python/NDNSF-DistributedInference/runtime_v1_schemas/` matching every contract in `specs/105-ndnsf-di-deployment-readiness/contracts/`.
+- [X] T017 Update `wscript` to compile the new DI C++ translation units and prove a no-ONNX/no-CUDA build fails clearly only when a requested backend is unavailable.
 
 **Checkpoint**: Shared contracts round-trip, invalid evidence fails closed, and no
 request behavior has changed.
