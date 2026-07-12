@@ -169,9 +169,9 @@ upgrade, rollback and soak.
 **Independent Test**: Two clean local staging directories execute the runbook,
 close the MiniNDN candidate gate, perform restart/upgrade/rollback and a 24h soak.
 
-- [ ] T079 [P] [US5] Add failing CLI tests proving production `provider|run|bench|status|metrics` execute real adapters and simulated behavior is only under `contract-smoke` in `tests/python/test_ndnsf_di_deployment_readiness.py`.
-- [ ] T080 [P] [US5] Add failing deployment-profile tests for role identity, NFD endpoint, trust paths, release paths, device/backend, writable directories, startup/shutdown bounds and secret redaction in `tests/python/test_ndnsf_runtime_doctor.py`.
-- [ ] T081 [P] [US5] Add failing packaging tests for unit hardening, dedicated users, dependency order, restart bounds, tmpfiles, log rotation, release symlinks and uninstall safety in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [X] T079 [P] [US5] Add failing CLI tests proving production `provider|run|bench|status|metrics` execute real adapters and simulated behavior is only under `contract-smoke` in `tests/python/test_ndnsf_di_deployment_readiness.py`.
+- [X] T080 [P] [US5] Add failing deployment-profile tests for role identity, NFD endpoint, trust paths, release paths, device/backend, writable directories, startup/shutdown bounds and secret redaction in `tests/python/test_ndnsf_runtime_doctor.py`.
+- [X] T081 [P] [US5] Add failing packaging tests for unit hardening, dedicated users, dependency order, restart bounds, tmpfiles, log rotation, release symlinks and uninstall safety in `tests/python/test_ndnsf_di_deployment_readiness.py`.
 - [ ] T082 [US5] Move simulated Runtime v1 `run|bench|context-sweep` implementations under explicit `contract-smoke` commands and preserve callers through a bounded deprecation error in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T083 [US5] Wire production `provider`, `plan`, `run`, `bench`, `status`, `metrics`, `inspect` and `doctor` commands to real deployment adapters in `NDNSF-DistributedInference/ndnsf_distributed_inference/runtime_v1.py`.
 - [ ] T084 [US5] Extend the runtime doctor with NFD, identity/certificate, trust schema, backend/device, model/artifact, plan/evidence, disk/permissions and telemetry probe checks in `tools/ndnsf_runtime.py`.
