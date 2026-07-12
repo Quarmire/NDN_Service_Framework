@@ -91,8 +91,8 @@ the frozen single-node baseline and close the 1 RPS acceptance gate.
 - [X] T044 [US2] Wire the real C++ CPU ONNX Qwen provider and bounded-generation user into `Experiments/NDNSF_DI_LlmPipeline_Minindn.py` without reusing the deterministic NativeTracer switch.
 - [X] T045 [US2] Generate a matched single-node baseline artifact with identical model/tokenizer/prompts/generation/backend/logging in `Experiments/NDNSF_DI_QwenFull_OnnxVsTransformers_LocalBenchmark.py`.
 - [X] T046 [US2] Execute all frozen correctness cells, including cache hit/rebuild/fail-closed cases, and record tokens/digests in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-correctness.md`.
-- [ ] T047 [US2] Execute exactly three unique 60-second 1 RPS MiniNDN repetitions plus matched single-node cells and preserve every outcome under distinct `results/spec105-qwen-pilot-*` directories.
-- [ ] T048 [US2] Validate completion, throughput, p50/p95/p99, p95 ratio, TTFT, inter-token, stage decomposition, resource metrics, and all 11 fallacies in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-minindn-performance.md`.
+- [X] T047 [US2] Execute exactly three unique 60-second 1 RPS MiniNDN repetitions plus matched single-node cells and preserve every outcome under distinct `results/spec105-qwen-pilot-*` directories.
+- [X] T048 [US2] Validate completion, throughput, p50/p95/p99, p95 ratio, TTFT, inter-token, stage decomposition, resource metrics, and all 11 fallacies in `specs/105-ndnsf-di-deployment-readiness/evidence/qwen-minindn-performance.md`.
 
 **Checkpoint**: Stop if tokens differ, real CPU ONNX evidence is incomplete, or the
 fixed 1 RPS gate fails. Do not compensate with higher timeout, retry or a new run.
