@@ -85,7 +85,7 @@ no acceptance run is automatically retried. All Spec 110 identities are new.
 - [X] T056 [US3] Add selected-transport probe/admissibility tests proving TCP PASS is not blocked by diagnostic UDP failure and preventing false multi-node PASS in `tests/container/itiger-qwen-live/unit/test_multinode_probe.py`
 - [X] T057 [US3] Add distinct controller/user/provider identity validation and read-only binding in `packaging/ndnsf-di-container/lib/profile.py`
 - [X] T058 [US3] Add packaged generic permission/NAC-ABE/token/replay/selection integration launcher driven by the frozen process map at `packaging/ndnsf-di-container/adapters/slurm-apptainer/scripts/probe-ndnsf-security.sh`
-- [ ] T059 [US3] Run the packaged topology/security path in MiniNDN and retain exact regression results at `results/spec110-itiger-qwen-live/minindn-packaged/`
+- [X] T059 [US3] Run the packaged topology/security path in MiniNDN and retain exact regression results at `results/spec110-itiger-qwen-live/minindn-packaged/`
 - [ ] T060 [US3] Render and review exactly one five-minute two-node CPU selected-transport network/security job at `results/spec110-itiger-qwen-live/network-probe/render.json` (depends on T049-T059)
 - [ ] T061 [US3] Submit the reviewed CPU network/security probe through the crash-safe journal exactly once; any pre-start blocker leaves T061 open (depends on T060)
 - [ ] T062 [US3] Validate addresses, selected transport, diagnostic transport, NFD faces/routes, secured generic request/response, readiness, teardown, and zero login-node daemons at `results/spec110-itiger-qwen-live/network-probe/manifest.json` (depends on T061 execution)
