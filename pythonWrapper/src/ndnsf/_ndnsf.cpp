@@ -90,6 +90,16 @@ toPyBytes(const ndn::Buffer& value)
   return py::bytes(reinterpret_cast<const char*>(value.data()), value.size());
 }
 
+// CLOCK_REALTIME nanoseconds since epoch, cross-node comparable and matching the
+// Python app-side time.time_ns(). Used to stamp provider request/response times.
+int64_t
+nowRealtimeNs()
+{
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(
+           std::chrono::system_clock::now().time_since_epoch())
+    .count();
+}
+
 std::shared_ptr<const nsf::AckSelectionPolicy>
 selectionPolicyByName(const std::string& strategy)
 {
@@ -107,6 +117,9 @@ struct PyServiceResponse
   bool status = false;
   py::bytes payload;
   std::string error;
+  // Provider-stamped CLOCK_REALTIME timestamps (ns since epoch); 0 when absent.
+  int64_t request_received_ns = 0;
+  int64_t response_sent_ns = 0;
 };
 
 struct PyAckDecision
@@ -1225,7 +1238,10 @@ public:
                             const ndn::Name&,
                             const ndn::Name&,
                             const nsf::RequestMessage& request) {
+          // Stamp when the request is dispatched to its handler.
+          const int64_t requestReceivedNs = nowRealtimeNs();
           nsf::ResponseMessage response;
+          response.setRequestReceivedNs(requestReceivedNs);
           py::gil_scoped_acquire gil;
           try {
             py::object result = m_handlers.at(serviceName)(toPyBytes(request.getPayload()));
@@ -1247,6 +1263,8 @@ public:
             response.setStatus(false);
             response.setErrorInfo(e.what());
           }
+          // Stamp immediately before the response is handed back to transport.
+          response.setResponseSentNs(nowRealtimeNs());
           return response;
         }));
   }
@@ -1629,6 +1647,8 @@ PyServiceResponse
           output.status = response.getStatus();
           output.payload = toPyBytes(response.getPayload());
           output.error = response.getErrorInfo();
+          output.request_received_ns = response.getRequestReceivedNs();
+          output.response_sent_ns = response.getResponseSentNs();
           done = true;
           cv.notify_one();
         },
@@ -1853,6 +1873,8 @@ PyServiceResponse
           output.status = response.getStatus();
           output.payload = toPyBytes(response.getPayload());
           output.error = response.getErrorInfo();
+          output.request_received_ns = response.getRequestReceivedNs();
+          output.response_sent_ns = response.getResponseSentNs();
           done = true;
           cv.notify_one();
         },
@@ -1975,6 +1997,8 @@ PyServiceResponse
           output.status = response.getStatus();
           output.payload = toPyBytes(response.getPayload());
           output.error = response.getErrorInfo();
+          output.request_received_ns = response.getRequestReceivedNs();
+          output.response_sent_ns = response.getResponseSentNs();
           done = true;
           cv.notify_one();
         },
@@ -2045,6 +2069,8 @@ PyServiceResponse
             output.status = response.getStatus();
             output.payload = toPyBytes(response.getPayload());
             output.error = response.getErrorInfo();
+            output.request_received_ns = response.getRequestReceivedNs();
+            output.response_sent_ns = response.getResponseSentNs();
             try {
               (*responseCallback)(output);
             }
@@ -2112,7 +2138,9 @@ PYBIND11_MODULE(_ndnsf, m)
     .def(py::init<>())
     .def_readwrite("status", &PyServiceResponse::status)
     .def_readwrite("payload", &PyServiceResponse::payload)
-    .def_readwrite("error", &PyServiceResponse::error);
+    .def_readwrite("error", &PyServiceResponse::error)
+    .def_readwrite("request_received_ns", &PyServiceResponse::request_received_ns)
+    .def_readwrite("response_sent_ns", &PyServiceResponse::response_sent_ns);
 
   py::class_<PyAckDecision>(m, "AckDecision")
     .def(py::init<>())

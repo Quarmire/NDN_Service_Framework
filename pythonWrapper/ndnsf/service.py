@@ -26,6 +26,24 @@ class ServiceResponse:
     status: bool
     payload: bytes = b""
     error: str = ""
+    # Provider-stamped CLOCK_REALTIME timestamps (ns since epoch); 0 when the
+    # provider did not stamp them. Prefer reading them through ``timing``.
+    request_received_ns: int = 0
+    response_sent_ns: int = 0
+
+    @property
+    def timing(self) -> dict:
+        """Per-request provider timestamps for latency measurement.
+
+        Returns an empty dict when the provider stamped neither timestamp so
+        existing callers and older providers degrade gracefully.
+        """
+        if self.request_received_ns == 0 and self.response_sent_ns == 0:
+            return {}
+        return {
+            "request_received_ns": self.request_received_ns,
+            "response_sent_ns": self.response_sent_ns,
+        }
 
 
 @dataclass(frozen=True)
@@ -659,6 +677,8 @@ def _from_native_response(response: _ndnsf.ServiceResponse) -> ServiceResponse:
         status=bool(response.status),
         payload=bytes(response.payload),
         error=str(response.error),
+        request_received_ns=int(response.request_received_ns),
+        response_sent_ns=int(response.response_sent_ns),
     )
 
 

@@ -206,6 +206,8 @@ ResponseMessage::operator=(const ResponseMessage& other)
         payload_ = other.payload_;
         payloadSize_ = other.payloadSize_;
         policyEpoch_ = other.policyEpoch_;
+        requestReceivedNs_ = other.requestReceivedNs_;
+        responseSentNs_ = other.responseSentNs_;
         m_wire = ndn::Block();
     }
     return *this;
@@ -236,6 +238,14 @@ void ResponseMessage::setPolicyEpoch(size_t policyEpoch) {
     policyEpoch_ = policyEpoch;
 }
 
+void ResponseMessage::setRequestReceivedNs(int64_t requestReceivedNs) {
+    requestReceivedNs_ = requestReceivedNs;
+}
+
+void ResponseMessage::setResponseSentNs(int64_t responseSentNs) {
+    responseSentNs_ = responseSentNs;
+}
+
 bool ResponseMessage::getStatus() const {
     return status_;
 }
@@ -264,6 +274,14 @@ size_t ResponseMessage::getPolicyEpoch() const {
     return policyEpoch_;
 }
 
+int64_t ResponseMessage::getRequestReceivedNs() const {
+    return requestReceivedNs_;
+}
+
+int64_t ResponseMessage::getResponseSentNs() const {
+    return responseSentNs_;
+}
+
 void ResponseMessage::Clear() {
     status_ = false;
     errorInfo_.clear();
@@ -272,6 +290,8 @@ void ResponseMessage::Clear() {
     payload_.clear();
     payloadSize_ = 0;
     policyEpoch_ = 0;
+    requestReceivedNs_ = 0;
+    responseSentNs_ = 0;
     m_wire.reset();
 }
 
@@ -295,6 +315,15 @@ ndn::Block ResponseMessage::WireEncode() const {
     block.push_back(payloadBlock);
     if (policyEpoch_ > 0) {
         block.push_back(ndn::makeNonNegativeIntegerBlock(tlv::VersionType, policyEpoch_));
+    }
+    // Latency timestamps (ns since epoch); only present when stamped.
+    if (requestReceivedNs_ > 0) {
+        block.push_back(ndn::makeNonNegativeIntegerBlock(
+            tlv::RequestReceivedTsType, static_cast<uint64_t>(requestReceivedNs_)));
+    }
+    if (responseSentNs_ > 0) {
+        block.push_back(ndn::makeNonNegativeIntegerBlock(
+            tlv::ResponseSentTsType, static_cast<uint64_t>(responseSentNs_)));
     }
     block.encode();
     m_wire = block;
@@ -331,6 +360,12 @@ bool ResponseMessage::WireDecode(const ndn::Block& block) {
         }
         else if (b.type() == tlv::VersionType) {
             policyEpoch_ = ndn::readNonNegativeInteger(b);
+        }
+        else if (b.type() == tlv::RequestReceivedTsType) {
+            requestReceivedNs_ = static_cast<int64_t>(ndn::readNonNegativeInteger(b));
+        }
+        else if (b.type() == tlv::ResponseSentTsType) {
+            responseSentNs_ = static_cast<int64_t>(ndn::readNonNegativeInteger(b));
         }
     }
 

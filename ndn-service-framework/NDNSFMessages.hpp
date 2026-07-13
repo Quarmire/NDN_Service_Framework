@@ -58,6 +58,8 @@ namespace tlv {
         GracePeriodMsType = 187,
         RequiredKeyEpochType = 188,
         RequestModeType = 189,
+        RequestReceivedTsType = 190,
+        ResponseSentTsType = 191,
         AllowedServiceListType = 0xF501,
         AllowedServiceType = 0xF502,
     };
@@ -146,6 +148,10 @@ public:
     void setUserToken(const std::string& userToken);
     void setPayload(ndn::Buffer& payload, size_t size);
     void setPolicyEpoch(size_t policyEpoch);
+    // Provider-stamped CLOCK_REALTIME timestamps (ns since epoch) for latency
+    // measurement. Zero means "not stamped"; travels back to the requester.
+    void setRequestReceivedNs(int64_t requestReceivedNs);
+    void setResponseSentNs(int64_t responseSentNs);
     bool getStatus() const;
     const std::string& getErrorInfo() const;
     const std::map<std::string, std::string>& getTokens() const;
@@ -153,6 +159,8 @@ public:
     ndn::Buffer getPayload() const;
     size_t getPayloadSize() const;
     size_t getPolicyEpoch() const;
+    int64_t getRequestReceivedNs() const;
+    int64_t getResponseSentNs() const;
     void Clear() override;
     ndn::Block WireEncode() const override;
     bool WireDecode(const ndn::Block& block) override;
@@ -165,6 +173,8 @@ private:
     ndn::Buffer payload_;
     size_t payloadSize_ = 0;
     size_t policyEpoch_ = 0;
+    int64_t requestReceivedNs_ = 0;
+    int64_t responseSentNs_ = 0;
     mutable ndn::Block m_wire;
 };
 
