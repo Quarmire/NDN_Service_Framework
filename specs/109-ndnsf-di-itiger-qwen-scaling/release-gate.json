@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "spec": "109-ndnsf-di-itiger-qwen-scaling",
+  "verdict": "BLOCKED",
+  "reasonCodes": [
+    "PREDECESSOR_TASKS_INCOMPLETE",
+    "MININDN_LOCAL_DEADLINE",
+    "NO_ACCEPTED_GPU_CANDIDATE",
+    "72B_QUOTA_RESERVE_INSUFFICIENT",
+    "SPEC108_T134_NETWORK_EVIDENCE_INCOMPLETE"
+  ],
+  "authority": {
+    "storageAndModelStaging": "PASS_0.5B_ONLY",
+    "standaloneOracle": "BLOCKED",
+    "artifactCorrectness": "BLOCKED",
+    "stagedBaseline": "BLOCKED",
+    "candidateCorrectness": "BLOCKED",
+    "candidatePerformance": "BLOCKED",
+    "scaling": "BLOCKED",
+    "reproduction": "INCONCLUSIVE",
+    "physicalProduction": "DEFERRED",
+    "physicalProductionOwner": "Spec 106"
+  },
+  "matrix": {
+    "plannedCells": 105,
+    "representedCells": 105,
+    "blockedCells": 105,
+    "submittedJobs": 0
+  },
+  "iTigerJobs": {
+    "modelTransfer": ["146050"],
+    "modelSeal": ["146123"],
+    "gpuInference": []
+  },
+  "secretScan": "PASS_ZERO_FINDINGS"
+}

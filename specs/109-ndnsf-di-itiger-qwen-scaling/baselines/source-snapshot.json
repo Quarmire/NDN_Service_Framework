@@ -1,0 +1,19 @@
+{
+  "headCommit": "bbe1b0b4e145a17df4151efd2b2b978797f8758b",
+  "treeDigest": "sha256:65c210e07ac5b1e4aa5e5af950ccbd3f646f024c2d0cceefac2854d5a66f62bf",
+  "capturedAt": "2026-07-13T05:40:23.932826Z",
+  "worktreeState": "CLEAN",
+  "binaryDiffDigest": null,
+  "untrackedManifestDigest": null,
+  "untrackedArchiveDigest": null,
+  "includedPaths": [
+    "tracked-files@HEAD"
+  ],
+  "excludedPaths": [
+    "build/",
+    "results/",
+    "model-weights/",
+    "credentials/"
+  ],
+  "snapshotDigest": "sha256:8dce660b3f8d568952650006fc026b9f5449b41add1cd9beea94a5960fc946cc"
+}

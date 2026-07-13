@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0",
+  "identity": "spec109-qwen25-0.5b-reference-blocked-v1",
+  "status": "BLOCKED",
+  "reasonCode": "SPEC108_GPU_PREDECESSOR_INCOMPLETE",
+  "gateScope": "systemic",
+  "model": {
+    "modelId": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "dtype": "float16",
+    "tokenizerDigest": "sha256:04e97e50a3e02b4020587defbac67c24cbb31468635b6ae6e30424f950e21a57"
+  },
+  "workload": {
+    "arrivalMode": "closed-loop",
+    "offeredRateRequestsPerSecond": null,
+    "maximumInflight": 1,
+    "timeoutSeconds": 120,
+    "promptPopulation": "fixed-spec109-reference-v1",
+    "promptOrder": "seeded",
+    "runOrderSeed": 109005,
+    "cacheState": "cold-model-load-warm-tokenizer",
+    "warmupRequests": 3,
+    "warmupExcluded": true,
+    "measuredWindowSeconds": 60,
+    "logging": "warning-and-evidence-only"
+  },
+  "decode": {
+    "strategy": "greedy",
+    "temperature": 0.0,
+    "doSample": false,
+    "contextTokensMaximum": 512,
+    "outputTokenCells": [1, 2, 32]
+  },
+  "deployment": {
+    "spec108ReleaseDigest": null,
+    "ociDigest": null,
+    "sifDigest": null,
+    "accepted": false
+  },
+  "gate": {
+    "digest": "sha256:28feac865252229b66ea0761b805ba76107ceacd466fb42769d32e99f6889ba7",
+    "record": "results/spec109-itiger-qwen/releases/gpu/predecessor-block.json",
+    "jobSubmitted": false
+  },
+  "authority": {
+    "standaloneReference": "NOT_ESTABLISHED",
+    "ndnsfDi": "NOT_EVALUATED",
+    "physicalProduction": "DEFERRED"
+  }
+}

@@ -2,7 +2,7 @@
 
 **Feature Branch**: `109-ndnsf-di-itiger-qwen-scaling`
 **Created**: 2026-07-12
-**Status**: Draft — Audit Remediation Revision 2
+**Status**: Implemented — terminal campaign closure; live GPU acceptance blocked by exact predecessors
 **Input**: Design and execute a storage-safe NDNSF-DI experiment on iTiger across Qwen model sizes without storing bulk models locally.
 
 ## Scope and authority

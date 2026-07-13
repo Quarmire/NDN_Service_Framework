@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0-lock",
+  "lockedAt": "2026-07-13T05:40:23.932826Z",
+  "gateStatus": "BLOCKED",
+  "sourceSnapshotDigest": "sha256:8dce660b3f8d568952650006fc026b9f5449b41add1cd9beea94a5960fc946cc",
+  "requiredTaskIds": [
+    "107:T027", "107:T028", "107:T029", "107:T030", "107:T031", "107:T032",
+    "107:T033", "107:T034", "107:T035", "107:T036", "107:T037", "107:T038",
+    "108:T091", "108:T092", "108:T093", "108:T094", "108:T095", "108:T096",
+    "108:T097", "108:T098", "108:T099", "108:T100", "108:T101", "108:T102"
+  ],
+  "entries": {
+    "107:T027": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "specs/107-ndnsf-di-minindn-gate-recovery/evidence/bottleneck-decision.md", "artifactDigest": null, "identityDigest": null},
+    "107:T028": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/unit-tests/di-qwen-generation-session.t.cpp", "artifactDigest": null, "identityDigest": null},
+    "107:T029": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/python/test_ndnsf_di_spec107_qwen_session.py", "artifactDigest": null, "identityDigest": null},
+    "107:T030": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/python/test_ndnsf_di_spec107_security.py", "artifactDigest": null, "identityDigest": null},
+    "107:T031": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "NDNSF-DistributedInference/cpp/ndnsf-di/QwenGenerationSession.cpp", "artifactDigest": null, "identityDigest": null},
+    "107:T032": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "NDNSF-DistributedInference/cpp/ndnsf-di/NativeProviderRuntime.cpp", "artifactDigest": null, "identityDigest": null},
+    "107:T033": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "examples/python/NDNSF-DistributedInference/llm_pipeline/user.py", "artifactDigest": null, "identityDigest": null},
+    "107:T034": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "examples/DI_NativeProviderExecutable.cpp", "artifactDigest": null, "identityDigest": null},
+    "107:T035": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tools/ndnsf-di/run_spec107_performance.py", "artifactDigest": null, "identityDigest": null},
+    "107:T036": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "specs/107-ndnsf-di-minindn-gate-recovery/evidence/session-tests.md", "artifactDigest": null, "identityDigest": null},
+    "107:T037": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "results/spec107-candidate/artifact-manifest.json", "artifactDigest": null, "identityDigest": null},
+    "107:T038": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "results/spec107-candidate/correctness-manifest.json", "artifactDigest": null, "identityDigest": null},
+    "108:T091": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/oci/locks/gpu.lock", "artifactDigest": null, "identityDigest": null},
+    "108:T092": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/oci/compatibility/gpu-matrix.yaml", "artifactDigest": null, "identityDigest": null},
+    "108:T093": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/oci/Dockerfile.gpu", "artifactDigest": null, "identityDigest": null},
+    "108:T094": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/container/unit/test_docker_gpu_preflight.py", "artifactDigest": null, "identityDigest": null},
+    "108:T095": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/container/unit/test_apptainer_gpu_preflight.py", "artifactDigest": null, "identityDigest": null},
+    "108:T096": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/container/unit/test_backend_evidence.py", "artifactDigest": null, "identityDigest": null},
+    "108:T097": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/container/integration/test_gpu_fail_closed.sh", "artifactDigest": null, "identityDigest": null},
+    "108:T098": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "tests/container/integration/test_gpu_fallback_degraded.sh", "artifactDigest": null, "identityDigest": null},
+    "108:T099": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/lib/adapters/docker_compose.py", "artifactDigest": null, "identityDigest": null},
+    "108:T100": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/lib/adapters/slurm_apptainer.py", "artifactDigest": null, "identityDigest": null},
+    "108:T101": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/lib/evidence.py", "artifactDigest": null, "identityDigest": null},
+    "108:T102": {"requiredStatus": "PASS", "observedStatus": "INCOMPLETE", "schemaVersion": "NOT_MATERIALIZED", "artifactPath": "packaging/ndnsf-di-container/lib/evidence.py", "artifactDigest": null, "identityDigest": null}
+  },
+  "lockDigest": "sha256:10e28ebbb4efc75f5bbe50b6424243b191e5489c4d10595d1e8f40e5fc3277a7"
+}
