@@ -1,5 +1,14 @@
 # Spec 109 completion summary
 
+> **Erratum, 2026-07-13:** This is a terminal-accounting summary, not proof that
+> Qwen inference ran on iTiger. The recorded campaign submitted zero GPU
+> inference jobs and therefore did not satisfy the original live-inference
+> intent. [erratum.md](erratum.md) preserves the discrepancy and delegates all
+> new NDNSF-DI distributed-inference work to
+> [Spec 110](../110-itiger-qwen-live-inference/spec.md) under
+> new candidate, campaign, cell, and Slurm identities. The historical facts
+> below are retained unchanged.
+
 ## Completion state
 
 Spec 109 implementation and terminal campaign accounting are complete:

@@ -1,0 +1,36 @@
+{
+  "bindingDigests": {
+    "clusterContractDigest": "sha256:6beeb7499432d8130e76592e09434b598c6c6f3c161534442460b96e3e2625bd",
+    "evidenceContractDigest": "sha256:8bd65077aeff4c0e18dcb3c29f198ce48f271ac39a6165dfb1d011e06b8b1c98",
+    "identityContractDigest": "sha256:787a9ebafdf02f5c5c8e64c3b131562c95871124e36f964e43d7339851cb3a04",
+    "modelLadderDigest": "sha256:b5635537ccf6c8834e7640c86ab076ed1f988a564436693ac5cd064a17b6eae0",
+    "sourceBaselineDigest": "sha256:f953765aa74270555c54ac9ada60bdc07a1fbb5326072eefd2c1b2e1e5d066c0",
+    "workloadDigest": "sha256:41416ccadf39d1296e781b277a481c09c6463c6a155e235d135b596e03cf80e2"
+  },
+  "campaignDigest": "sha256:3c37f488716dfb54d532f15b3a03e87b5da78d81b691332420b4af01bc5abea1",
+  "campaignId": "spec110-campaign-v1-3c37f488716dfb54d532",
+  "identityNamespace": {
+    "candidate": "spec110-c1",
+    "cell": "spec110-cell",
+    "legacyPrefixForbidden": "spec109",
+    "run": "spec110-run",
+    "submission": "spec110-submission"
+  },
+  "protocol": {
+    "candidateRepetitions": 3,
+    "correctnessTokenCounts": [1, 2, 32],
+    "extensionPlacement": "multi-node",
+    "liveSubmissionGate": "foundation-gate-PASS",
+    "matchedBaselineRepetitions": 3,
+    "measuredWindowSeconds": 60,
+    "modelSizes": ["0.5B", "1.5B", "3B", "7B", "14B", "32B", "72B"],
+    "physicalProduction": "DEFERRED",
+    "physicalProductionOwner": "Spec 106",
+    "primaryPlacement": "single-node-multi-gpu",
+    "replacementPolicy": "human-authorized-new-run-and-submission-identities",
+    "submissionPolicy": "at-most-once-no-auto-resubmit",
+    "warmupExcluded": true
+  },
+  "schemaVersion": "spec110-campaign-v1",
+  "state": "FROZEN"
+}

@@ -2,8 +2,16 @@
 
 **Feature Branch**: `109-ndnsf-di-itiger-qwen-scaling`
 **Created**: 2026-07-12
-**Status**: Implemented — terminal campaign closure; live GPU acceptance blocked by exact predecessors
+**Status**: Historical terminal-accounting closure — live inference scope superseded by Spec 110
 **Input**: Design and execute a storage-safe NDNSF-DI experiment on iTiger across Qwen model sizes without storing bulk models locally.
+
+> **Formal erratum (2026-07-13):** The `165/165` closure recorded by this
+> feature means that every planned cell received a terminal accounting record;
+> it does not mean that the requested iTiger GPU inference matrix executed.
+> Zero GPU inference jobs were submitted. The live NDNSF-DI distributed-
+> inference intent, corrected completion semantics, and new once-only identities are owned by
+> [Spec 110](../110-itiger-qwen-live-inference/spec.md). Historical Spec 109
+> evidence remains immutable; see [erratum.md](erratum.md).
 
 ## Scope and authority
 

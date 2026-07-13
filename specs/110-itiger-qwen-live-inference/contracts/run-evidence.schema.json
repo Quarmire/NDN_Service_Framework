@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ndnsf.example/spec110/distributed-candidate-evidence.schema.json",
+  "title": "Spec 110 NDNSF-DI Qwen candidate evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "runId", "cellId", "candidateId", "placementClass",
+    "state", "failureBoundary", "submission", "release", "allocation",
+    "topology", "security", "model", "stages", "generation", "metrics",
+    "promotion", "authority"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "spec110-distributed-candidate-v2"},
+    "runId": {"type": "string", "minLength": 1},
+    "cellId": {"type": "string", "minLength": 1},
+    "candidateId": {"type": "string", "pattern": "^spec110-c1(-[0-9a-f]{12}){6}$"},
+    "replacesRunId": {"type": "string"},
+    "placementClass": {"enum": ["single-node-multi-gpu", "multi-node"]},
+    "state": {
+      "enum": [
+        "PLANNED", "PREFLIGHT_BLOCKED", "READY_TO_SUBMIT",
+        "SUBMITTED_NOT_STARTED", "CANDIDATE_EXECUTION_STARTED",
+        "EXECUTED_PASS", "EXECUTED_FAIL", "EVIDENCE_INCOMPLETE"
+      ]
+    },
+    "failureBoundary": {
+      "type": ["string", "null"],
+      "enum": [null, "stage-load", "stage-execution", "dependency-transfer", "terminal-response"]
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["submissionId", "journalState", "jobName", "scriptSha256", "journalSha256"],
+      "properties": {
+        "submissionId": {"type": "string", "minLength": 1},
+        "journalState": {"enum": ["INTENT_RECORDED", "SUBMISSION_UNKNOWN", "SUBMITTED", "CONFIRMED_NOT_SUBMITTED"]},
+        "jobName": {"type": "string", "minLength": 1},
+        "jobId": {"type": ["string", "null"]},
+        "scriptSha256": {"$ref": "#/$defs/digest"},
+        "journalSha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ociDigest", "sifSha256", "sourceRevision"],
+      "properties": {
+        "ociDigest": {"type": "string", "pattern": "@sha256:[0-9a-f]{64}$"},
+        "sifSha256": {"$ref": "#/$defs/hexDigest"},
+        "sourceRevision": {"type": "string", "minLength": 1}
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jobId", "nodes", "requestedGres", "allocatedGpus", "terminalState"],
+      "properties": {
+        "jobId": {"type": "string", "minLength": 1},
+        "nodes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "requestedGres": {"type": "string", "minLength": 1},
+        "allocatedGpus": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["node", "uuid", "model", "containerDevice"],
+            "properties": {
+              "node": {"type": "string", "minLength": 1},
+              "uuid": {"type": "string", "minLength": 1},
+              "model": {"type": "string", "minLength": 1},
+              "containerDevice": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        "terminalState": {"type": "string", "minLength": 1}
+      }
+    },
+    "topology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selectedTransport", "nfds", "faces", "routes", "processes", "crossNodeEdges", "teardown"],
+      "properties": {
+        "selectedTransport": {"enum": ["tcp", "udp"]},
+        "nfds": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["node", "pid", "configDigest", "stateDir", "socket", "ready", "exitCode"],
+            "properties": {
+              "node": {"type": "string", "minLength": 1},
+              "pid": {"type": "integer", "minimum": 1},
+              "configDigest": {"$ref": "#/$defs/digest"},
+              "stateDir": {"type": "string", "minLength": 1},
+              "socket": {"type": "string", "minLength": 1},
+              "ready": {"type": "boolean"},
+              "exitCode": {"type": ["integer", "null"]}
+            }
+          }
+        },
+        "faces": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["localNode", "remoteNode", "transport", "uri", "faceId", "state"],
+            "properties": {
+              "localNode": {"type": "string", "minLength": 1},
+              "remoteNode": {"type": "string", "minLength": 1},
+              "transport": {"enum": ["tcp", "udp"]},
+              "uri": {"type": "string", "minLength": 1},
+              "faceId": {"type": "integer", "minimum": 1},
+              "state": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "routes": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["node", "prefix", "faceId", "state"],
+            "properties": {
+              "node": {"type": "string", "minLength": 1},
+              "prefix": {"type": "string", "minLength": 1},
+              "faceId": {"type": "integer", "minimum": 1},
+              "state": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "processes": {
+          "type": "array", "minItems": 6, "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": [
+              "processId", "kind", "role", "identityRef", "node", "nodeRank",
+              "taskRank", "gpuRank", "gpuUuid", "nfdSocket", "commandDigest",
+              "readinessInputs", "readinessOutput", "shutdownOrder", "pid", "exitCode"
+            ],
+            "properties": {
+              "processId": {"type": "string", "minLength": 1},
+              "kind": {"enum": ["node-supervisor", "controller", "user", "provider"]},
+              "role": {"type": ["string", "null"]},
+              "identityRef": {"type": ["string", "null"]},
+              "node": {"type": "string", "minLength": 1},
+              "nodeRank": {"type": "integer", "minimum": 0},
+              "taskRank": {"type": "integer", "minimum": 0},
+              "gpuRank": {"type": ["integer", "null"], "minimum": 0},
+              "gpuUuid": {"type": ["string", "null"]},
+              "nfdSocket": {"type": "string", "minLength": 1},
+              "commandDigest": {"$ref": "#/$defs/digest"},
+              "readinessInputs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+              "readinessOutput": {"type": "string", "minLength": 1},
+              "shutdownOrder": {"type": "integer", "minimum": 0},
+              "pid": {"type": "integer", "minimum": 1},
+              "exitCode": {"type": ["integer", "null"]}
+            }
+          }
+        },
+        "crossNodeEdges": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["fromProvider", "toProvider", "fromNode", "toNode", "faceId", "dependencyDigest"],
+            "properties": {
+              "fromProvider": {"type": "string", "minLength": 1},
+              "toProvider": {"type": "string", "minLength": 1},
+              "fromNode": {"type": "string", "minLength": 1},
+              "toNode": {"type": "string", "minLength": 1},
+              "faceId": {"type": "integer", "minimum": 1},
+              "dependencyDigest": {"$ref": "#/$defs/digest"}
+            }
+          }
+        },
+        "teardown": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["complete", "survivingProcesses"],
+          "properties": {
+            "complete": {"type": "boolean"},
+            "survivingProcesses": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["permissionEncrypted", "nacAbeVerified", "userTokenVerified", "providerTokenVerified", "replayRejected", "providerPermissionVerified"],
+      "properties": {
+        "permissionEncrypted": {"type": "boolean"},
+        "nacAbeVerified": {"type": "boolean"},
+        "userTokenVerified": {"type": "boolean"},
+        "providerTokenVerified": {"type": "boolean"},
+        "replayRejected": {"type": "boolean"},
+        "providerPermissionVerified": {"type": "boolean"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "revision", "tokenizerDigest", "artifactSetDigest", "dtype"],
+      "properties": {
+        "modelId": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "tokenizerDigest": {"$ref": "#/$defs/digest"},
+        "artifactSetDigest": {"$ref": "#/$defs/digest"},
+        "dtype": {"type": "string", "minLength": 1}
+      }
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "provider", "providerPid", "node", "gpuUuid", "backend", "artifactDigest", "executionStarted", "outcome"],
+        "properties": {
+          "role": {"enum": ["/LLM/Stage/0", "/LLM/Stage/1", "/LLM/Stage/2"]},
+          "provider": {"type": "string", "minLength": 1},
+          "providerPid": {"type": "integer", "minimum": 1},
+          "node": {"type": "string", "minLength": 1},
+          "gpuUuid": {"type": "string", "minLength": 1},
+          "backend": {"const": "onnxruntime-cuda"},
+          "artifactDigest": {"$ref": "#/$defs/digest"},
+          "executionStarted": {"type": "boolean"},
+          "outcome": {"enum": ["PASS", "FAIL", "NOT_REACHED"]}
+        }
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestId", "sessionId", "executionStarted", "terminalResponseCount", "inputTokenIds", "oracleTokenIds", "outputTokenIds"],
+      "properties": {
+        "requestId": {"type": "string", "minLength": 1},
+        "sessionId": {"type": "string", "minLength": 1},
+        "executionStarted": {"type": "boolean"},
+        "terminalResponseCount": {"type": "integer", "minimum": 0, "maximum": 1},
+        "inputTokenIds": {"type": "array", "minItems": 1, "items": {"type": "integer"}},
+        "oracleTokenIds": {"type": "array", "minItems": 1, "items": {"type": "integer"}},
+        "outputTokenIds": {"type": "array", "items": {"type": "integer"}}
+      }
+    },
+    "metrics": {"type": "object"},
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["complete", "manifestSha256"],
+      "properties": {
+        "complete": {"type": "boolean"},
+        "manifestSha256": {"$ref": "#/$defs/hexDigest"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["substrate", "standaloneOracle", "distributedCandidate", "physicalProduction"],
+      "properties": {
+        "substrate": {"$ref": "#/$defs/status"},
+        "standaloneOracle": {"$ref": "#/$defs/status"},
+        "distributedCandidate": {"$ref": "#/$defs/status"},
+        "physicalProduction": {"const": "DEFERRED"}
+      }
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "hexDigest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "status": {"enum": ["PASS", "FAIL", "BLOCKED", "DEFERRED"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"placementClass": {"const": "single-node-multi-gpu"}}},
+      "then": {
+        "properties": {
+          "allocation": {"properties": {"nodes": {"maxItems": 1}}},
+          "topology": {
+            "properties": {
+              "nfds": {"maxItems": 1},
+              "crossNodeEdges": {"maxItems": 0}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"placementClass": {"const": "multi-node"}}},
+      "then": {
+        "properties": {
+          "allocation": {"properties": {"nodes": {"minItems": 2}}},
+          "topology": {
+            "properties": {
+              "nfds": {"minItems": 2},
+              "faces": {"minItems": 1},
+              "routes": {"minItems": 1},
+              "crossNodeEdges": {"minItems": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "EXECUTED_PASS"}}},
+      "then": {
+        "properties": {
+          "failureBoundary": {"const": null},
+          "submission": {
+            "properties": {
+              "journalState": {"const": "SUBMITTED"},
+              "jobId": {"type": "string", "minLength": 1}
+            }
+          },
+          "security": {
+            "properties": {
+              "permissionEncrypted": {"const": true},
+              "nacAbeVerified": {"const": true},
+              "userTokenVerified": {"const": true},
+              "providerTokenVerified": {"const": true},
+              "replayRejected": {"const": true},
+              "providerPermissionVerified": {"const": true}
+            }
+          },
+          "stages": {
+            "items": {
+              "properties": {
+                "executionStarted": {"const": true},
+                "outcome": {"const": "PASS"}
+              }
+            }
+          },
+          "generation": {
+            "properties": {
+              "executionStarted": {"const": true},
+              "terminalResponseCount": {"const": 1}
+            }
+          },
+          "topology": {
+            "properties": {
+              "teardown": {
+                "properties": {
+                  "complete": {"const": true},
+                  "survivingProcesses": {"const": 0}
+                }
+              }
+            }
+          },
+          "promotion": {"properties": {"complete": {"const": true}}},
+          "authority": {"properties": {"distributedCandidate": {"const": "PASS"}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "EXECUTED_FAIL"}}},
+      "then": {
+        "properties": {
+          "failureBoundary": {"type": "string"},
+          "submission": {
+            "properties": {
+              "journalState": {"const": "SUBMITTED"},
+              "jobId": {"type": "string", "minLength": 1}
+            }
+          },
+          "generation": {"properties": {"executionStarted": {"const": true}}},
+          "promotion": {"properties": {"complete": {"const": true}}},
+          "authority": {"properties": {"distributedCandidate": {"const": "FAIL"}}}
+        }
+      }
+    }
+  ]
+}
