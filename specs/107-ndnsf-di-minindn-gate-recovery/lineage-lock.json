@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "classification": "task-closure",
+      "path": "specs/105-ndnsf-di-deployment-readiness/tasks.md",
+      "sha256": "sha256:4dff3d74337b35fba0677b933ecf9b8ac6d745f64bb0d6ab453bb5d1916a26bf"
+    },
+    {
+      "classification": "release-decision",
+      "path": "specs/105-ndnsf-di-deployment-readiness/release-gate.json",
+      "sha256": "sha256:2752ca1853b5243099dd40dd07ef86d80f24d34dbe6e6c91d567e13ecef296f9"
+    },
+    {
+      "classification": "performance-negative-evidence",
+      "path": "specs/105-ndnsf-di-deployment-readiness/evidence/telemetry-performance-check.md",
+      "sha256": "sha256:1090503b7fe58c127aa83187ea0a15f50053fe77dab5aa746780aaf797d39364"
+    },
+    {
+      "classification": "recovery-negative-evidence",
+      "path": "specs/105-ndnsf-di-deployment-readiness/evidence/fault-recovery.md",
+      "sha256": "sha256:2777b17ddc231b910667fb4866222359c51f8d9ceb8043a2fa873f8bee66d257"
+    }
+  ],
+  "frozenCommit": "48877b5854aa9231d7b28f423160e5695388fce4",
+  "predecessorMiniNdnVerdict": "BLOCK",
+  "predecessorPhysicalVerdict": "DEFERRED",
+  "predecessorReleaseId": "spec105-local-minindn-candidate-r2",
+  "predecessorSpec": "specs/105-ndnsf-di-deployment-readiness",
+  "schema": "ndnsf-di-lineage-lock-v1"
+}

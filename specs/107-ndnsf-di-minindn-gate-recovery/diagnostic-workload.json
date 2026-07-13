@@ -1,0 +1,59 @@
+{
+  "automaticRetry": false,
+  "cells": [
+    {
+      "maxNewTokens": 32,
+      "measuredDurationSeconds": 0,
+      "measuredRequests": 1,
+      "name": "warm-single",
+      "ordinal": 1,
+      "requestIntervalMs": 0,
+      "warmupRequests": 0
+    },
+    {
+      "maxNewTokens": 32,
+      "measuredDurationSeconds": 4,
+      "measuredRequests": 4,
+      "name": "four-worker",
+      "ordinal": 2,
+      "requestIntervalMs": 1000,
+      "warmupRequests": 0
+    }
+  ],
+  "expectedTokenIds": [
+    2025,
+    271,
+    785,
+    5055,
+    9965,
+    5007,
+    320,
+    2448,
+    37,
+    8,
+    702,
+    7228,
+    264,
+    17708,
+    2025,
+    311,
+    10517,
+    264,
+    501,
+    79528,
+    49601,
+    3922,
+    315,
+    4237,
+    24231,
+    7798,
+    311,
+    1824,
+    3412,
+    304,
+    279,
+    5671
+  ],
+  "prompt": "NDNSF deployment pilot",
+  "schema": "ndnsf-di-spec107-diagnostic-workload-v1"
+}

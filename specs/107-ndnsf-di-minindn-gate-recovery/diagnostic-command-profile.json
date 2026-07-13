@@ -1,0 +1,83 @@
+{
+  "artifactInputs": {
+    "artifactSetManifest": "results/spec107-artifacts/7af3d35966c79e4f03eb657c9fbe149d4a4deaef3afb772e5c2484ecf9a80446/artifact-set.json",
+    "artifactStore": "results/spec107-artifacts/7af3d35966c79e4f03eb657c9fbe149d4a4deaef3afb772e5c2484ecf9a80446",
+    "campaignProfile": "specs/107-ndnsf-di-minindn-gate-recovery/diagnostic-campaign-profile.json",
+    "nativePlan": "results/spec107-qwen-reuse-inputs/native-qwen-execution-plan.json",
+    "qwenRuntimeManifest": "results/spec107-qwen-reuse-inputs/qwen-pipeline-runtime.json",
+    "qwenServiceManifest": "results/spec107-qwen-reuse-inputs/qwen-onnx-service-manifest.json",
+    "trustPolicy": "results/spec107-qwen-reuse-inputs/llm_pipeline_policy.yaml",
+    "workloadManifest": "specs/107-ndnsf-di-minindn-gate-recovery/diagnostic-workload.json"
+  },
+  "cells": [
+    {
+      "campaignKind": "diagnostic",
+      "maxNewTokens": 32,
+      "measuredDurationSeconds": 0,
+      "measuredRequests": 1,
+      "name": "warm-single",
+      "ordinal": 1,
+      "outputRoot": "results/spec107-attribution-c1/warm-single",
+      "projectedNewBytes": 268435456,
+      "requestIntervalMs": 0,
+      "warmupRequests": 0
+    },
+    {
+      "campaignKind": "diagnostic",
+      "maxNewTokens": 32,
+      "measuredDurationSeconds": 4,
+      "measuredRequests": 4,
+      "name": "four-worker",
+      "ordinal": 2,
+      "outputRoot": "results/spec107-attribution-c1/four-worker",
+      "projectedNewBytes": 536870912,
+      "requestIntervalMs": 1000,
+      "warmupRequests": 0
+    }
+  ],
+  "execution": {
+    "automaticRetry": false,
+    "expectedTokenIds": [
+      2025,
+      271,
+      785,
+      5055,
+      9965,
+      5007,
+      320,
+      2448,
+      37,
+      8,
+      702,
+      7228,
+      264,
+      17708,
+      2025,
+      311,
+      10517,
+      264,
+      501,
+      79528,
+      49601,
+      3922,
+      315,
+      4237,
+      24231,
+      7798,
+      311,
+      1824,
+      3412,
+      304,
+      279,
+      5671
+    ],
+    "ndnLog": "ndn_service_framework.*=INFO",
+    "physicalProductionOverall": "DEFERRED",
+    "prompt": "NDNSF deployment pilot",
+    "runtime": "qwen-onnx-cpu-native",
+    "spec107Diagnostic": "generation-session-attribution",
+    "timingSampleRate": 1,
+    "topology": "Experiments/Topology/AI_Lab.conf"
+  },
+  "schema": "ndnsf-di-spec107-diagnostic-command-profile-v1"
+}
