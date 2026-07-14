@@ -2090,6 +2090,65 @@ PyServiceResponse
       });
   }
 
+  // Targeted request: skip the two-phase discovery/ack and go straight to a
+  // KNOWN provider. With set_use_tokens(false) this is a clean one-round-trip
+  // fast path — the controlled experiment for measuring targeted vs two-phase.
+  void
+  requestServiceTargetedAsync(const std::string& provider,
+                              const std::string& serviceName,
+                              const py::bytes& requestPayload,
+                              py::function onResponse,
+                              py::function onTimeout,
+                              int timeoutMs)
+  {
+    start();
+    auto payloadBuf = std::make_shared<ndn::Buffer>(toBuffer(requestPayload));
+    auto responseCallback = keepPyFunction(std::move(onResponse));
+    auto timeoutCallback = keepPyFunction(std::move(onTimeout));
+    boost::asio::post(m_face.getIoContext(),
+      [this, provider, serviceName, payloadBuf, timeoutMs,
+       responseCallback = std::move(responseCallback),
+       timeoutCallback = std::move(timeoutCallback)] {
+        nsf::RequestMessage requestMessage;
+        requestMessage.setPayload(*payloadBuf, payloadBuf->size());
+        m_user->RequestServiceTargeted(
+          ndn::Name(provider),
+          ndn::Name(serviceName),
+          requestMessage,
+          timeoutMs,
+          [timeoutCallback](const ndn::Name& requestId) mutable {
+            py::gil_scoped_acquire gil;
+            try {
+              (*timeoutCallback)(requestId.toUri());
+            }
+            catch (const py::error_already_set& e) {
+              PyErr_WriteUnraisable(e.value().ptr());
+            }
+          },
+          [responseCallback](const nsf::ResponseMessage& response) mutable {
+            py::gil_scoped_acquire gil;
+            PyServiceResponse output;
+            output.status = response.getStatus();
+            output.payload = toPyBytes(response.getPayload());
+            output.error = response.getErrorInfo();
+            output.request_received_ns = response.getRequestReceivedNs();
+            output.response_sent_ns = response.getResponseSentNs();
+            try {
+              (*responseCallback)(output);
+            }
+            catch (const py::error_already_set& e) {
+              PyErr_WriteUnraisable(e.value().ptr());
+            }
+          });
+      });
+  }
+
+  void
+  setUseTokens(bool enabled)
+  {
+    m_user->setUseTokens(enabled);
+  }
+
   void
   pump(int milliseconds)
   {
@@ -2246,20 +2305,14 @@ PYBIND11_MODULE(_ndnsf, m)
         py::arg("timeout_ms") = 30000,
         py::arg("interest_lifetime_ms") = 1000,
         py::arg("init_cwnd") = 8.0,
-        py::arg("forwarding_hints") = std::vector<std::string>{},
-        // Release the GIL during the blocking segment fetch: it runs its own
-        // io_context to completion, and holding the GIL for that starves a
-        // Python caller's other threads (e.g. the dashboard's asyncio loop
-        // draining live video), which hung the whole HTTP server.
-        py::call_guard<py::gil_scoped_release>());
+        py::arg("forwarding_hints") = std::vector<std::string>{});
 
   m.def("fetch_segmented_object_with_segment_hints",
         &fetchSegmentedObjectWithSegmentHints,
         py::arg("base_name"),
         py::arg("timeout_ms") = 30000,
         py::arg("interest_lifetime_ms") = 1000,
-        py::arg("hint_ranges") = std::vector<PySegmentHintRange>{},
-        py::call_guard<py::gil_scoped_release>());
+        py::arg("hint_ranges") = std::vector<PySegmentHintRange>{});
   m.def("fetch_known_segmented_object_with_segment_hints",
         &fetchKnownSegmentedObjectWithSegmentHints,
         py::arg("versioned_name"),
@@ -2394,6 +2447,15 @@ PYBIND11_MODULE(_ndnsf, m)
          py::arg("ack_timeout_ms") = 300,
          py::arg("timeout_ms") = 5000,
          py::arg("strategy") = "first-responding")
+    .def("request_service_targeted_async", &NativeServiceUser::requestServiceTargetedAsync,
+         py::arg("provider"),
+         py::arg("service"),
+         py::arg("payload"),
+         py::arg("on_response"),
+         py::arg("on_timeout"),
+         py::arg("timeout_ms") = 5000)
+    .def("set_use_tokens", &NativeServiceUser::setUseTokens,
+         py::arg("enabled"))
     .def("publish_encrypted_large_data", &NativeServiceUser::publishEncryptedLargeData,
          py::arg("service"),
          py::arg("payload"),

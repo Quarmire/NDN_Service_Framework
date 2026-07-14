@@ -1254,6 +1254,40 @@ class ServiceUser:
             strategy=strategy,
         )
 
+    def request_service_targeted_async(
+        self,
+        provider: str,
+        service: str,
+        payload: bytes,
+        *,
+        on_response: Callable[[ServiceResponse], None],
+        on_timeout: Callable[[str], None],
+        timeout_ms: int = 5000,
+    ) -> None:
+        """Targeted request straight to a KNOWN provider.
+
+        Skips the two-phase discovery/ACK handshake that request_service_async
+        does — the caller already knows which provider serves the name (e.g. a
+        command aimed at one vehicle). With set_use_tokens(False) this is a
+        clean one-round-trip fast path; with tokens on, the first call to a
+        provider bootstraps a token pair and subsequent ones reuse it.
+        """
+        self._native.request_service_targeted_async(
+            provider,
+            service,
+            bytes(payload),
+            lambda response: on_response(_from_native_response(response)),
+            on_timeout,
+            timeout_ms=timeout_ms,
+        )
+
+    def set_use_tokens(self, enabled: bool) -> None:
+        """Enable (default) or disable one-time replay tokens. Disabling is the
+        framework's controlled-experiment mode: it makes every targeted request
+        take the direct fast path with no token bootstrap, for a clean
+        targeted-vs-two-phase latency comparison."""
+        self._native.set_use_tokens(enabled)
+
     def publish_encrypted_large_data(
         self,
         service: str,
