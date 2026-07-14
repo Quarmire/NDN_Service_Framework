@@ -2246,14 +2246,20 @@ PYBIND11_MODULE(_ndnsf, m)
         py::arg("timeout_ms") = 30000,
         py::arg("interest_lifetime_ms") = 1000,
         py::arg("init_cwnd") = 8.0,
-        py::arg("forwarding_hints") = std::vector<std::string>{});
+        py::arg("forwarding_hints") = std::vector<std::string>{},
+        // Release the GIL during the blocking segment fetch: it runs its own
+        // io_context to completion, and holding the GIL for that starves a
+        // Python caller's other threads (e.g. the dashboard's asyncio loop
+        // draining live video), which hung the whole HTTP server.
+        py::call_guard<py::gil_scoped_release>());
 
   m.def("fetch_segmented_object_with_segment_hints",
         &fetchSegmentedObjectWithSegmentHints,
         py::arg("base_name"),
         py::arg("timeout_ms") = 30000,
         py::arg("interest_lifetime_ms") = 1000,
-        py::arg("hint_ranges") = std::vector<PySegmentHintRange>{});
+        py::arg("hint_ranges") = std::vector<PySegmentHintRange>{},
+        py::call_guard<py::gil_scoped_release>());
   m.def("fetch_known_segmented_object_with_segment_hints",
         &fetchKnownSegmentedObjectWithSegmentHints,
         py::arg("versioned_name"),
